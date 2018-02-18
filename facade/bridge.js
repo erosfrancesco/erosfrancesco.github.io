@@ -1,10 +1,10 @@
 function DOMElementCreate(params){
 
-	params.parent = params.parent || _Gm.UID;//document.body;
+	params.parent = params.parent || _Gm.UID;
 	params.element = params.element || 'div';
 
-	var sfoo = document.createElement(params.element);
-	var styleString = DOMStyleParser(params.style);
+	let sfoo        = document.createElement(params.element),
+	    styleString = DOMStyleParser(params.style);
 	params.parent.appendChild(sfoo);
 	sfoo.style = styleString;
 
@@ -14,7 +14,7 @@ function DOMElementCreate(params){
 
 function DOMStyleParser(styleObj){
 	styleObj = styleObj || {};
-	var styleString = '';
+	let styleString = '';
 	Object.keys(styleObj).forEach(name => { styleString += ConvertToKebabCase(name) + ':' + styleObj[name] + ';'; });
 	return styleString;
 }
