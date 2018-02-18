@@ -1,0 +1,64 @@
+<html>
+<body>
+
+	<script src="loader.js"></script>
+
+	<script>
+
+		_Assign_Root_Directory('./');
+		_Load_From_Folder_Index('threejs', () => {
+			_Load_From_Folder_Index('facade', () => {
+				_Load_From_Folder_Index('menu', () => {
+					_Load_From_Folder_Index('turn', () => {
+						_Load_From_Folder_Index('layer2', () => {
+							_Load_From_Folder_Index('world', () => {
+
+
+								touchStartHandler = (e) => { 
+									console.log(e.path[0].innerHTML); 
+								};
+
+								_buildTouchControlButton = (label, x, y, leftAdjust, topAdjust) => {
+									
+									leftAdjust = leftAdjust || '0%';
+									topAdjust  = topAdjust  || '0%';
+
+									let wrap = Bridge.DOM.Div(x, y, '30px', '30px', {
+											border: 'solid lightgrey 1px',
+											borderRadius: '50%',
+											backgroundColor: 'darkgrey',
+											boxShadow: '0px 0px 2px 0px lightgrey'
+										}, document.body),
+
+									    t   = Bridge.DOM.Txt(label, {
+												color: 'white',
+												marginTop:  'calc(3% + ' + topAdjust + ')',
+												marginLeft: 'calc(20% + ' + leftAdjust + ')',
+												fontSize: '150%'
+											}, wrap);
+
+									t.addEventListener("touchstart", touchStartHandler, false);
+									t.addEventListener("click", touchStartHandler, false);
+
+									return wrap;
+								};
+
+								_buildDefaultTouchControlRight = () => {
+									_buildTouchControlButton('A', '10%', '0%');
+									_buildTouchControlButton('B', '20%', '0%', '2%', '2%');
+									_buildTouchControlButton('X', '30%', '0%', '1%', '2%');
+									_buildTouchControlButton('Z', '40%', '0%', '4%', '3%');
+								};
+
+								_buildDefaultTouchControlRight();
+
+
+							});
+						});
+					});
+				});
+			});
+		});
+	</script>
+</body>
+</html>
