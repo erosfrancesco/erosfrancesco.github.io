@@ -120,66 +120,32 @@ let pg_Shadow = {
         }
 };
 
-let PlayerObject1 = { 
-    'Kefka': {
-        'object': pg_Kefka,
-        'x': 150,
-        'y': -60,
-        'z': 0
-    },
-
-    'Terra': {
-        'object': pg_Terra,
-        'x': -150,
-        'y': 0,
-        'z': 0
-    },
-    'Sabin': {
-        'object': pg_Sabin,
-        'x': -120,
-        'y': -30,
-        'z': -1
-    },
-    'Edgar': {
-        'object': pg_Edgar,
-        'x': -90,
-        'y': -60,
-        'z': -2
-    },
-    'Shadow': {
-        'object': pg_Shadow,
-        'x': -60,
-        'y': -90,
-        'z': -3
-    }
-};
-
 
 let _battle_object_test = {
     
     'players': {
         'Terra': {
             'object': pg_Terra,
-            'x': -150,
+            'x': 150,
             'y': 0,
             'z': 0
         },
         'Sabin': {
             'object': pg_Sabin,
-            'x': -120,
-            'y': -30,
+            'x': 120,
+            'y': 30,
             'z': -1
         },
         'Edgar': {
             'object': pg_Edgar,
-            'x': -90,
-            'y': -60,
+            'x': 90,
+            'y': 60,
             'z': -2
         },
         'Shadow': {
             'object': pg_Shadow,
-            'x': -60,
-            'y': -90,
+            'x': 60,
+            'y': 90,
             'z': -3
         }
     },
@@ -187,8 +153,8 @@ let _battle_object_test = {
     'enemys': { 
         'Kefka': {
             'object': pg_Kefka,
-            'x': 150,
-            'y': -60,
+            'x': -150,
+            'y': 60,
             'z': 0
         }
     },

@@ -36,7 +36,7 @@ _InitBattleObject = (battleObject) => {
     // load background
     
     _DrawSpriteSheet(battleObject.background.spritesheet,
-                0,-68,-100,
+                0, 68, -100,
                 1150, 560,
                 battleObject.background.source,
                 battleObject.background.animation);

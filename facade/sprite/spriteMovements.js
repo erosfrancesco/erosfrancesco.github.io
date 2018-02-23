@@ -36,18 +36,18 @@ h: function(){ player.SpriteSource.Ref.translateZ( velocity ); }	// back
 /**/
 
 
-function SpritePosition(sprite, x, y, z){
-	sprite.scale.set(0.5, 0.5, 1.0); // why??
+SpritePosition = (sprite, x, y, z) => {
+	sprite.scale.set( -0.5, -0.5, 1.0); // why??
 	sprite.position.set( x, y, z );
 }
 
 
-function SpriteMoveUp(sprite, vel){ sprite.translateY( -vel ); }
-function SpriteMoveDown(sprite, vel){ sprite.translateY( vel ); }
-function SpriteMoveLeft(sprite, vel){ sprite.translateX( vel ); }
-function SpriteMoveRight(sprite, vel){ sprite.translateX( -vel ); }
+SpriteMoveUp    = (sprite, vel) => { sprite.translateY( -vel ); }
+SpriteMoveDown  = (sprite, vel) => { sprite.translateY( vel ); }
+SpriteMoveLeft  = (sprite, vel) => { sprite.translateX( vel ); }
+SpriteMoveRight = (sprite, vel) => { sprite.translateX( -vel ); }
 // careful with those two...
-function SpriteMoveFront(sprite, vel){ sprite.translateZ( -vel ); }
-function SpriteMoveBack(sprite, vel){ sprite.translateZ( vel ); }
+SpriteMoveFront = (sprite, vel) => { sprite.translateZ( -vel ); }
+SpriteMoveBack  = (sprite, vel) => { sprite.translateZ( vel ); }
 
 

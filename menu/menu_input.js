@@ -109,4 +109,3 @@ _Menu_Movement_Array_Input['right'] = () => { _Menu_Right_Cursor_W_Scrolling(Ret
 _Menu_Movement_Array_Input['x'] 	= () => { ReturnTopMenu().Cursor.target.cmd(CurrentCharacter); }
 _Menu_Movement_Array_Input['z']		= () => { _removeBattleMenu(); }
 
-

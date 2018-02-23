@@ -1,10 +1,10 @@
 _DrawSpriteSheet = (sprite, x, y, z, width, height, initialSheetName, initialFrameName) => {
 
-	let clonedSprite = deepClone(sprite),
+	let clonedSprite   = deepClone(sprite),
 	    sheetReferName = initialSheetName || Object.keys( clonedSprite.sprites )[0],
 	    frameReferName;
 
-	width 	= width || clonedSprite.currentSheet.width;
+	width 	= width  || clonedSprite.currentSheet.width;
 	height 	= height || clonedSprite.currentSheet.height;
 
 	clonedSprite.currentSheet = clonedSprite.sprites[sheetReferName];
@@ -23,7 +23,7 @@ _DrawSpriteSheet = (sprite, x, y, z, width, height, initialSheetName, initialFra
 
 	SpritePosition(clonedSprite.Ref, x, y, z);
 
-	clonedSprite.Ref.width = width;
+	clonedSprite.Ref.width  = width;
 	clonedSprite.Ref.height = height;
 
 	_Gm.scene.add( clonedSprite.Ref );
@@ -37,7 +37,7 @@ SetSpriteGraphicRefence = (sprite, width, height) => {
 		spriteGeometry = new THREE.PlaneGeometry( -width, -height ),
 		spriteMaterial = new THREE.MeshBasicMaterial({
 			map: spriteTexture,
-			side:THREE.DoubleSide,
+			side: THREE.DoubleSide,
 			transparent: true,
 			useScreenCoordinates: true,
 		});

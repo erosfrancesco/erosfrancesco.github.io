@@ -2,7 +2,7 @@
 <html lang="en">
 <head> 
 	
-	<title> babba </title>
+	<title> Dummy world tester </title>
 	<style>
 
 	</style>
@@ -22,12 +22,78 @@
 			_Load_From_Folder_Index('menu', () => {
 				_Load_From_Folder_Index('turn', () => {
 					_Load_From_Folder_Index('layer2', () => {
-						MenuManager.push( _Init_Menu );
+						_Load_From_Folder_Index('world', () => {
+							Init3DWebGLThingamajigs();
+						});
 					});
 				});
 			});
 		});
 	});
+
+	Init3DWebGLThingamajigs = () => {
+
+		// UID test
+		//MenuManager.push( _Init_Menu );
+
+
+		///////////
+		// LIGHT //
+		///////////
+
+
+		
+
+
+		let moonLight   = new THREE.PointLight(0xe1e1e1), // 0x1f1fff
+		    ambientGlow = new THREE.AmbientLight(0x121202); // 0x111111
+		moonLight.position.set(300, 80, 230);
+		_Gm.scene.add(moonLight);			
+		_Gm.scene.add(ambientGlow);
+
+
+		//////////////
+		//  SPHERE  //
+		//////////////
+		let moon = _buildMesh(DummyJsonSphere);
+/*
+		// Sphere parameters: radius, segments along width, segments along height
+		let sphereGeometry = new THREE.SphereGeometry( 50, 16, 16 ),
+		    sphereMaterial = new THREE.MeshLambertMaterial( {color: 0x44ee44} ), // lambert is more realistic
+		    moon = new THREE.Mesh(sphereGeometry, sphereMaterial);
+   	    moon.position.x = 100;
+	    moon.position.y = 100;
+		moon.position.z = -50;
+		_Gm.scene.add(moon);
+		/**/
+
+
+		//////////////
+		//  FLOOR   //
+		//////////////
+
+		// DoubleSide: render texture on both sides of mesh
+		let floorMaterial = new THREE.MeshBasicMaterial( { color: 'darkslategrey', side: THREE.DoubleSide } ),
+		    floorGeometry = new THREE.PlaneGeometry(1000, 1000, 1, 1),
+		    floor         = new THREE.Mesh(floorGeometry, floorMaterial);
+
+		floor.position.y = -0.5;
+		floor.rotation.x = Math.PI / 2;
+
+		_Gm.scene.add(floor);
+
+
+		//////////////
+		//   SKY    //
+		//////////////
+
+		// make sure the camera's "far" value is large enough so that it will render the skyBox!
+		// BackSide: render faces from inside of the cube, instead of from outside (default).
+		let skyBoxGeometry = new THREE.CubeGeometry( 10000, 10000, 10000 ),
+		    skyBoxMaterial = new THREE.MeshBasicMaterial( { color: 'cyan', side: THREE.BackSide } ),
+		    skyBox         = new THREE.Mesh( skyBoxGeometry, skyBoxMaterial );
+		_Gm.scene.add(skyBox);
+	};
 
 
 </script>
