@@ -51,23 +51,31 @@ touchStartHandler = (e) => {
     } 
 };
 
-_buildTouchControlButton = (label, comm, x, y, leftAdjust, topAdjust) => {
+_buildTouchControlButton = (label, comm, x, y, leftAdjust, topAdjust, parent) => {
                                     
     leftAdjust = leftAdjust || '0%';
     topAdjust  = topAdjust  || '0%';
 
-    let wrap = Bridge.DOM.Div(x, y, '30px', '30px', {
+    let wrap = Bridge.DOM.Div(x, y, '60%', '10%', {
             border: 'solid lightgrey 1px',
             borderRadius: '50%',
             backgroundColor: 'darkgrey',
-            boxShadow: '0px 0px 2px 0px lightgrey'
-        }, document.body),
+            boxShadow: '0px 0px 2px 0px lightgrey',
+            textShadow: '0px 2px 2px rgba(0, 0, 0, 1)',
+            position: 'relative'
+        }, parent || document.body),
 
         t   = Bridge.DOM.Txt(label, {
                 color: 'white',
-                marginTop:  'calc(3% + ' + topAdjust + ')',
-                marginLeft: 'calc(20% + ' + leftAdjust + ')',
-                fontSize: '150%'
+                marginTop:  topAdjust,//'calc(3% + ' + topAdjust + ')',
+                marginLeft: leftAdjust,//'calc(20% + ' + leftAdjust + ')',
+                fontSize: '6vh',
+                
+                width: '100%',
+                height: '100%',
+                
+                top: '25%',
+                left: '25%'
             }, wrap);
 
     t.command = comm;
@@ -80,15 +88,21 @@ _buildTouchControlButton = (label, comm, x, y, leftAdjust, topAdjust) => {
 
 
 _buildDefaultTouchControlRight = () => {
-    _buildTouchControlButton('X', 'x', '30%', '0%', '1px', '1px');
-    _buildTouchControlButton('Z', 'z', '40%', '0%', '2px', '1px');
+    
+    let rightWrapper = Bridge.DOM.Div('calc(50% + 400px)', '30px', '100px', '600px', {}, document.body);
+
+    _buildTouchControlButton('X', 'x', '30%', '50%', '0%', '-15%', rightWrapper);
+    _buildTouchControlButton('Z', 'z', '30%', '35%', '2%', '-15%', rightWrapper);
 };
 
 _buildDefaultTouchControlLeft = () => {
-    _buildTouchControlButton('&#8593', 'up',   '60%', '0%', '3px', '0px');
-    _buildTouchControlButton('&#8595', 'down', '80%', '0%', '3px', '0px');
-    _buildTouchControlButton('&#8592', 'left',  '50%', '0%', '-1px', '0px');
-    _buildTouchControlButton('&#8594', 'right', '70%', '0%', '-4px', '0px');
+
+    let leftWrapper = Bridge.DOM.Div('calc(50% - 400px - 100px)', '30px', '100px', '600px', {}, document.body);
+
+    _buildTouchControlButton('&#8593', 'up',    '30%', '20%', '7%', '-18%', leftWrapper);
+    _buildTouchControlButton('&#8594', 'right', '30%', '35%', '-10%', '-15%', leftWrapper);
+    _buildTouchControlButton('&#8592', 'left',  '30%', '50%', '-10%', '-15%', leftWrapper);
+    _buildTouchControlButton('&#8595', 'down',  '30%', '65%', '7%', '-18%', leftWrapper);
 };
 
 
