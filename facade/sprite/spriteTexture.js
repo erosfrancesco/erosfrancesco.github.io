@@ -1,26 +1,31 @@
 function SpriteSheet(options){
 
-	options           = options || {};
-	options.img       = options.img || 'KefkaSprite'; // yeah, gonna tweak this...
-	options.x         = options.x || 0;
-	options.y         = options.y || 0;
-	options.z         = options.z || 0;
-	options.width     = options.width  || 100;
-	options.height    = options.height || 100;
-	options.total     = options.total 		|| 1;
-	options.columns   = options.columns 	|| 1;
-	options.lines     = options.lines  		|| 1;
-	options.frequence = options.frequence  	|| 1;
+	options           = options           || {};
+	//options.img       = options.img,
+	options.x         = options.x 		  || 0;
+	options.y         = options.y 		  || 0;
+	options.z         = options.z 		  || 0;
+	options.width     = options.width  	  || 100;
+	options.height    = options.height 	  || 100;
+	options.total     = options.total     || 1;
+	options.columns   = options.columns   || 1;
+	options.lines     = options.lines     || 1;
+	options.frequence = options.frequence || 1;
 
-	let AnimTexture    = new THREE.ImageUtils.loadTexture( options.img ),	
-		spriteMaterial = new THREE.MeshBasicMaterial({ 
-														map: AnimTexture, 
-														side:THREE.DoubleSide,
-														transparent: true, // transparent
-														useScreenCoordinates: true,
-													}),
-		spriteGeometry = new THREE.PlaneGeometry( -(options.width), -(options.height ));
+	let AnimTexture    = new THREE.ImageUtils.loadTexture( options.img );
+	// BETTER RESIZING
+	AnimTexture.magFilter = THREE.NearestFilter;
+	AnimTexture.minFilter = THREE.LinearMipMapLinearFilter;
+
+	let spriteMaterial = new THREE.MeshBasicMaterial({ 
+			map: AnimTexture, 
+			side:THREE.DoubleSide,
+			transparent: true, // transparent
+			useScreenCoordinates: true,
+		}),
+		spriteGeometry = new THREE.PlaneGeometry( -(options.width), -(options.height )),
 		sprite         = new THREE.Mesh(spriteGeometry, spriteMaterial);
+
 	
 	SpritePosition(sprite, options.x, options.y, options.z);
 

@@ -1,5 +1,8 @@
 // pgRoaster
 
+let _DEFAULT_PG_VALUE_HEIGHT = 189 * 1.2,
+    _DEFAULT_PG_VALUE_WIDTH  = 170 * 1.2;
+
 let pg_Kefka = {
 
     AI: () => { console.log('Thinking'); },
@@ -14,7 +17,7 @@ let pg_Kefka = {
     SpriteSource: (x, y, z) => {
         return _DrawSpriteSheet(FFVICAST_SPRITESHEET,
             x, y, z,
-            170, 189,
+            _DEFAULT_PG_VALUE_WIDTH, _DEFAULT_PG_VALUE_HEIGHT,
             'kefka');
     },
 
@@ -38,7 +41,7 @@ let pg_Terra = {
         SpriteSource: (x, y, z) => {
             return _DrawSpriteSheet(FFVICAST_SPRITESHEET,
                 x, y, z,
-                170, 189,
+                _DEFAULT_PG_VALUE_WIDTH, _DEFAULT_PG_VALUE_HEIGHT,
                 'terra');
         },
 
@@ -62,7 +65,7 @@ let pg_Sabin = {
         SpriteSource: (x, y, z) => {
             return _DrawSpriteSheet(FFVICAST_SPRITESHEET,
                 x, y, z,
-                170, 189,
+                _DEFAULT_PG_VALUE_WIDTH, _DEFAULT_PG_VALUE_HEIGHT,
                 'sabin');
         },
 
@@ -86,7 +89,7 @@ let pg_Edgar = {
         SpriteSource: (x, y, z) => {
             return _DrawSpriteSheet(FFVICAST_SPRITESHEET,
                 x, y, z,
-                170, 189,
+                _DEFAULT_PG_VALUE_WIDTH, _DEFAULT_PG_VALUE_HEIGHT,
                 'edgar');
         },
 
@@ -110,7 +113,7 @@ let pg_Shadow = {
         SpriteSource: (x, y, z) => {
             return _DrawSpriteSheet(FFVICAST_SPRITESHEET,
                 x, y, z,
-                170, 189,
+                _DEFAULT_PG_VALUE_WIDTH, _DEFAULT_PG_VALUE_HEIGHT,
                 'shadow');
         },
 

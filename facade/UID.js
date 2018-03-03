@@ -1,7 +1,7 @@
 _Create_UID_With_Bridge = () => {
     _Gm.UID = Bridge.DOM.Div('0%', '0%', '100%', '100%', {
         zIndex: 1000,
-        border: 'solid black 1px',
+        //border: 'solid black 1px',
         //overflow: 'hidden'
     }, _Gm.container);
 };
@@ -105,6 +105,12 @@ _buildDefaultTouchControlLeft = () => {
     _buildTouchControlButton('&#8595', 'down',  '30%', '65%', '7%', '-18%', leftWrapper);
 };
 
+_buildTouchUID = () => {
+    _buildTouchPauseDiv();
+    _buildDefaultTouchControlRight();
+    _buildDefaultTouchControlLeft();
+}
+
 
 _Gm.machine.assign('PAUSE OVERRIDE FUNCTION', _pause_Input_Facade.loop);
 _pause_Input_Facade.set(_input_Array_Pause, 8);
@@ -115,6 +121,4 @@ _Gm.machine.assign('INPUT RESOLVER', () => { if (_Gm.inputIsEnabled) { _Gm._inpu
 _Create_UID_With_Bridge();
 _Create_PAUSE_With_Bridge();
 
-_buildTouchPauseDiv();
-_buildDefaultTouchControlRight();
-_buildDefaultTouchControlLeft();
+

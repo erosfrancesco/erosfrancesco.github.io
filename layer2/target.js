@@ -102,20 +102,11 @@ function SetStandardTargetCursor(menuGen) {
 
         if (Cursor.target.Enemy) {
             Cursor.Texture.repeat.x = -1;
-            SpritePosition(Cursor,  targetDOM.position.x - width / 4, targetDOM.position.y, targetDOM.position.z);
+            SpritePosition(Cursor,  targetDOM.position.x + width / 4, targetDOM.position.y, targetDOM.position.z);
         }else{
             Cursor.Texture.repeat.x = 1;
-            SpritePosition(Cursor,  targetDOM.position.x + width / 4, targetDOM.position.y, targetDOM.position.z);
+            SpritePosition(Cursor,  targetDOM.position.x - width / 4, targetDOM.position.y, targetDOM.position.z);
         }
-        
-        /*
-        // test purposes
-        console.log(menuGen.Matrix.sw, 
-                    menuGen.Matrix.sh,
-                    menuGen.Matrix.sx,
-                    menuGen.Matrix.sy, 
-                    dx, dy);
-        /**/
     };
 
     return Cursor;

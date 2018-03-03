@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+	
+	<head>
+		<title>Minecraft porting</title>
+	</head>
+
+	<body>
+
+		<script src="../loader.js"></script>
+
+		<script>
+
+			_Assign_Root_Directory('../');
+
+			_Load_From_Folder_Index('threejs', () => {
+				_Load_From_Folder_Index('facade', () => {
+					_Load_From_Folder_Index('menu', () => {
+						_Load_From_Folder_Index('turn', () => {
+							_Load_From_Folder_Index('layer2', () => {
+								_Load_From_Folder_Index('json', () => {
+									Init3DWebGLThingamajigs();
+								});
+								
+							});
+						});
+					});
+				});
+			});
+
+			generateHeight = ( width, height ) => {
+
+				let data    = [], 
+				    perlin  = new ImprovedNoise(),
+				    size    = width * height, 
+				    quality = 2, 
+				    z       = Math.random() * 100;
+
+				// counters
+				let j, i;
+
+				for ( j = 0; j < 4; j ++ ) {
+					for ( i = 0; i < size; i ++ ) {
+						
+						let x = i % width, 
+						    y = ( i / width );
+
+						data[ i ] = data[ i ] || 0;
+						data[ i ] += perlin.noise( x / quality, y / quality, z ) * quality;						
+					}
+					quality *= 4;
+				}
+
+				return data;
+			}
+				
+
+			Init3DWebGLThingamajigs = () => {
+
+			 	let camera   = _Gm.camera,
+			  	    scene    = _Gm.scene, 
+			  	    renderer = _Gm.renderer;
+
+
+				let worldWidth     = 200, 
+				    worldDepth     = 200,
+					worldHalfWidth = worldWidth / 2, 
+					worldHalfDepth = worldDepth / 2,
+					data           = generateHeight( worldWidth, worldDepth );
+
+				let clock = new THREE.Clock();
+
+				_Gm.scene.background = new THREE.Color( 0xffffff );
+				_Gm.scene.fog        = new THREE.FogExp2( 0xffffff, 0.00015 );
+
+				console.log(clock, data);
+			}
+
+		</script>
+
+	</body>
+</html>

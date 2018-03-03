@@ -77,11 +77,11 @@ let WebGLDefault = {
 
 const defaultValues = {
 
-	width: 800,
-	height: 600,
+	width: 900,
+	height: 500,
 
-	left: 'calc( 50% - 400px )',
-	top: 'calc( 50% - 300px )', // cool
+	left: 'calc( 50% - 450px )',
+	top: 'calc( 50% - 250px )',
 
 	near: 0.1,
 	far: 20000,

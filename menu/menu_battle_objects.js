@@ -44,8 +44,8 @@ StandardCommandPlacer = (top, left, width, height, scrollerW, obj, indxX, indxY)
 		cursorGen: setStandardCursorDOM,
 		scrollerGen: setStandardScrollingDOM,
 
-        width: '25%', height: '34%',
-		x: '13%', y: '65%',
+        width: '22%', height: '34%',
+		x: '18%', y: '65%',
 	};
 	
 	let _Item_Menu={

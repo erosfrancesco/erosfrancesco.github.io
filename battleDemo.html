@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+<head> 
+	
+	<title> Atb Battle DEMO </title>
+
+</head>
+
+<body style='margin: 0px; overflow: hidden'>
+
+
+<script src="loader.js"></script>
+
+
+<script>
+	_Assign_Root_Directory('./');
+	_Load_From_Folder_Index('assets', () => {
+		_Load_From_Folder_Index('threejs', () => {
+			_Load_From_Folder_Index('facade', () => {
+				_Load_From_Folder_Index('menu', () => {
+					_Load_From_Folder_Index('turn', () => {
+						_Load_From_Folder_Index('layer2', () => {
+							_Load_From_Folder_Index('json', () => {
+								Init3DWebGLThingamajigs();
+							});
+							
+						});
+					});
+				});
+			});
+		});
+	});
+	function Init3DWebGLThingamajigs(){
+		/*****************************************************************************************************/
+        _InitBattleObject(_battle_object_test);
+        setBannerWithText('START FIGHT');
+		setTimeout(removeBanner, 1000);
+		/*****************************************************************************************************
+			///////////
+			// LIGHT //
+			///////////
+			let moonLight   = new THREE.PointLight(0xe1e1e1), // 0x1f1fff
+			    ambientGlow = new THREE.AmbientLight(0x121202); // 0x111111
+			moonLight.position.set(300, 80, 230);
+			_Gm.scene.add(moonLight);
+			_Gm.scene.add(ambientGlow);
+		/*****************************************************************************************************
+			//////////////
+			// GEOMETRY //
+			//////////////
+			// Sphere parameters: radius, segments along width, segments along height
+			let sphereGeometry = new THREE.SphereGeometry( 50, 16, 16 ),
+			    sphereMaterial = new THREE.MeshLambertMaterial( {color: 0x44ee44} ), // lambert is more realistic
+			    moon = new THREE.Mesh(sphereGeometry, sphereMaterial);
+			moon.position.set(100, -100, -50);
+			_Gm.scene.add(moon);
+		/*****************************************************************************************************/
+		let triangleGeometry, triangleMaterial, triangleMesh;
+		triangleGeometry = new THREE.Shape([
+				new THREE.Vector2 (-10,  0),
+				new THREE.Vector2 (10, 0),
+				new THREE.Vector2 (0,  15)
+			]).makeGeometry();
+		triangleGeometry.computeFaceNormals();
+		// 1 2 0
+		triangleGeometry.faceVertexUvs[0][0][0] = new THREE.Vector3(0, 0);
+		triangleGeometry.faceVertexUvs[0][0][2] = new THREE.Vector3(1, 1);
+		triangleGeometry.faceVertexUvs[0][0][1] = new THREE.Vector3(0, 1);
+		// set a gradient color, based on vertices
+		let colorFace0 = new THREE.Color( 0x66ff66 ),
+		    colorFace1 = new THREE.Color( 0xfa11af ),
+		    colorArray = [colorFace1, colorFace0, colorFace0];
+		Object.keys(triangleGeometry.faces).forEach(key => {
+			let face          = triangleGeometry.faces[key],
+		        count         = 0,
+			    numberOfSides = ( face instanceof THREE.Face3 ) ? 3 : 4;
+			while (count < numberOfSides) {
+				face.vertexColors[ count ] = colorArray[count];
+				count++;
+			}
+			/**/
+		});
+		
+		//= 0x55aa55;
+	  	triangleMaterial = new THREE.MeshBasicMaterial({ 
+	  		color: 0xffffff, 
+	  		vertexColors: THREE.VertexColors, 
+	  		side: THREE.DoubleSide 
+	  	}),
+	  	// wireframe:true
+		// Create and Add all selection meshes
+		triangleMesh = new THREE.Mesh(triangleGeometry, triangleMaterial);
+		triangleMesh.geometry.dynamic = true;
+		_Gm.scene.add(triangleMesh);
+		triangleMesh.position = new THREE.Vector3(0, -100, 0);
+		let vel = 5,
+		   // modify only vel
+		    a   = 0,
+		    m   = 360 / vel;
+		setInterval(() => {
+			a++;
+			a%=m;
+			triangleMesh.rotation.y = ( (Math.PI) * a / m );
+			//triangleMesh.position.y += 1;
+		}, 30);
+/**/
+		
+	}
+</script>
+
+</body>
+</html>
