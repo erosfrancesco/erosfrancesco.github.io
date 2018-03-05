@@ -35,7 +35,7 @@ standardMenuGenerator = (menu) => {
     MenuManager.Animator.add(() => { 
     	if (menu.Matrix.update) { menu.Matrix.update(); }
     	if (menu.Cursor.update) { menu.Cursor.update(0, 0); }
-    	if (menu.Cursor.style) { MenuManager.Cursor.style.visibility = 'visible'; }
+    	if (menu.Cursor.style) { MenuManager.Cursor.Visible(true); }
     });
     MenuManager.Animator.add(() => { 
     	_Gm.setInput(ReturnTopMenu().Input, 4);

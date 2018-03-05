@@ -37,7 +37,9 @@ _Menu_Target_Array_Input['x']     = () => {
             calcDamages:  (target, player, callback) => { console.log('Calc damage on: ', target.Name);
                 let damage = 102;
                 setStatOf(target, 'lif', returnStatOf(target, 'lif') - damage);
-                UpdateATBLifeAndManaOf(target);
+                
+                // only if is not enemy
+                if (!target.Enemy) { UpdateATBLifeAndManaOf(target); }
                 
                 callback(); 
             },

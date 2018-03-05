@@ -1,46 +1,63 @@
-function DOMElementCreate(params){
+DOMElementCreate = (params) => {
 
-	params.parent = params.parent || _Gm.UID;
+	params.parent  = params.parent  || _Gm.UID;
 	params.element = params.element || 'div';
 
 	let sfoo        = document.createElement(params.element),
 	    styleString = DOMStyleParser(params.style);
+
 	params.parent.appendChild(sfoo);
 	sfoo.style = styleString;
+	
+	// build standard method for DOM manipulation
+	BridgeDOMStandardMethods(sfoo);
 
 	return sfoo;
 }
 
 
-function DOMStyleParser(styleObj){
+DOMStyleParser = (styleObj) => {
+	
 	styleObj = styleObj || {};
+	
 	let styleString = '';
+	
 	Object.keys(styleObj).forEach(name => { styleString += ConvertToKebabCase(name) + ':' + styleObj[name] + ';'; });
 	return styleString;
 }
 
 
-function ConvertToKebabCase(string){ return string.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase(); }
+ConvertToKebabCase = (string) => { return string.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase(); }
 
-
+/***********************************************************************************************************/
+BridgeDOMStandardMethods = (DOMobj) => {
+	DOMobj.Visible = (bool) => {
+		if (bool) {
+			DOMobj.style.visibility = 'visible';
+		}else{
+			DOMobj.style.visibility = 'hidden';
+		}
+	};
+};
+/***********************************************************************************************************/
 
 const LayerBaseBridge = {
 	DOM:{
 		Div: function(params){
 
 			params.element = 'div';
-			var sfoo = DOMElementCreate(params);
+			let sfoo = DOMElementCreate(params);
 			return sfoo;
 		},
         
 		Img: function(src, params){
 
-			var p = {
+			let p = {
 				element : 'img',
 				style 	: params
 			};
 
-			var sfoo = DOMElementCreate(p);
+			let sfoo = DOMElementCreate(p);
 			sfoo.src = src;
 			return sfoo;
 		},
@@ -54,14 +71,14 @@ const Bridge = {
 
 		Remove: function(obj){
 
-			var s = (typeof obj === "string") ? document.getElementById(obj) : obj
-			var err = s.parentNode ? s.parentNode.removeChild(s) : false
+			let s = (typeof obj === "string") ? document.getElementById(obj) : obj
+			let err = s.parentNode ? s.parentNode.removeChild(s) : false
             return err;
 		},
 
 		Div: function(x, y, wid, hei, style, parent){
 			
-			var parameters = { style: style || {} };
+			let parameters = { style: style || {} };
 			parameters.parent = parent;
 
 			parameters.style.position = 'absolute';
@@ -70,7 +87,7 @@ const Bridge = {
 			parameters.style.left = x;
 			parameters.style.top = y;
 
-			var sfoo = LayerBaseBridge.DOM.Div(parameters);
+			let sfoo = LayerBaseBridge.DOM.Div(parameters);
 			return sfoo;
 		},
 
@@ -78,11 +95,11 @@ const Bridge = {
         
 		Txt: function(text, style, parent){
 
-			var parameters = { style: style || {} };
+			let parameters = { style: style || {} };
 			parameters.parent = parent;
 			parameters.style.position = 'absolute';
 
-			var sfoo = LayerBaseBridge.DOM.Div(parameters);
+			let sfoo = LayerBaseBridge.DOM.Div(parameters);
 			sfoo.innerHTML = text;
 			return sfoo;
 		},

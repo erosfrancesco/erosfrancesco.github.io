@@ -14,6 +14,7 @@
 
 <script>
 	_Assign_Root_Directory('./');
+
 	_Load_From_Folder_Index('assets', () => {
 		_Load_From_Folder_Index('threejs', () => {
 			_Load_From_Folder_Index('facade', () => {
@@ -35,6 +36,8 @@
         _InitBattleObject(_battle_object_test);
         setBannerWithText('START FIGHT');
 		setTimeout(removeBanner, 1000);
+
+		//_Gm.scene.fog = new THREE.FogExp2( 0x888888, 0.0015 );
 		/*****************************************************************************************************
 			///////////
 			// LIGHT //

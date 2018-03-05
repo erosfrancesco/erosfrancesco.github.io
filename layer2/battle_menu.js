@@ -31,8 +31,6 @@ loadBattleBanner = () => {
 
     MenuManager.battleBanner.firstChild.style.background = _Menu_Options.bannerBackgroudColor;
 
-    console.log(MenuManager.battleBanner.firstChild.style.background);
-
     MenuManager.battleBanner.text = Bridge.DOM.Txt('', { 
         left:   '0%',
         top:    '0%',
@@ -53,10 +51,10 @@ loadBattleBanner = () => {
 };
 
 //
-setBannerWithText = (txt) => { setBannerVisibility('visible'); MenuManager.battleBanner.text.innerHTML = txt; };
+setBannerWithText = (txt) => { setBannerVisibility(true); MenuManager.battleBanner.text.innerHTML = txt; };
 
 //
-removeBanner = () => { setBannerVisibility('hidden'); };
+removeBanner = () => { setBannerVisibility(false); };
 
 //
-setBannerVisibility = (v) => { MenuManager.battleBanner.style.visibility = v; };
+setBannerVisibility = (bool) => { MenuManager.battleBanner.Visible(bool); };

@@ -46,11 +46,13 @@ _InitBattleObject = (battleObject) => {
 _Load_Player_From_Object_Into_Battle = (player, enemy) => {
 
     // set player object
+    player.object.Enemy = enemy;
     _LoadObjectPlayer(player.object);
 
     // draw player spritesheet
     player.object.spriteSheet = player.object.SpriteSource(player.x, player.y, player.z);
-    player.object.Enemy = enemy;
+    //player.object.spriteSheet.Ref.material.color = {r: 1, g: 0, b: 0.5};
+    
     if (player.object.Enemy) {  player.object.spriteSheet.Ref.rotation.y = -Math.PI; }
 };
 
@@ -58,6 +60,5 @@ _Remove_Battle_Loops = () => {
     _Gm.machine.remove( 'ACTIVE TIME LOOP');
     _Gm.machine.remove( 'ACTIVE ACTION LOOP');
     _Gm.machine.remove( 'ACTIVE RESOLVER LOOP');
-    //_Gm.machine.remove( 'ACTIVE PLAYER LOOP');
     _Gm.machine.remove( 'ACTIVE MENU ANIMATION LOOP');
 };

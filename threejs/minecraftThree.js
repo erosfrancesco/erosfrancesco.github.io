@@ -7147,7 +7147,7 @@
 
 				if ( currentValue === undefined ) {
 
-					console.warn( "THREE." + this.type + ": '" + key + "' is not a property of this material." );
+					//console.warn( "THREE." + this.type + ": '" + key + "' is not a property of this material." );
 					continue;
 
 				}
@@ -17709,7 +17709,7 @@
 				var context = _canvas.getContext( '2d' );
 				context.drawImage( image, 0, 0, _canvas.width, _canvas.height );
 
-				console.warn( 'THREE.WebGLRenderer: image is not power of two (' + image.width + 'x' + image.height + '). Resized to ' + _canvas.width + 'x' + _canvas.height, image );
+				//console.warn( 'THREE.WebGLRenderer: image is not power of two (' + image.width + 'x' + image.height + '). Resized to ' + _canvas.width + 'x' + _canvas.height, /*image/**/ );
 
 				return _canvas;
 
@@ -20135,7 +20135,7 @@
 
 				if ( extension === null ) {
 
-					console.warn( 'THREE.WebGLRenderer: ' + name + ' extension not supported.' );
+					//console.warn( 'THREE.WebGLRenderer: ' + name + ' extension not supported.' );
 
 				}
 
@@ -44480,7 +44480,7 @@
 		},
 		makeGeometry: function ( options ) {
 
-			console.warn( 'THREE.Shape: .makeGeometry() has been removed. Use ShapeGeometry() instead.' );
+			//console.warn( 'THREE.Shape: .makeGeometry() has been removed. Use ShapeGeometry() instead.' );
 			return new ShapeGeometry( this, options );
 
 		}
@@ -45422,7 +45422,7 @@
 
 		loadTexture: function ( url, mapping, onLoad, onError ) {
 
-			console.warn( 'THREE.ImageUtils.loadTexture has been deprecated. Use THREE.TextureLoader() instead.' );
+			//console.warn( 'THREE.ImageUtils.loadTexture has been deprecated. Use THREE.TextureLoader() instead.' );
 
 			var loader = new TextureLoader();
 			loader.setCrossOrigin( this.crossOrigin );
@@ -45437,7 +45437,7 @@
 
 		loadTextureCube: function ( urls, mapping, onLoad, onError ) {
 
-			console.warn( 'THREE.ImageUtils.loadTextureCube has been deprecated. Use THREE.CubeTextureLoader() instead.' );
+			//console.warn( 'THREE.ImageUtils.loadTextureCube has been deprecated. Use THREE.CubeTextureLoader() instead.' );
 
 			var loader = new CubeTextureLoader();
 			loader.setCrossOrigin( this.crossOrigin );

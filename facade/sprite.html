@@ -3,15 +3,6 @@
 <head> 
 	
 	<title> Sprite testing ground </title>
-	<style>
-
-		@font-face {
-			font-family: "FFVIFont";
-			src: url("../assets/sixTekBlack.ttf");
-			font-size: 200%;
-		}
-
-	</style>
 
 </head>
 
@@ -24,14 +15,16 @@
 
 	_Assign_Root_Directory('../');
 
-	_Load_From_Folder_Index('threejs', () => {
-		_Load_From_Folder_Index('facade', () => {
-			_Load_From_Folder_Index('menu', () => {
-				_Load_From_Folder_Index('turn', () => {
-					_Load_From_Folder_Index('layer2', () => {
-						_Load_From_Folder_Index('json', () => {
-							console.log('All done');
-							Init3DWebGLThingamajigs();
+	_Load_From_Folder_Index('assets', () => {
+		_Load_From_Folder_Index('threejs', () => {
+			_Load_From_Folder_Index('facade', () => {
+				_Load_From_Folder_Index('menu', () => {
+					_Load_From_Folder_Index('turn', () => {
+						_Load_From_Folder_Index('layer2', () => {
+							_Load_From_Folder_Index('json', () => {
+								console.log('All done');
+								Init3DWebGLThingamajigs();
+							});
 						});
 					});
 				});
@@ -42,6 +35,8 @@
 
 
 	function Init3DWebGLThingamajigs(){
+		// SPRITE AND DOM TESTS...
+		let divTest = Bridge.DOM.Div(0,0,);
 		MenuManager.push( _Init_Menu );
 	}
 </script>

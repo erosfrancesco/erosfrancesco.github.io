@@ -58,7 +58,8 @@ let _input_Array_Pause  = [],
     _pause_Input_Facade = _buildInputFacade(new THREEx.KeyboardState());
 
 _input_Array_Pause['p'] = () => {
-	_Gm.UIDPause.style.visibility = ( _Gm.machine.Paused ) ? 'hidden' : 'visible'
+	_Gm.UIDPause.Visible( !_Gm.machine.Paused );
+	//_Gm.UIDPause.style.visibility = ( _Gm.machine.Paused ) ? 'hidden' : 'visible'
 	_Gm.machine.Paused ? ResumeMachine(_Gm.machine) : PauseMachine(_Gm.machine)
 }
 

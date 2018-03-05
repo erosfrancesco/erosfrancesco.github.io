@@ -5,6 +5,7 @@
 	player.ATBobj = {};
 
 	if( !player.Enemy ){
+		console.log(player.Name);
 		player.ATBobj = LoadATBDOM(_Init_Menu.Ref, t, player.Name);	
 		UpdateATBDOM(player, 0);
 	}
