@@ -66,3 +66,6 @@ setBlueWithRoundedBorders = (ctx, that) => {
         stroke: true
     });
 }
+
+
+_BackgroundFFVIStyling = that => setBlueWithRoundedBorders(that._bitmapData.context, that);

@@ -37,6 +37,9 @@ GAME.addScene('Boot', {
 // Boot scene
 GAME.addScene('Preloader', {
     preload: () => {
+        // set physic engine
+        GAME.game.physics.startSystem(Phaser.Physics.ARCADE);
+
         // load assets for Loading scene...
         GAME.load.image('starfield', '../assets/starfield.png');
     },
@@ -44,6 +47,39 @@ GAME.addScene('Preloader', {
     create: () => {
         let splash = GAME.add.tileSprite(0, 0, GAME.game.width, GAME.game.height, 'starfield');
         splash.autoScroll(10, 20);
+
+        let MenuItem1 = new MenuItem({
+            scene: GAME.game,
+            text: 'Hello'
+        });
+        let MenuItem2 = new MenuItem({
+            scene: GAME.game,
+            text: 'World'
+        });
+        let MenuItem3 = new MenuItem({
+            scene: GAME.game,
+            text: 'Za'
+        });
+
+        let MenuItem4 = new MenuItem({
+            scene: GAME.game,
+            text: 'Warudo'
+        });
+
+        let MenuOptions = {
+            scene: GAME.game,
+            width: 300,
+            height: 100,
+            x: 300,
+            y: 200,
+
+            cullX: 1,
+            cullY: 1,
+            items: [[MenuItem1], [MenuItem2], [MenuItem3], [MenuItem4]]
+        };
+
+        let scrollable = new ScrollableMenu(MenuOptions);
+        scrollable.right();
     },
 
     update: () => {
