@@ -19,6 +19,12 @@ _TextStylingDefault = (that) => {
         strokeThickness: 6
     });
     that._DOM.setTextBounds(that.x, that.y, that.width, that.height);
+
+    that.selected    = () => { that._DOM.fill = "#EACA2F"; };
+    that.notSelected = () => { that._DOM.fill = "#D2D2D2"; };
+
+    that._DOM.onTap = () => { that.notSelected(); }
+    
 }
 
 class MenuItem {
@@ -30,7 +36,8 @@ class MenuItem {
             x, y,
             scene,
             style,
-            text
+            text,
+            onSelect
         } = options;
 
         // options sanitization
@@ -41,6 +48,7 @@ class MenuItem {
         x = x || 0;
         y = y || 0;
         style = style || 'default';
+        onSelect = onSelect || function() {};
 
         this._availableStyling = {
             'default': _TextStylingDefault
@@ -55,6 +63,7 @@ class MenuItem {
         this.height = height;
         this.scene = scene;
         this.style = style;
+        this.onSelect = onSelect;
     }
 
     get style() {
@@ -102,6 +111,22 @@ class MenuItem {
     set visible(v) {
         this._visible = v;
         this._DOM.visible = v;
+    }
+
+    get stroke() {
+        return this._stroke;
+    }
+    set stroke(v) {
+        this._stroke = v;
+        this._DOM.stroke = v;
+    }
+
+    get fill() {
+        return this._fill;
+    }
+    set fill(v) {
+        this._fill = v;
+        this._DOM.fill = v;
     }
 
     set() {

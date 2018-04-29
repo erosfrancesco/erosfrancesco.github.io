@@ -30,8 +30,16 @@ class ScrollableMenu extends Menu {
         
         item.y = y;
         item.x = x;
-        item.visible = true;
 
+        if (this.cursorY === rowI && this.cursorX === colI) {
+            this._current = item;
+        	item.selected();
+        	item.visible = true;
+        	return;
+        }
+
+        item.notSelected();
+        
 		if (colI < this.cursorX || colI > this.cursorX + this.cullX - 1) {
             item.visible = false;
             return;
@@ -40,6 +48,8 @@ class ScrollableMenu extends Menu {
             item.visible = false;
             return;
         }
+
+        item.visible = true;
         /**/
 	}
 

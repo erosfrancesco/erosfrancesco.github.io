@@ -42,28 +42,30 @@ GAME.addScene('Preloader', {
 
         // load assets for Loading scene...
         GAME.load.image('starfield', '../assets/starfield.png');
+        GAME.load.image('mainLogo', '../assets/MainLogo.png');
     },
 
     create: () => {
-        let splash = GAME.add.tileSprite(0, 0, GAME.game.width, GAME.game.height, 'starfield');
-        splash.autoScroll(10, 20);
+
+        let back = GAME.add.tileSprite(0, 0, GAME.game.width, GAME.game.height, 'starfield');
+        back.autoScroll(10, 20);
+
+        let splash = GAME.add.sprite(GAME.world.centerX, GAME.world.centerY - 70, 'mainLogo');
+        splash.anchor.x = 0.5;
+        splash.anchor.y = 0.5;
+        splash.scale.setTo(0.5, 0.5);
+
+        /**************************************/
 
         let MenuItem1 = new MenuItem({
             scene: GAME.game,
-            text: 'Hello'
+            text: 'Start Game',
+            onSelect: () => { console.log('New game'); }
         });
         let MenuItem2 = new MenuItem({
             scene: GAME.game,
-            text: 'World'
-        });
-        let MenuItem3 = new MenuItem({
-            scene: GAME.game,
-            text: 'Za'
-        });
-
-        let MenuItem4 = new MenuItem({
-            scene: GAME.game,
-            text: 'Warudo'
+            text: 'Load Game',
+            onSelect: () => { console.log('Load game'); }
         });
 
         let MenuOptions = {
@@ -71,18 +73,38 @@ GAME.addScene('Preloader', {
             width: 300,
             height: 100,
             x: 300,
-            y: 200,
+            y: 350,
 
             cullX: 1,
             cullY: 1,
-            items: [[MenuItem1], [MenuItem2], [MenuItem3], [MenuItem4]]
+            items: [[MenuItem1], [MenuItem2]]
         };
 
+        /**************************************/
+
         let scrollable = new ScrollableMenu(MenuOptions);
-        scrollable.right();
+
+        GAME.setInput({
+            keyboard: {
+                [Phaser.Keyboard.UP]: {
+                    onDown: () => scrollable.up(),
+                    debounce: 8
+                },
+                [Phaser.Keyboard.DOWN]: {
+                    onDown: () => scrollable.down(),
+                    debounce: 8
+                },
+                [Phaser.Keyboard.Z]: {
+                    onDown: () => scrollable._current.onSelect(),
+                    debounce: 8
+                }
+            }
+        });
     },
 
     update: () => {
+
+       
         
     }
 });
