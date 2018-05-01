@@ -8,28 +8,101 @@ GAME.addScene('Preloader', {
         //  37x45 is the size of each frame
 	    //  There are 16 frames in the PNG - you can leave this value blank if the frames fill up the entire PNG, 
 	    //  but in this case there are some blank frames at the end, so we tell the loader how many to load
-	    GAME.load.spritesheet('ffviCast', '../assets/ffviCast.png', 137, 145, 16);
+	    GAME.load.spritesheet('ffviCast', '../assets/ffviCast.png', 680 / 4, 756 / 4, 16);
     },
 
     create: () => {
 
-        let pg = GAME.add.sprite(GAME.world.centerX, GAME.world.centerY - 70, 'ffviCast', 1);
-       	pg.frame = 0;
+        let pg = GAME.add.sprite(GAME.world.centerX, GAME.world.centerY, 'ffviCast', 0);
+
+       	// animation example
+       	pg.animations.add('change');
+	    //pg.animations.play('change', 10, true);
+	    //game.add.tween(pg).to({ x: game.width }, 10000, Phaser.Easing.Linear.None, true);
+
+	    // pg.remove(sprite, true);
+
+	    //left = player.animations.add('left', [8,9], 10, true);
+    	//right = player.animations.add('right', [1,2], 10, true);
+    	//player.animations.add('up', [11,12,13], 10, true);
+    	//player.animations.add('down', [4,5,6], 10, true);
+    	
+    	/**/
+
+    	let bar = new Phaser.Rectangle(0, 450, 800, 50);
+    	GAME.game.debug.geom(bar,'#0fffff');
+
+
+		
+
+		//GAME.TestATB.width = 300;
+		//GAME.TestATB.height = 30;
+
+		/*
+
+		GAME.TestATB = new RoundBar({
+			color: 0x585231,
+			scene: GAME,
+			x: 199,
+			y: 40
+		});
+
+		GAME.TestBar = new RoundBar({
+			fill: 0xfff00,
+			height: 8,
+			scene: GAME,
+			parent: GAME.TestATB.round
+		});
+
+		GAME.TestBar.x = 2;
+		GAME.TestBar.y = 2;
+		GAME.TestBar.width = 10;
+		GAME.TestBar.update();
+
+		/**/
+
+		
+		//GAME.TestATB.round.addChild(GAME.TestBar.round);
+
+		//GAME.TestBar.width = 5;
+		
+
+
+		
+		/**/
+
+		GAME.TestATB = new ATBDOM({
+			color: 0x585231,
+			fill: 0xfff00,
+			scene: GAME,
+			x: 200,
+			y: 40
+		});
+		
+
+		
+
+
     },
 
     update: () => {
-    }
+
+    	//GAME.TestBar.width++;
+    	//GAME.TestBar.width %= 160 - 2;
+    	GAME.TestATB.update();
+		
+
+    	//
+    	// 
+    	//button = game.add.button(32, 32, 'button', clickedIt, this, 2, 1, 0);
+    	//  game.load.tilemap('level3', 'assets/tilemaps/maps/cybernoid.json', null, Phaser.Tilemap.TILED_JSON);
+    },
+
+	render: () => {
+		
+	
+	}
 });
-
-
-
-
-
-
-
-
-
-
 
 
 
