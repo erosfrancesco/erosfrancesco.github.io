@@ -1,3 +1,16 @@
+/*
+let MenuItem1 = new MenuItem({
+            scene: GAME.game,
+            text: 'Start Game',
+            onSelect: () => { console.log('New game'); }
+        });
+        let MenuItem2 = new MenuItem({
+            scene: GAME.game,
+            text: 'Load Game',
+            onSelect: () => { console.log('Load game'); }
+        });
+*/
+
 // Preload scene
 GAME.addScene('Preloader', {
     preload: () => {
@@ -9,16 +22,124 @@ GAME.addScene('Preloader', {
 	    //  There are 16 frames in the PNG - you can leave this value blank if the frames fill up the entire PNG, 
 	    //  but in this case there are some blank frames at the end, so we tell the loader how many to load
 	    GAME.load.spritesheet('ffviCast', '../assets/ffviCast.png', 680 / 4, 756 / 4, 16);
+
+
+	    /*
+	        //load game assets
+		    this.load.tilemap('level1', 'assets/tilemaps/level1.json', null, Phaser.Tilemap.TILED_JSON);
+		    this.load.image('gameTiles', 'assets/images/tiles.png');
+		    this.load.image('greencup', 'assets/images/greencup.png');
+		    this.load.image('bluecup', 'assets/images/bluecup.png');
+		    this.load.image('player', 'assets/images/player.png');
+		    this.load.image('browndoor', 'assets/images/browndoor.png');
+		*/
+    	//GAME.load.tilemap('level1', './LevelMap.json', null, Phaser.Tilemap.TILED_JSON);
     },
 
     create: () => {
 
-        let pg = GAME.add.sprite(GAME.world.centerX, GAME.world.centerY, 'ffviCast', 0);
+        let pg1 = GAME.add.sprite(GAME.world.centerX, GAME.world.centerY, 'ffviCast', 0);
+        let pg2 = GAME.add.sprite(GAME.world.centerX - 200, GAME.world.centerY, 'ffviCast', 1);
 
        	// animation example
-       	pg.animations.add('change');
+       	//pg.animations.add('change');
 	    //pg.animations.play('change', 10, true);
-	    //game.add.tween(pg).to({ x: game.width }, 10000, Phaser.Easing.Linear.None, true);
+	    //GAME.add.tween(pg).to({ x: 100 }, 1000, Phaser.Easing.Linear.None, true);
+
+
+
+
+        // players
+        let p1 = new Player({
+            name: "SuperPippo",
+            stats: {
+            	"lif": 1300,
+            	"dmg": 10,
+            	"man": 999,
+            	"usedMana": 10,
+                "str": 50,
+                "dex": 1,
+                "lvl": 5
+            },
+            sprite: pg1,
+            menuIndex: 0
+        });
+
+        let p2 = new Player({
+            name: "Ndu'",
+            stats: {
+            	"lif": 1300,
+            	"dmg": 10,
+            	"man": 999,
+            	"usedMana": 10,
+                "str": 50,
+                "dex": 1,
+                "lvl": 5
+            },
+            //sprite: pg2,
+            //menuIndex: 1,
+            //atb: new PlayerMenu(p2)
+        });
+        /**/
+
+       
+		GAME.Player1Menu = new PlayerMenu(p1);
+		//GAME.Player2Menu = new PlayerMenu(p2);
+
+
+		/*
+		GAME.Player2Menu = new PlayerMenu({
+			y: GAME.game.height * 1 / 4
+		});
+
+		GAME.Player3Menu = new PlayerMenu({
+			y: GAME.game.height * 2 / 4
+		});
+
+		GAME.Player4Menu = new PlayerMenu({
+			y: GAME.game.height * 3 / 4
+		});
+		/**/
+    },
+
+    update: () => {
+    	/*
+    	GAME.progress.clear();
+    	
+    	GAME.percentDone+=0.01;
+    	//GAME.progress.drawRoundedRect(0, 0, 298 * GAME.percentDone, 25, 10);
+		GAME.progress.lineStyle(2, '0xff00ff');
+		GAME.progress.beginFill('0xff00ff',1);
+		GAME.progress.drawRoundedRect(0, 0, 298 * GAME.percentDone, 27, 10);
+		GAME.progress.endFill();
+		GAME.progress.beginFill('0x999999',1) //For drawing progress
+		/**/
+
+		
+		if (GAME.Player1Menu.atb.percentage < 99) {
+			GAME.Player1Menu.atb.percentage++;
+			GAME.Player1Menu.atb._update();
+
+			GAME.Player2Menu.atb.percentage++;
+			GAME.Player2Menu.atb._update();
+		}
+	}
+});
+
+
+
+/*
+	preload: function () {
+		this.load.image('playButton', 'assets/images/play.png');
+		this.load.spritesheet('tiles', 'assets/images/tiles.png', 16, 16);
+		this.load.audio('openingMusic', 'assets/sound/opening.ogg');
+		game.load.tilemap('level3', 'assets/tilemaps/maps/cybernoid.json', null, Phaser.Tilemap.TILED_JSON);
+	},
+
+	create: function() {
+	
+	    //GAME.map = GAME.add.tilemap('level1');
+	    //GAME.map.addTilesetImage('tumblr_inline_mqzmkhxgZg1qz4rgp', 'gameTiles');
 
 	    // pg.remove(sprite, true);
 
@@ -26,159 +147,9 @@ GAME.addScene('Preloader', {
     	//right = player.animations.add('right', [1,2], 10, true);
     	//player.animations.add('up', [11,12,13], 10, true);
     	//player.animations.add('down', [4,5,6], 10, true);
-    	
-    	/**/
 
-    	let bar = new Phaser.Rectangle(0, 450, 800, 50);
-    	GAME.game.debug.geom(bar,'#0fffff');
-
-
-		
-
-		//GAME.TestATB.width = 300;
-		//GAME.TestATB.height = 30;
-
-		/*
-
-		GAME.TestATB = new RoundBar({
-			color: 0x585231,
-			scene: GAME,
-			x: 199,
-			y: 40
-		});
-
-		GAME.TestBar = new RoundBar({
-			fill: 0xfff00,
-			height: 8,
-			scene: GAME,
-			parent: GAME.TestATB.round
-		});
-
-		GAME.TestBar.x = 2;
-		GAME.TestBar.y = 2;
-		GAME.TestBar.width = 10;
-		GAME.TestBar.update();
-
-		/**/
-
-		
-		//GAME.TestATB.round.addChild(GAME.TestBar.round);
-
-		//GAME.TestBar.width = 5;
-		
-
-
-		
-		/**/
-
-		GAME.TestATB = new ATBDOM({
-			color: 0x585231,
-			fill: 0xfff00,
-			scene: GAME,
-			x: 200,
-			y: 40
-		});
-		
-
-		
-
-
-    },
-
-    update: () => {
-
-    	//GAME.TestBar.width++;
-    	//GAME.TestBar.width %= 160 - 2;
-    	GAME.TestATB.update();
-		
-
-    	//
-    	// 
-    	//button = game.add.button(32, 32, 'button', clickedIt, this, 2, 1, 0);
-    	//  game.load.tilemap('level3', 'assets/tilemaps/maps/cybernoid.json', null, Phaser.Tilemap.TILED_JSON);
-    },
-
-	render: () => {
-		
-	
+    	//let bar = new Phaser.Rectangle(0, 450, 800, 50);
+    	//GAME.game.debug.geom(bar,'#0fffff');
 	}
-});
-
-
-
-/*
-Theodoric.Preloader.prototype = {
-
-	preload: function () {
-
-		//	These are the assets we loaded in Boot.js
-		//	A nice sparkly background and a loading progress bar
-		this.splash = this.add.sprite(this.game.world.centerX, this.game.world.centerY, 'logo');
-		this.splash.anchor.setTo(0.5);
-
-		this.preloadBar = this.add.sprite(this.game.world.centerX, this.game.world.centerY + 128, 'preloaderBar');
-		this.preloadBar.anchor.setTo(0.5);
-
-		//	This sets the preloadBar sprite as a loader sprite.
-		//	What that does is automatically crop the sprite from 0 to full-width
-		//	as the files below are loaded in.
-		this.load.setPreloadSprite(this.preloadBar);
-
-		//	Here we load the rest of the assets our game needs.
-		this.load.image('playButton', 'assets/images/play.png');
-		this.load.image('flame', 'assets/images/flame.png');
-		this.load.image('sword', 'assets/images/sword.png');
-		this.load.image('levelParticle', 'assets/images/level-particle.png');
-		this.load.image('spellParticle', 'assets/images/spell-particle.png');
-
-		this.load.spritesheet('tiles', 'assets/images/tiles.png', 16, 16);
-		this.load.spritesheet('things', 'assets/images/things.png', 16, 16);
-		this.load.spritesheet('characters', 'assets/images/characters.png', 16, 16);
-		this.load.spritesheet('dead', 'assets/images/dead.png', 16, 16);
-		this.load.spritesheet('potions', 'assets/images/potions.png', 16, 16);
-		this.load.spritesheet('dragons', 'assets/images/dragons.png', 32, 32);
-		this.load.spritesheet('fireball', 'assets/images/fireball.png', 16, 16);
-		this.load.spritesheet('spell', 'assets/images/spell.png', 12, 12);
-
-		this.load.audio('openingMusic', 'assets/sound/opening.ogg');
-		this.load.audio('overworldMusic', 'assets/sound/overworld.ogg');
-		this.load.audio('attackSound', 'assets/sound/attack.wav');
-		this.load.audio('playerSound', 'assets/sound/player.wav');
-		this.load.audio('skeletonSound', 'assets/sound/skeleton.wav');
-		this.load.audio('slimeSound', 'assets/sound/slime.wav');
-		this.load.audio('batSound', 'assets/sound/bat.wav');
-		this.load.audio('ghostSound', 'assets/sound/ghost.wav');
-		this.load.audio('spiderSound', 'assets/sound/spider.wav');
-		this.load.audio('goldSound', 'assets/sound/gold.wav');
-		this.load.audio('potionSound', 'assets/sound/potion.ogg');
-		this.load.audio('levelSound', 'assets/sound/level.ogg');
-		this.load.audio('fireballSound', 'assets/sound/fireball.wav');
-		this.load.audio('dragonSound', 'assets/sound/dragon.wav');
-	},
-
-	create: function () {
-
-		//	Once the load has finished we disable the crop because we're going to sit in the update loop for a short while as the music decodes
-		this.preloadBar.cropEnabled = false;
-	},
-
-	update: function () {
-
-		//	You don't actually need to do this, but I find it gives a much smoother game experience.
-		//	Basically it will wait for our audio file to be decoded before proceeding to the MainMenu.
-		//	You can jump right into the menu if you want and still play the music, but you'll have a few
-		//	seconds of delay while the mp3 decodes - so if you need your music to be in-sync with your menu
-		//	it's best to wait for it to decode here first, then carry on.
-		
-		//	If you don't have any music in your game then put the game.state.start line into the create function and delete
-		//	the update function completely.
-		
-		if (this.cache.isSoundDecoded('openingMusic') && this.ready == false)
-			{
-		 	this.ready = true;
-		 	this.state.start('MainMenu');
-		}
-	}
-};
 
 /**/

@@ -75,8 +75,10 @@ GAME.addScene('Preloader', {
             x: 300,
             y: 350,
 
+            selectable: true,
+
             cullX: 1,
-            cullY: 1,
+            cullY: 2,
             items: [[MenuItem1], [MenuItem2]]
         };
 

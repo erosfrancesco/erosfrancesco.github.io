@@ -1,0 +1,34 @@
+<head>
+  	<title>ATB Battle Testing</title>
+</head>
+
+<body>
+	<script src='../phaser/phaser2.9.3.js'></script>
+	<script src='../phaser/colors.js'></script>
+    <script  src="../phaser/Game.js"></script>
+    <script  src="../phaser/Boot.js"></script>
+
+    <!-- Menu -->
+    <script  src="../menu/menuStyles.js"></script>
+    <script  src="../menu/MenuItem.js"></script>
+    <script  src="../menu/MenuBackground.js"></script>
+    <script  src="../menu/Menu.js"></script>
+    <script  src="../menu/ScrollableMenu.js"></script>
+    <!-- -->
+    
+    <script  src="menuRegistry.js"></script>
+
+    <!-- Battle -->
+    <script  src="phaserAnimator.js"></script>
+    <script  src="characterRegistry.js"></script>
+    <script  src="turnSystem.js"></script>
+    <script  src="player.js"></script>
+    <script  src="enemy.js"></script>
+    <script  src="stat.js"></script>
+    <script  src="battle.js"></script>
+    <!-- -->
+
+    <script>
+        GAME.playScene('Boot');
+    </script>
+</body>

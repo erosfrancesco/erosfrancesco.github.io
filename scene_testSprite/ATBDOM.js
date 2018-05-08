@@ -26,34 +26,27 @@ class RoundBar {
     	this.scene = scene;
     	this.width = width;
     	this.height = height;
-    	this.x = x;
-    	this.y = y;
     	this.fillColor   = fill;
     	this.strokeColor = color;
     	this.strokeWidth = line;
     	this.parent = parent;
+    	this.x = x;
+    	this.y = y;
 
-    	this.update();
+    	this._DOM = this.scene.add.graphics(this.x, this.y);
+    	if (this.parent) { this.parent.addChild(this._DOM); }
+
+    	this._update();
 	}
 
-	update() {
-		if (this.round) { this.round.destroy(); }
-		
-		this.round = this.scene.add.graphics(this.x, this.y);
+	_update() {
+		this._DOM.clear();
 
-    	if (this.fillColor) {
-    		this.round.beginFill(this.fillColor, 1);
-    	}
+    	if (this.fillColor) { this._DOM.beginFill(this.fillColor, 1); }
+    	if (this.strokeColor) { this._DOM.lineStyle(this.strokeWidth, this.strokeColor, 1); }
 
-    	if (this.strokeColor) {
-    		this.round.lineStyle(this.strokeWidth, this.strokeColor, 1);
-    	}
-    	this.round.drawRoundedRect(0, 0, this.width, this.height, this.radius);
-    	this.round.endFill();
-
-    	if (this.parent) {
-    		this.parent.addChild(this.round);
-    	}
+    	this._DOM.drawRoundedRect(this.x, this.y, this.width, this.height, this.radius);
+    	this._DOM.endFill();
 	}
 
 	get width() {
@@ -98,6 +91,13 @@ class RoundBar {
 			this.round.y = v;
 		}
 	}
+
+	get parent() {
+		return this._parent;
+	}
+	set parent(v) {
+		this._parent = v;
+	}
 }
 
 
@@ -120,11 +120,14 @@ class ATBDOM {
 		x = x || 0;
     	y = y || 0;
     	height = height || 12;
-    	width  = width  || 160;
+    	width  = width  || 180;
     	color  = color || false;
     	line   = line  || 4;
     	fill   = fill  || false;
     	parent = parent || false;
+
+    	this._sprite = scene.add.sprite(0, 0);
+    	if (parent) { parent.addChild(this._sprite); }
 
 		this.shell = new RoundBar({
 			x,
@@ -134,23 +137,42 @@ class ATBDOM {
 			color,
 			line,
 			scene,
-			parent
+			parent: this._sprite
 		});
-
+		
 		this.bar = new RoundBar({
-			x: 2,
-			y: 2,
+			x: 1 + x / 2,
+			y: 1 + y / 2,
 			height: height - 4,
-			width:  1,
+			width: 1,
 			fill,
 			scene,
-			parent: this.shell.round
+			parent: this.shell._DOM
 		});
+
+		this.parent = parent;
+		this.scene = scene;
+		this.percentage = 0;
 	}
 
-	update() {
-		this.bar.width++;
-    	this.bar.width %= this.shell.width - 2;
-    	this.bar.update();
-	}	
+	_update() {
+    	this.bar.width = (this.shell.width - 2) * this._percentage / 100;
+    	this.bar._update();
+	}
+
+	onDone() {
+		this.bar.fillColor = 0x40ea19;
+	}
+
+	set percentage(v) {
+		v %= 100;
+		this._percentage = v;
+		if (v === 99) { this.onDone(); }
+		this._update();
+	}
+	get percentage() {
+		return this._percentage;
+	}
 }
+
+/**/
