@@ -4,10 +4,14 @@ class Battle {
         options = options || {};
         let {Animator, Enemies, Players, Turn} = options;
 
-        this.Animator = Animator;
+        this.Animator = Animator || {};
         this.Enemies = Enemies;
         this.Players = Players;
         this.Turn = Turn;
+
+        this.forAllCharacters(character => {
+            character._atbMax = this.Turn.max;
+        });
     }
 
     forAllCharacters(f) {
@@ -25,13 +29,13 @@ class Battle {
         
         // check if there is a new player turn
         if ( !this.Players.current ) {
-            this.Players.current = this.Players.get( player => { return player.ready; }) || false;
+            this.Players.current = this.Players.getPlayer( player => { return player.ready; }) || false;
             console.log(this.Players.current.name); // test
         }
 
         // check if there is a new enemy turn
         if ( !this.Enemies.current ) {
-            this.Enemies.current = this.Enemies.get( enemy => { return enemy.ready; }) || false;
+            this.Enemies.current = this.Enemies.getPlayer( enemy => { return enemy.ready; }) || false;
         }
     }
 
@@ -65,7 +69,7 @@ class Battle {
 }
 
 
-
+/*
 // Boot scene
 GAME.addScene('Preloader', {
     preload: () => {
@@ -153,6 +157,7 @@ GAME.addScene('Preloader', {
             Turn
         });
 
+
     },
 
     update: () => {
@@ -163,3 +168,4 @@ GAME.addScene('Preloader', {
           
     }
 });
+/**/

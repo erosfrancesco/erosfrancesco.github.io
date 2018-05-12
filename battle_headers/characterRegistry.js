@@ -1,7 +1,7 @@
 class CharacterRegistry {
 
 	constructor(options) {
-		options = options;
+		options = options || {};
 
 		let {
 			characters, 
@@ -17,14 +17,17 @@ class CharacterRegistry {
 		this.setAddCallback(onAdd);
 		this.setRemoveCallback(onRemove);
 	}
+
+	get length() {
+		return this._playerList.length;
+	}
 	
 	add(player) {
-		this._playerList.add(player);
-		this._addCallback(player);
+		this._playerList.push(player);
+		this._addCallback(player, this);
 	}
 
 	forEach(f) {
-
 		this._playerList.forEach((obj, indx) => { f(obj, indx); });
 	}
 	
@@ -32,11 +35,11 @@ class CharacterRegistry {
 		let p = this._playerList.findIndex(filters);
 		if (p > -1) {
 			this._playerList.splice(p, 1);
-			this._removeCallback(filters);
+			this._removeCallback(filters, this);
 		}
 	}
 	
-	get(filters) {
+	getPlayer(filters) {
 		return this._playerList.find(filters);
 	}
 	

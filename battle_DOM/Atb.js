@@ -171,7 +171,7 @@ class ATBDOM {
 	set percentage(v) {
 		v %= 100;
 		this._percentage = v;
-		if (v === 99) { this.onDone(); }
+		if (v === 99) { this.onDone(); }else{ this.onLoad(); }
 		this._update();
 	}
 	get percentage() {

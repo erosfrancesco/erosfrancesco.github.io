@@ -46,9 +46,6 @@ GAME.addScene('Preloader', {
 	    //pg.animations.play('change', 10, true);
 	    //GAME.add.tween(pg).to({ x: 100 }, 1000, Phaser.Easing.Linear.None, true);
 
-
-
-
         // players
         let p1 = new Player({
             name: "SuperPippo",
@@ -60,9 +57,7 @@ GAME.addScene('Preloader', {
                 "str": 50,
                 "dex": 1,
                 "lvl": 5
-            },
-            sprite: pg1,
-            menuIndex: 0
+            }
         });
 
         let p2 = new Player({
@@ -75,10 +70,7 @@ GAME.addScene('Preloader', {
                 "str": 50,
                 "dex": 1,
                 "lvl": 5
-            },
-            //sprite: pg2,
-            //menuIndex: 1,
-            //atb: new PlayerMenu(p2)
+            }
         });
         /**/
 
