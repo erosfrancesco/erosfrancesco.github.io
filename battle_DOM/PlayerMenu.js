@@ -2,8 +2,6 @@ class PlayerMenu extends ScrollableMenu {
 	constructor(options) {
 		options = options || {};
 
-        console.log(options.menuIndex);
-
         let x = 620;
         let y = GAME.game.height * options.menuIndex / 4;
 

@@ -30,7 +30,7 @@ class Battle {
         // check if there is a new player turn
         if ( !this.Players.current ) {
             this.Players.current = this.Players.getPlayer( player => { return player.ready; }) || false;
-            console.log(this.Players.current.name); // test
+            //console.log(this.Players.current.name); // test
         }
 
         // check if there is a new enemy turn

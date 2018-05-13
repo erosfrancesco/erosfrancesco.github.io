@@ -169,9 +169,8 @@ class ATBDOM {
 	}
 
 	set percentage(v) {
-		v %= 100;
 		this._percentage = v;
-		if (v === 99) { this.onDone(); }else{ this.onLoad(); }
+		if (v > 99) { v = 99; this.onDone(); }else{ this.onLoad(); }
 		this._update();
 	}
 	get percentage() {
@@ -180,3 +179,52 @@ class ATBDOM {
 }
 
 /**/
+class ATBWrapper extends ATB {
+	constructor(options) {
+		options = options || {};
+		let {parameters, formula, max} = options;
+
+		formula = formula || function (character, options) {
+
+            let dex = character.getVelocity();
+            
+            if (character.type === 'Ally') {
+             	dex += options.ATBParam1;
+             	character.menuDOM.atb.percentage += dex;
+         	}else{
+         		character.atb.percentage += dex;
+         	}
+
+            return dex;
+        };
+
+        parameters = parameters || { ATBParam1: 10 };
+        max = max || 4096;
+
+		super({ formula, parameters, max });
+
+       
+	}
+
+	update(character) {
+        if ( character._atbCurrent < character._atbMax ) {
+            character._atbCurrent += this.formula(character, this.parameters);
+            
+            if (character.type === 'Ally') {
+                character.menuDOM.atb.percentage = (character._atbCurrent * 100 / character._atbMax);
+                character.menuDOM.atb._update();
+            }
+            
+            return Boolean( character._atbCurrent >= character._atbMax );
+        }
+        return false;
+    }
+
+	init(battle) {
+		// need to set some variables for each characters...
+        battle.forAllCharacters(character => {
+            character._atbMax = this.max;
+            character._atbCurrent = 0;
+        });
+	}
+}
