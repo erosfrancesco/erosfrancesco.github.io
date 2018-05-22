@@ -12,6 +12,7 @@ class ATBBattle extends Battle {
             onAdd: (character, registry) => {
                 character.menuIndex = registry.length - 1;
                 character.menuDOM = new PlayerMenu(character);
+                
             }
             // onRemove
         });
@@ -47,6 +48,14 @@ class ATBBattle extends Battle {
         this.Players = Players;
         this.Turn = Turn;
         this.Turn.init(this); 
+
+        this.Players.forEach(player => {
+            player.Commands = [ 
+                    new FightCommand({battle: this})
+                ];
+        })
+        //
+                
     }
 
     endPlayerTurn(player, callback) {
@@ -78,39 +87,38 @@ class ATBBattle extends Battle {
 
         // manage player menu input here
 
+        if (!this.currentMenu) {
+            this.currentMenu = new PlayerBattleMenu({
+                player: this.Players.current,
+                game: GAME,
+                battle: this
+            });
+            GAME.setInput(this.currentMenu.input);
+        }
+
+       
 
         // test
-        LoadPlayerAction(this, GAME);
+        //LoadPlayerAction(this, GAME);
         
     }
 }
 
-
+/*
 function LoadPlayerAction(battle, game) {
 
-        battle.Players.current.Action = {
-            executor: battle.Players.current,
-            targets: [{name: 'palmapalmapalma'}],
-            battle,
-            
-            resolve: function(callback) {
+    let target = battle.Players.getPlayer(p => { return p.menuIndex === 1 });
+    /*
+    battle.Players.current.Action = new TestActionObject({
+        executor: battle.Players.current,
+        targets:  [ target ],
+        battle
+    });
+    /**//*
 
-                ApplySpriteTint(this.executor.Sprite, 0xff00ff);
-
-                setTimeout(() => {
-                    ApplySpriteTint(this.executor.Sprite, 0xffffff);
-                    this.battle.endPlayerTurn(this.executor);
-                    callback();
-                }, 2000);
-            }
-        };
-
-        // load into animator
-        battle.Animator.add( battle.Players.current.Action );
+    // load into animator
+    battle.Animator.add( battle.Players.current.Action );
 }
 
 
-
-function ApplySpriteTint(sprite, color) {
-    sprite.tint = color;
-}
+/**/
