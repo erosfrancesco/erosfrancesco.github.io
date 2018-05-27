@@ -1,14 +1,12 @@
 class PlayerMenu extends ScrollableMenu {
-	constructor(options) {
-		options = options || {};
+	constructor(player) {
 
         let x = 620;
-        let y = GAME.game.height * options.menuIndex / 4;
+        let y = GAME.game.height * player.menuIndex / 4;
 
-		let item1 = new PlayerMenuName({text: options.name});
-		let item2 = new PlayerMenuName({text: options.getLife() + ' / ' + options.getMana() });
+		let item1 = new PlayerMenuName({text: player.name});
+		let item2 = new PlayerMenuName({text: player.life + ' / ' + player.mana });
         let item3 = new PlayerMenuName();
-        
 		
 		let MenuOptions = {
             scene: GAME.game,
@@ -38,6 +36,10 @@ class PlayerMenu extends ScrollableMenu {
         };
 
         this.atb = new ATBDOM(atbOptions);
+
+        this.update = () => {
+            this._items[1][0].text = player.life + ' / ' + player.mana;
+        }
 
 		this.input = {
             keyboard: {
@@ -71,4 +73,6 @@ class PlayerMenuName extends MenuItem {
 
 		super(ItemOptions);
 	}
+
+
 }

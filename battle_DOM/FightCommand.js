@@ -12,13 +12,17 @@ class FightCommand {
 
             let target = battle.Players.getPlayer(p => { return p.menuIndex === 1 });
 
+            // build action
             player.Action = new TestActionObject({
                 executor: player,
                 targets:  [ target ],
                 battle
             });
 
+            // add action to the animator (action stack)
             battle.Animator.add( player.Action );
+            // reset battle.UI
+            battle.UI.Menus.reset();
 
         };
 
@@ -47,6 +51,10 @@ class TestActionObject {
 
                 this.targets.forEach(target => {
                     ApplySpriteTint(target.Sprite, 0x00ff00);
+                    // do some damage
+                    target.damage = 40;
+                    // display changes
+                    target.menuDOM.update();
                 });
 
                 setTimeout(() => {

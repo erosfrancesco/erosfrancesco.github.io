@@ -51,10 +51,13 @@ class ATBBattle extends Battle {
 
         this.Players.forEach(player => {
             player.Commands = [ 
-                    new FightCommand({battle: this})
-                ];
-        })
+                new FightCommand({battle: this})
+            ];
+        });
         //
+
+        this.UI = new BattleUI({players: this.Players, battle: this, game: GAME.game});
+        console.log(this.UI);
                 
     }
 
@@ -84,41 +87,11 @@ class ATBBattle extends Battle {
         if (!this.Players.current) { return; }
         if (this.Players.current.Action) { return; }
 
+        // manage player menu and input
+		if (!this.UI.Menus.length) {
+			this.UI.setPlayerStartMenu({player: this.Players.current, battle: this});
+		}
 
-        // manage player menu input here
-
-        if (!this.currentMenu) {
-            this.currentMenu = new PlayerBattleMenu({
-                player: this.Players.current,
-                game: GAME,
-                battle: this
-            });
-            GAME.setInput(this.currentMenu.input);
-        }
-
-       
-
-        // test
-        //LoadPlayerAction(this, GAME);
-        
     }
 }
 
-/*
-function LoadPlayerAction(battle, game) {
-
-    let target = battle.Players.getPlayer(p => { return p.menuIndex === 1 });
-    /*
-    battle.Players.current.Action = new TestActionObject({
-        executor: battle.Players.current,
-        targets:  [ target ],
-        battle
-    });
-    /**//*
-
-    // load into animator
-    battle.Animator.add( battle.Players.current.Action );
-}
-
-
-/**/
