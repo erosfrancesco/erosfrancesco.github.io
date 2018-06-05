@@ -100,4 +100,8 @@ class ScrollableMenu extends Menu {
 		super.right();
 		this.itemIterator((item, colI, rowI) => this.updateItem(item, colI, rowI) );
 	}
+
+    destroy() {
+        this._background.destroy();
+    }
 }

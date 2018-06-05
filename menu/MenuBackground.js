@@ -56,4 +56,8 @@ class MenuBackground {
     set height(v) {
         this._height = v;
     }
+
+    destroy() {
+        this._sprite.destroy();
+    }
 }

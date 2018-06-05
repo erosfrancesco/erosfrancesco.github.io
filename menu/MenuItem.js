@@ -1,7 +1,5 @@
 _TextStylingDefault = (that) => {
 
-    // var test = game.add.sprite(200, 200, 'mushroom')
-
     that._DOM = that.scene.add.text(0, 0, that.text, { 
         // font
         font: 'Arial Black',
@@ -20,12 +18,19 @@ _TextStylingDefault = (that) => {
         stroke: '#222222',
         strokeThickness: 6
     });
-    that._DOM.setTextBounds(that.x, that.y, that.width, that.height);
+    that._Text = that._DOM.setTextBounds(that.x, that.y, that.width, that.height);
 
     that.selected    = () => { that._DOM.fill = "#EACA2F"; };
     that.notSelected = () => { that._DOM.fill = "#D2D2D2"; };
 
     that._sprite.addChild(that._DOM);
+
+    that.updateText = (txt) => {
+        that._Text.text = txt;
+        that._Text.update();
+    }
+
+    
 
     //that._DOM.onTap = () => { that.notSelected(); }
     
@@ -69,6 +74,19 @@ class MenuItem {
         this.style = style;
         this.onSelect = onSelect;
         this._sprite = this.scene.add.sprite(0, 0);
+    }
+
+    get text() {
+        return this._text;
+    }
+    set text(v) {
+        this._text = v;
+        
+        if (this._Text) {
+            this._Text.text = this._text;
+            this._Text.update();
+        }
+        
     }
 
     get style() {
