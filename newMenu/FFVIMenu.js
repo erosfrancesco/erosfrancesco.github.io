@@ -10,9 +10,6 @@ class FFVIMenu extends Menu {
 		} = options;
 
 		super({ items, cullX, cullY });
-		
-
-		let graphics = scene.add.graphics();
 
 		this.background = new FFVIMenuBackground({
             scene, 
@@ -20,14 +17,28 @@ class FFVIMenu extends Menu {
             width, height
         });
 
+        this.scene = scene;
+
 		this.wrapper = scene.add.container(x, y);
 		this.itemIterator((t, colIndex, rowIndex) => {
 
-			this.computeItemSize(t);
+			this.computeItemSize(t, colIndex, rowIndex);
 			this.computeItemPosition(t, colIndex, rowIndex);
-			this.computeItemVisibility(t);
+			this.computeItemVisibility(t, colIndex, rowIndex);
 			this.wrapper.add(t.sprite);
 
+			/*
+			t.on('pointerover', pointer => t.sprite.selected() );
+            t.on('pointerout',  pointer => t.sprite.notSelected() );
+            t.on('pointerdown', pointer => this.right() );
+            /**/
+
+            t.on('touchstart', pointer => this.down() );
+            t.on('touchmove', pointer => this.left() );
+            //t.on('pointermove', pointer => this.down() );
+            /**/
+
+        
 		});
 
 	}
@@ -43,7 +54,12 @@ class FFVIMenu extends Menu {
 
 	computeItemVisibility(t) {
 
-		if (t.x <= -this.width) {
+		if (t.x >= this.width) {
+			t.visible = false;
+			return;
+		}
+
+		if (t.x < 0) {
 			t.visible = false;
 			return;
 		}
@@ -65,12 +81,8 @@ class FFVIMenu extends Menu {
 		t.x = t.width * ix;
 		t.y = t.height * iy;
 
-			/*
-			t.on('pointerover', (evnt) => t.sprite.selected() );
-            t.on('pointerout', (evnt) => t.sprite.notSelected() );
-            t.on('pointerdown', pointer =>  console.log('selected') );
-
-
+            /*
+            let graphics = this.scene.add.graphics();
 			let b = t.sprite.getBounds();
 			graphics.lineStyle(1, 0xff0000);
             graphics.strokeRectShape(b);
@@ -79,14 +91,14 @@ class FFVIMenu extends Menu {
 	}
 
 	computeItemSize(t) {
-		t.width = width / this.cullX;
-		t.height = height / this.cullY;
+		t.width = this.width / this.cullX;
+		t.height = this.height / this.cullY;
 	}
 
 
 	updateItems() {
 		this.itemIterator((t, colIndex, rowIndex) => {
-			this.computeItemPosition(t, colIndex + this.X, rowIndex - this.Y);
+			this.computeItemPosition(t, colIndex - this.X, rowIndex - this.Y);
 			this.computeItemVisibility(t);
 		});
 	}

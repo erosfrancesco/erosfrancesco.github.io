@@ -75,16 +75,30 @@
                     width: 100, height: 50
                 });
 
+                this.button3 = new FFVIText({
+                    scene: this, 
+                    text: 'Option3', 
+                    x: 0, y: 0, 
+                    width: 100, height: 50
+                });
+
+                this.button4 = new FFVIText({
+                    scene: this, 
+                    text: 'Option4', 
+                    x: 0, y: 0, 
+                    width: 100, height: 50
+                });
+
 
                 this.menu = new FFVIMenu({
                     scene: this,
                     x: 300,
                     y: 300,
                     width: 200,
-                    height: 100,
+                    height: 200,
                     cullX: 1,
                     cullY: 1,
-                    items: [[this.button, this.button2]]
+                    items: [[this.button, this.button2], [this.button3, this.button4]]
                 });
 
                 //this.menu.down();
