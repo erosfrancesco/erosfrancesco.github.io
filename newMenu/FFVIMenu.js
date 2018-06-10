@@ -27,13 +27,13 @@ class FFVIMenu extends Menu {
 			this.computeItemVisibility(t, colIndex, rowIndex);
 			this.wrapper.add(t.sprite);
 
-			/*
+			
 			t.on('pointerover', pointer => t.sprite.selected() );
             t.on('pointerout',  pointer => t.sprite.notSelected() );
             t.on('pointerdown', pointer => this.right() );
             /**/
 
-            t.on('touchstart', pointer => this.down() );
+            t.on('touchstart', pointer => t.sprite.selected() );
             t.on('touchmove', pointer => this.left() );
             //t.on('pointermove', pointer => this.down() );
             /**/
