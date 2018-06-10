@@ -28,6 +28,7 @@
     <script src="../newMenu/Menu.js"></script>
     <script src="../newMenu/Background.js"></script>
     <script src="../newMenu/menuStyles.js"></script>
+    <script src="../newMenu/FFVIMenu.js"></script>
 
 
 
@@ -50,26 +51,18 @@
 
                 let TerraSpriteConfig = {
                     key: 'FFVICast',
-                    //originX: -0.5,
-                    //originY: 0.5,
                     x: 0, y: 0
                 };
 
                 this.terra = this.make.sprite(TerraSpriteConfig);
-                
-                this.background = new FFVIMenuBackground({
-                    scene: this, 
-                    x: 200, y: 50, 
-                    width: 90, height: 100
-                });
-
+                this.terra.setOrigin(0.5);
                 
 
                 this.button = new FFVIText({
                     scene: this, 
-                    text: 'Pointererereeeer', 
-                    x: 0, y: -50, 
-                    width: 100, height: 50
+                    text: 'Option1', 
+                    x: 0, y: 0, 
+                    width: 250, height: 50
                 });
                 
                 
@@ -77,35 +70,30 @@
 
                 this.button2 = new FFVIText({
                     scene: this, 
-                    text: 'ee', 
+                    text: 'Option2', 
                     x: 0, y: 0, 
                     width: 100, height: 50
                 });
-                
-                console.log(this.button.sprite);
 
 
+                this.menu = new FFVIMenu({
+                    scene: this,
+                    x: 300,
+                    y: 300,
+                    width: 200,
+                    height: 100,
+                    cullX: 1,
+                    cullY: 1,
+                    items: [[this.button, this.button2]]
+                });
 
-
-                this.area = this.add.container(200, 200, [ this.background, this.button.sprite, this.button2.sprite]);
-
-                this.button2.on('pointerover', (evnt) => this.button2.sprite.selected() );
-                this.button2.on('pointerout', (evnt) => this.button2.sprite.notSelected() );
-
-                this.button.on('pointerover', (evnt) => this.button.sprite.selected() );
-                this.button.on('pointerout', (evnt) => this.button.sprite.notSelected() );
-
-                //this.background.sprite.setInteractive();
-                
-
+                //this.menu.down();
+                //this.menu.up();
               
             }
 
             update() {
-                //this.area.update();
-                //this.button.sprite.update();
-                //this.button2.sprite.update();
-                //this.background.sprite.update();
+                
             }
         }
 

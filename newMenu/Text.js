@@ -11,12 +11,15 @@ class _PhaserText {
         
         this.scene = scene;
         this.sprite = styling(scene);
+        this.sprite.setOrigin(0.5 , 0.5);
         this.text = text;
 
         this.height = height;
         this.width = width;
         this.x = x;
         this.y = y;
+
+        //
 
         this.sprite.setInteractive();
 
@@ -105,7 +108,7 @@ _TextStylingBlueGradient = (scene) => {
     grd.addColorStop(1, '#004CB3');
     o.setColor(grd);
 
-    o.advancedWordWrap( o.text, o.context, 300 );
+    //o.advancedWordWrap( o.text, o.context, 300 );
 
     o.selected    = () => { o.setColor("#EACA2F"); };
     o.notSelected = () => { o.setColor("#D2D2D2"); };
@@ -118,17 +121,14 @@ _TextStylingFFVI = (scene, callback) => {
     
     let o = scene.add.text(0, 0, "")
     .setStyle({ 
-        //align: 'center' 
-        //boundsAlignH: "left", 
-        //boundsAlignV: "top", 
-        //wordWrap: true, 
-        //wordWrapWidth: 300
     })
     .setFontFamily('Arial')
     .setFontSize(32)
     .setFontStyle('bold')
     .setShadow(1, 2, "#333333", 2)
     .setColor('#D2D2D2');
+
+    //o.setOrigin(0.5, 0);
 
     o.selected    = () => { o.setColor("#EACA2F"); };
     o.notSelected = () => { o.setColor("#D2D2D2"); };

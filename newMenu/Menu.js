@@ -31,41 +31,44 @@ class Menu {
 	// getters and setters
 	/***************************************************************************/
 
-	get items() { 
-		return this._items; 
-	}
+	get items() { return this._items; }
+	set items(v) { this._items = v; }
 
-	set items(v) { 
-		this._items = v;
-	}
+	get cullY() { return this._cullY; }
+	set cullY(v) { this._cullY = v; }
+
+	get cullX() { return this._cullX; }
+	set cullX(v) { this._cullX = v; }
 
 
 	// methods
 	/***************************************************************************/
 
 	up() {
-		if (this.X) {
-			this.X--;
-		}
-	}	
-
-	down() {
-		if (this.X < this.items.length - 1) {
-			this.X++;
-		}
-	}
-
-	left() {
 		if (this.Y) {
 			this.Y--;
 		}		
 	}
 
-	right() {
+	down() {
 		if (this.Y < this.items[0].length - 1) {
 			this.Y++;
 		}
 	}
+
+	left() {
+		if (this.X) {
+			this.X--;
+		}
+	}	
+
+	right() {
+		if (this.X < this.items.length - 1) {
+			this.X++;
+		}
+	}
+
+	
 
 	itemIterator(iteratee) {
 		this.items.forEach( (row, colIndex) => 
