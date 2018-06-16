@@ -1,0 +1,118 @@
+<head>
+  	<title> Engine Headers </title>
+</head>
+
+<body>
+
+    <style>
+    
+        #parent {
+            display: table;
+            margin: auto auto;
+        }
+
+        body {
+            margin: 0;
+            overflow: hidden;
+            background-color: black;
+        }
+  
+    </style>
+
+    <div id="parent"></div>
+
+    <script src='../engine/phaser.min.js'></script>
+	<script src='../engine/colors.js'></script>
+
+    <script src="../newMenu/Text.js"></script>
+    <script src="../newMenu/Menu.js"></script>
+    <script src="../newMenu/Background.js"></script>
+    <script src="../newMenu/menuStyles.js"></script>
+    <script src="../newMenu/FFVIMenu.js"></script>
+
+    <script src="../scene_ATB/Atb.js"></script>
+
+
+
+    <script>
+
+
+        class PreloadScene extends Phaser.Scene {
+
+            constructor (config) {
+                super(config);
+                console.log('Preload scene built.');
+            }
+
+            preload () {
+            }
+
+            create () {
+                
+
+
+                this.menu = new FFVIMenu({
+                    scene: this,
+                    x: 200,
+                    y: 200,
+                    width: 300,
+                    height: 150,
+                    cullX: 1,
+                    cullY: 1,
+                    items: [[]]
+                });
+
+                this.a = new ATBLoadingBar({
+                    x: 100,
+                    y: 250,
+                    width: 100,
+                    scene: this
+                });
+
+                this.v = new ATBLoadingBar({
+                    x: 100,
+                    y: 150,
+                    width: 100,
+                    scene: this
+                });
+
+
+
+                // should tween
+
+                this.a.addListener('done', e => console.log('super'));
+
+                this.v.addListener('done', e => console.log('duper'));
+
+              
+            }
+
+            update() {
+                if ( this.a.percentage < 100 ) {
+                    this.a.percentage += 1;
+                    this.v.percentage += 1;
+                }
+                
+            }
+        }
+
+        
+    </script>
+
+    <script>
+
+        let width = 900;
+        let height = 500;
+
+        let GAME = new Phaser.Game({
+            width,
+            height,
+            pixelArt: true,
+            parent: 'parent',
+            background: '#00ff00'
+        });
+
+        GAME.scene.add('Preload', PreloadScene, true);
+
+    </script>
+</body>
