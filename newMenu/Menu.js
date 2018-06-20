@@ -7,12 +7,15 @@ class Menu {
 			cullX, cullY
 		} = options;
 
+		let a = items.length + 1;
+		let b = items[0].length + 1;
+
 		// options sanitization
 		items = items || [[]];
 		cullX = cullX || 1;
 		cullY = cullY || 1;
-		cullY = (cullY > items.length)    ? items.length    : cullY;
-		cullX = (cullX > items[0].length) ? items[0].length : cullX;
+		cullY = (cullY > a) ? a : cullY;
+		cullX = (cullX > b) ? b : cullX;
 
 		// properties
 		/***********************************************************************/

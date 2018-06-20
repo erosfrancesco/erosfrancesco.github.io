@@ -1,5 +1,6 @@
 // game settings
 setGameSettings = (GameObj) => {
+    /*
 
     // remove scrollbars
     document.body.style.overflow = 'hidden';
@@ -18,6 +19,7 @@ setGameSettings = (GameObj) => {
         GameObj.scale.setMinMax(480, 260, 1024, 768);
         GameObj.scale.forceLandscape = true;
     }
+    /**/
 }
 
 
@@ -37,6 +39,7 @@ GAME.addScene('Boot', {
 // Boot scene
 GAME.addScene('Preloader', {
     preload: () => {
+        console.log('Ok');
         // set physic engine
         GAME.game.physics.startSystem(Phaser.Physics.ARCADE);
 

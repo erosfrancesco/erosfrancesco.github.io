@@ -4,21 +4,22 @@ class ATBBattle extends Battle {
         
         let {
             players,
-            enemies
+            enemies, 
+            scene
         } = options;
 
         // player registry
         let Players = new CharacterRegistry({
             character: players,
-            onAdd: (character, registry) => {
-                character.menuIndex = registry.length - 1;
-                //character.menuDOM = new PlayerMenu(character);
-                
+            onAdd: (player, registry) => {
+                player.menuIndex = registry.length - 1;
+                player.menuDOM = new PlayerMenu({ scene, player });
+                console.log(player.menuDOM);
+                setInterval(() => {player.menuDOM.atb.update(player); console.log(player.name); }, 20);
             }
-            // onRemove
         });
 
-        //players.forEach(player => Players.add(player) );
+        /*
 
         ///////////////////////////////////////////////////////////
         

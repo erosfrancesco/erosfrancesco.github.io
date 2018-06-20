@@ -25,11 +25,22 @@
 	<script src='../engine/colors.js'></script>
 
     <script src="../newMenu/Text.js"></script>
+    <script src="../newMenu/Atb.js"></script>
     <script src="../newMenu/Menu.js"></script>
     <script src="../newMenu/Background.js"></script>
     <script src="../newMenu/menuStyles.js"></script>
     <script src="../newMenu/FFVIMenu.js"></script>
 
+
+    <!-- Battle -->
+    <script src="../battle_headers/actionRegistry.js"></script>
+    <script src="../battle_headers/characterRegistry.js"></script>
+    <script src="../battle_headers/turnSystem.js"></script>
+    <script src="../battle_headers/player.js"></script>
+    <script src="../battle_headers/enemy.js"></script>
+    <script src="../battle_headers/stat.js"></script>
+    <script src="../battle_headers/battle.js"></script>
+    <!-- -->
 
 
     <script>
@@ -101,13 +112,23 @@
                     items: [[this.button, this.button2], [this.button3, this.button4]]
                 });
 
-                //this.menu.down();
-                //this.menu.up();
+                this.a = new ATBLoadingBar({
+                    x: 100,
+                    y: 250,
+                    scene: this
+                });
+
+                // should tween
+
+                this.a.addListener('done', e => console.log('ere, e', e));
+                this.a.percentage = 100;
+
               
             }
 
             update() {
-                
+                //this.a.percentage += 1;
+                //this.a.percentage %= 100;
             }
         }
 

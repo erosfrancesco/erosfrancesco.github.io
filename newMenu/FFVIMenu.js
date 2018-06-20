@@ -27,18 +27,15 @@ class FFVIMenu extends Menu {
 			this.computeItemVisibility(t, colIndex, rowIndex);
 			this.wrapper.add(t.sprite);
 
-			
+			/*
 			t.on('pointerover', pointer => t.sprite.selected() );
             t.on('pointerout',  pointer => t.sprite.notSelected() );
             t.on('pointerdown', pointer => this.right() );
-            /**/
 
-            t.on('touchstart', pointer => t.sprite.selected() );
+            t.on('touchstart', pointer => this.down() );
             t.on('touchmove', pointer => this.left() );
-            //t.on('pointermove', pointer => this.down() );
+            t.on('pointermove', pointer => this.down() );
             /**/
-
-        
 		});
 
 	}
@@ -53,6 +50,8 @@ class FFVIMenu extends Menu {
 
 
 	computeItemVisibility(t) {
+
+		console.log(t);
 
 		if (t.x >= this.width) {
 			t.visible = false;
@@ -80,14 +79,6 @@ class FFVIMenu extends Menu {
 	computeItemPosition(t, ix, iy) {
 		t.x = t.width * ix;
 		t.y = t.height * iy;
-
-            /*
-            let graphics = this.scene.add.graphics();
-			let b = t.sprite.getBounds();
-			graphics.lineStyle(1, 0xff0000);
-            graphics.strokeRectShape(b);
-            /**/
-
 	}
 
 	computeItemSize(t) {

@@ -88,6 +88,7 @@ class ATBLoadingBar extends Phaser.Events.EventEmitter {
 }
 
 
+
 class ATBBar {
 	constructor(options) {
 		let {
@@ -196,6 +197,10 @@ class ATBBar {
 }
 
 
+
+
+
+
 class RoundedRectStroke {
 	constructor(options) {
 
@@ -224,6 +229,8 @@ class RoundedRectStroke {
 	}
 
 }
+
+
 
 
 class RoundedRectFill {
@@ -289,64 +296,3 @@ class RoundedRectFill {
 	}
 }
 
-
-
-/**/
-class ATBPlayerBridge extends ATBTurnSystemCore {
-	constructor(options) {
-
-		options = options || {};
-		
-		let {
-			parameters, formula, max, 
-			x, y,
-			scene,
-			width
-		} = options;
-        
-		super({});
-
-		this.bar = new ATBLoadingBar({
-			x, y,
-			scene,
-			width
-		});
-
-		parameters = parameters || { ATBParam1: 10 };
-        max = max || 4096;
-		formula = formula || function (character, options) {
-
-            let dex = character.getVelocity();
-            let {ATBParam1} = options;
-            
-            if (character.type === 'Ally') { dex += ATBParam1; }
-
-            return dex;
-        };
-
-        this.parameters = parameters;
-        this.max = max;
-        this.formula = formula;
-
-	}
-
-	update(character) {
-		
-		let { _atbCurrent, _atbMax, type } = character;
-        
-        if ( _atbCurrent < _atbMax ) {
-
-            character._atbCurrent += this.formula(character, this.parameters);
-            
-            if (type === 'Ally') { this.bar.percentage = (_atbCurrent * 100 / _atbMax); }
-            
-            return Boolean( _atbCurrent >= _atbMax );
-        }
-        return false;
-    }
-
-	init(character) {
-        character._atbMax = this.max;
-        character._atbCurrent = 0;
-	}
-}

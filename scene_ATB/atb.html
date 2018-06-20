@@ -91,9 +91,7 @@
                 });
 
                 p1.MenuShow = new PlayerMenu({scene: this, player: p1});
-
-                //p1.MenuShow.down();
-                //p1.MenuShow.up();
+                setInterval( () => { p1.MenuShow.atb.update(p1); }, 30 );
 
               
             }

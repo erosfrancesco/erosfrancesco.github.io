@@ -22,56 +22,38 @@
 
     <script>
 
-        _TextStylingDefault = (that) => {
-            
-            /*
-            var config1 = {
-                x: 100,
-                y: 100,
-                text: 'Text\nGame Object\nCreated from config',
-                style: {
-                    // font
-                    fontSize: '32px',
-                    fontWeight: 'bold',
-
-                    // align
-                    boundsAlignH: 'center',
-                    boundsAlignV: 'middle',
-                    align: 'center',
-
-                    // fill
-                    fill: '#00D2D2',
-
-                    // border
-                    stroke: '#222222',
-                    strokeThickness: 6
-                }
-            };
-            /**/
-
-            that.text = that.scene.add.text(0, 0, "- phaser gradient text -")// function (x, y, color, blur, shadowStroke, shadowFill)
+        _TextStylingGradient = (that) => {
+            that._text = that.scene.add.text(0, 0, "- phaser gradient text -")
             .setStyle({ align: 'center' })
             .setFontFamily('Arial')
             .setFontSize(32)
             .setFontStyle('bold')
-            .setColor('#ffff00');
-
-            that.text.setShadow(1, 2, "#333333", 2);
-
-            console.log(that.text);
-
+            .setShadow(1, 2, "#333333", 2);
 
             //  Here we create a linear gradient on the Text context.
             //  This uses the exact same method of creating a gradient as you do on a normal Canvas context.
-            let grd = that.text.context.createLinearGradient(0, 0, 0, that.text.height);
+            let grd = that._text.context.createLinearGradient(0, 0, 0, that._text.height);
             grd.addColorStop(0, '#8ED6FF');   
             grd.addColorStop(1, '#004CB3');
+            that._text.setColor(grd);
 
-            that.text.setColor(grd);
-            that.text.setText('Hello world dynamic');
+            that.selected    = () => { that._text.setColor("#EACA2F"); };
+            that.notSelected = () => { that._text.setColor("#D2D2D2"); };
+        };
 
-            that.selected    = () => { that.text.setColor("#EACA2F"); };
-            that.notSelected = () => { that.text.setColor("#D2D2D2"); };
+
+        _TextStylingDefault = (that) => {
+            
+            that._text = that.scene.add.text(0, 0, "- phaser gradient text -")
+            .setStyle({ align: 'center' })
+            .setFontFamily('Arial')
+            .setFontSize(32)
+            .setFontStyle('bold')
+            .setShadow(1, 2, "#333333", 2)
+            .setColor('#D2D2D2');
+
+            that.selected    = () => { that._text.setColor("#EACA2F"); };
+            that.notSelected = () => { that._text.setColor("#D2D2D2"); };
         }
 
 

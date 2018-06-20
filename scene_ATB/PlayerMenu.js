@@ -3,31 +3,28 @@ class PlayerMenu {
 
         let {scene, player} = options;
 
-        let item1 = new FFVIText({scene, text: player.name});
-        let item2 = new FFVIText({scene, text: 'heo'});
-
         let x = 500;
         let y = 300;
+
+        let width = 200;
+        let height = 200;
+
+        
+        this.item1 = new FFVIText({scene, width, height: 50, x: 0, y: 0, text: player.name});
 
         this.background = new FFVIMenuBackground({
             scene, 
             x, y, 
-            width: 200, height: 200
+            width, height
         });
 
-        this.atb = new ATBPlayerBridge({});
-        console.log(this.atb);
+        this.atb = new ATBPlayerBridge({scene, x: x - 80, y: y - 50, width: 160});
+        this.atb.init(player);
 
         this.wrapper = scene.add.container(x, y);
-
-
-        this.wrapper.add(item1.sprite);
-        this.wrapper.add(item2.sprite);
-        //this.wrapper.add(this.atb.sprite);
-
-        //this.itemIterator((t, colIndex, rowIndex) => {
-            
-        //});
+        this.wrapper.add(this.item1.sprite);
+        
+        this.atb.bar.on('done', e => console.log('helo'));
 
         /*
         super({
@@ -90,5 +87,3 @@ class PlayerMenu {
 	}
 
 }
-
-

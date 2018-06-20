@@ -179,7 +179,7 @@ class ATBDOM {
 }
 
 /**/
-class ATBWrapper extends ATB {
+class ATBPlayerBridge extends ATBTurnSystemCore {
 	constructor(options) {
 		options = options || {};
 		let {parameters, formula, max} = options;

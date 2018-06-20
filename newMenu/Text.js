@@ -11,7 +11,7 @@ class _PhaserText {
         
         this.scene = scene;
         this.sprite = styling(scene);
-        this.sprite.setOrigin(0.5 , 0.5);
+        this.sprite.setOrigin(0.5 , 1);
         this.text = text;
 
         this.height = height;

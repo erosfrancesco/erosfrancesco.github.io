@@ -1,6 +1,9 @@
-class CharacterRegistry {
+class CharacterRegistry extends Phaser.Events.EventEmitter {
 
 	constructor(options) {
+
+		super();
+
 		options = options || {};
 
 		let {
@@ -13,9 +16,12 @@ class CharacterRegistry {
 		onAdd = onAdd || function(p) {};
 		onRemove = onRemove || function(p) {};
 
-		this._playerList = characters;
 		this.setAddCallback(onAdd);
 		this.setRemoveCallback(onRemove);
+
+		this._playerList = [];
+		characters.forEach(p => this.add(p) );
+		//this._playerList = characters;
 	}
 
 	get length() {
@@ -24,6 +30,7 @@ class CharacterRegistry {
 	
 	add(player) {
 		this._playerList.push(player);
+		this.emit('adding', {});
 		this._addCallback(player, this);
 	}
 
@@ -35,6 +42,7 @@ class CharacterRegistry {
 		let p = this._playerList.findIndex(filters);
 		if (p > -1) {
 			this._playerList.splice(p, 1);
+			//this.emit('remove', {filters});
 			this._removeCallback(filters, this);
 		}
 	}
@@ -42,6 +50,9 @@ class CharacterRegistry {
 	getPlayer(filters) {
 		return this._playerList.find(filters);
 	}
+
+	//on(evnt, callback) { this.addListener(event, callback); }
+	
 	
 	setRemoveCallback(f) {
 		this._removeCallback = f;
@@ -50,4 +61,5 @@ class CharacterRegistry {
 	setAddCallback(f) {
 		this._addCallback = f;
 	}
+	/**/
 }
