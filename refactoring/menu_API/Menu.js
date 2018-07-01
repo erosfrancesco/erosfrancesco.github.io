@@ -40,6 +40,10 @@ class Menu {
 	get cullX() { return this._cullX; }
 	set cullX(v) { this._cullX = v; }
 
+	get currentItem() {
+		return this._items[this.Y][this.X];
+	}
+
 
 	// methods
 	/***************************************************************************/
