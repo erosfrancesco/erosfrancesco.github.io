@@ -114,4 +114,9 @@ class FFVIMenu extends Menu {
 		super.right();
 		this.updateItems();
 	}
+
+	destroy() {
+		this.background.destroy();
+        this.wrapper.destroy();
+    }
 }

@@ -89,7 +89,7 @@
                 });
 
                 this.p2 = new Player({
-                    ommands: {},
+                    commands: {},
                     name: 'Flash',
                     stats: {
                         "str": 30,
@@ -119,15 +119,36 @@
 
             update() {
                 this.ATBBattle.update();
-                if (this.cursors.up.isDown) console.log('hallo');
+
+                if (this.cursors.up.isDown) { 
+                    let currentMenu = this.ATBBattle.UI.UIMenus.current;
+                    if (currentMenu) currentMenu.up();
+                }
+
+                if (this.cursors.down.isDown) { 
+                    let currentMenu = this.ATBBattle.UI.UIMenus.current;
+                    if (currentMenu) currentMenu.down();
+                }
+
+                if (this.cursors.left.isDown) { 
+                    let currentMenu = this.ATBBattle.UI.UIMenus.current;
+                    if (currentMenu) currentMenu.left();
+                }
+
+                if (this.cursors.right.isDown) { 
+                    let currentMenu = this.ATBBattle.UI.UIMenus.current;
+                    if (currentMenu) currentMenu.right();
+                }
+
 
                 if (this.keyZ.isDown) {
                     
                     let currentMenu = this.ATBBattle.UI.UIMenus.current;
 
                     if (!currentMenu) return;
-                    console.log('Selected', currentMenu.currentItem, currentMenu.currentItem.onSelect()); 
-                    // onSelect
+
+                    currentMenu.currentItem.onSelect();
+                    this.ATBBattle.endPlayerTurn(this.ATBBattle.Players.current, player => console.log('end turn for: ', player.name));
                 }
 
                 if (this.keyX.isDown) console.log('hallo');

@@ -33,6 +33,8 @@ class Battle {
         if ( !this.Enemies.current ) {
             this.Enemies.current = this.Enemies.find( enemy => { return enemy.ready; }) || false;
         }
+
+        // input update
     }
 
     get Animator() {

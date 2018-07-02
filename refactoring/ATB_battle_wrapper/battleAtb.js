@@ -20,9 +20,6 @@ class _ATBPlayersTurnWrapper {
             }
         });
         
-
-        
-        this.Players.forEach(player => console.log(player));
         this.Players.forEach(player => player.StatusMenu.atb.bar.on('done', e => { onBarLoaded(e, player, this.Players); }) );
     }
 
@@ -106,7 +103,8 @@ class ATBBattle extends Battle {
 
         this.Players.forEach(player => {
             player.Commands = [ 
-                new FightCommand({battle: this})
+                new FightCommand({battle: this}),
+                new ItemsCommand({battle: this})
             ];
         });
 
@@ -116,7 +114,7 @@ class ATBBattle extends Battle {
 
     endPlayerTurn(player, callback) {
 
-        // remove menus too...
+        this.UI.UIMenus.reset();
 
         player.ready = false;
         player.Action = false;
@@ -147,21 +145,10 @@ class ATBBattle extends Battle {
         //console.log(this.Players.current.name);
         if (this.Players.current.Action) { return; }
         
-        /**/
-        // manage player menu and input
+        // menu
 		if (!this.UI.UIMenus.length) {
 			this.UI.setPlayerStartMenu({player: this.Players.current, battle: this, scene: this.scene});
-            
-            
-            setTimeout(() => {
-                // set action
-                console.log('building action');
-                this.UI.UIMenus.current.items[0][0].onSelect();
-                this.endPlayerTurn(this.Players.current, player => console.log('end turn for: ', player.name));
-            }, 400);
-            /**/
 		}
-        /**/
 
     }
 }

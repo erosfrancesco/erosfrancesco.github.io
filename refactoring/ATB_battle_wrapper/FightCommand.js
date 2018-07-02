@@ -1,39 +1,10 @@
-class FightCommand {
+class _ATBCommandProto {
     constructor(options) {
+        let {battle, label, action} = options;
 
-        options = options || {};
-        let {battle} = options;
         this.battle = battle;
-
-        this.label = 'FIGHT';
-        this.action = (options) => {
-
-            options = options || {};
-            let {player} = options;
-
-            // first thing first,
-            // reset battle.UI
-            this.battle.UI.UIMenus.reset();
-            //this.battle.Players.current = false;
-
-
-            //let target = battle.Players.getPlayer(p => { return p.menuIndex === 1 });
-
-            /*
-            // build action
-            player.Action = new TestActionObject({
-                executor: player,
-                //targets:  [ target ],
-                battle
-            });
-
-            // add action to the animator (action stack)
-            battle.Animator.add( player.Action );
-            // reset battle.UI
-            battle.UI.UIMenus.reset();
-            /**/
-
-        };
+        this.label = label;
+        this.action = action;
     }
 
 
@@ -52,8 +23,51 @@ class FightCommand {
     set battle(v) {
         this._battle = v;
     }
+
+    get label() {
+        return this._label;
+    }
+
+    set label(v) {
+        this._label = v;
+    }
 }
 
+
+
+
+class FightCommand extends _ATBCommandProto {
+    constructor(options) {
+        let {battle} = options;
+
+        super({battle});
+        this.label = 'FIGHT';
+        this.action = (options) => {
+
+            options = options || {};
+            let {player} = options;
+
+        };
+    }
+}
+
+
+
+
+class ItemsCommand extends _ATBCommandProto {
+    constructor(options) {
+        let {battle} = options;
+
+        super({battle});
+        this.label = 'ITEMS';
+        this.action = (options) => {
+
+            options = options || {};
+            let {player} = options;
+
+        };
+    }
+}
 
 
 class TestActionObject {

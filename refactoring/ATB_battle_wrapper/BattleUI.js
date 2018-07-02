@@ -8,7 +8,12 @@ class BattleUI {
         // ATB status
         // optional banner
         this.Menus = new MenuRegistry();
-        this.UIMenus = new MenuRegistry();
+        this.UIMenus = new MenuRegistry({
+            onDestroy: (menu, callback) => {
+                menu.destroy();
+                callback();
+            }
+        });
 
         players.forEach((player, playerIndex) => {
             

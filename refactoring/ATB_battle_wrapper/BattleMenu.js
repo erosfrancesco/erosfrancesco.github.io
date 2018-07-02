@@ -22,13 +22,11 @@ class PlayerBattleMenu extends FFVIMenu {
             }
 
 
-
             //  scene, text, x, y, width, height
             items[0].push( menuItem );
         });
 
 		let MenuOptions = {
-            //selectable: true,
             scene,
             items,
             width,
@@ -41,27 +39,8 @@ class PlayerBattleMenu extends FFVIMenu {
         };
 
 		super(MenuOptions);
-        
-        /*
-		this.input = {
-            keyboard: {
-                [Phaser.Keyboard.UP]: {
-                    onDown: () => this.up(),
-                    debounce: 2
-                },
-                [Phaser.Keyboard.DOWN]: {
-                    onDown: () => this.down(),
-                    debounce: 2
-                },
-                [Phaser.Keyboard.Z]: {
-                    onDown: () => this._current.onSelect(),
-                    debounce: 2
-                }
-            }
-        };
-
-        GAME.setInput(this.input);
-        /**/
 	}
+
+
 
 }

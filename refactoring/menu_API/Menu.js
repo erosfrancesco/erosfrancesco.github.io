@@ -41,7 +41,7 @@ class Menu {
 	set cullX(v) { this._cullX = v; }
 
 	get currentItem() {
-		return this._items[this.Y][this.X];
+		return this._items[this.X][this.Y];
 	}
 
 
