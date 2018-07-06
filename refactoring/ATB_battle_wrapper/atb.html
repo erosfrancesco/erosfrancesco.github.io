@@ -14,7 +14,7 @@
         body {
             margin: 1px;
             overflow: hidden;
-            background-color: grey;/**/
+            background-color: #555555;/**/
         }
   
     </style>
@@ -24,7 +24,7 @@
 
     <script src='../engine/phaser.min.js'></script>
 	<script src='../engine/colors.js'></script>
-
+    <script src='../engine/input.js'></script>
 
     <!-- Menu -->
     <script src="../menu_API/Text.js"></script>
@@ -69,14 +69,38 @@
             }
 
             preload () {
+                //  37x45 is the size of each frame
+                this.load.spritesheet('FFVICast', '../assets/ffviCast.png', { frameWidth: 680 / 4, frameHeight: 756 / 4 });
             }
 
             create () {
-                
 
+                let TerraSpriteConfig = {
+                    key: 'FFVICast',
+                    originX: 0.5,
+                    originY: 0.5,
+                    x: 400,
+                    y: 200,
+                };
+
+                let LockeSpriteConfig = {
+                    key: 'FFVICast',
+                    originX: 0.5,
+                    originY: 0.5,
+                    x: 200,
+                    y: 200,
+                    frame: 2
+                };
+
+                let sprite1 = this.make.sprite(TerraSpriteConfig);
+                let sprite2 = this.make.sprite(LockeSpriteConfig);
+                
                 // players
                 this.p1 = new Player({
-                    commands: {},
+                    Commands: [
+                        new FightCommand(),
+                        new ItemsCommand()
+                    ],
                     name: "SuperPippo",
                     stats: {
                         "str": 50,
@@ -85,11 +109,14 @@
                         "lif": 1900,
                         "man": 199
                     },
-                    sprite: {}
+                    sprite: sprite2
                 });
 
                 this.p2 = new Player({
-                    commands: {},
+                    Commands: [
+                        new FightCommand(),
+                        new ItemsCommand()
+                    ],
                     name: 'Flash',
                     stats: {
                         "str": 30,
@@ -98,9 +125,8 @@
                         "lif": 1200,
                         "man": 19
                     },
-                    sprite: {}
+                    sprite: sprite1
                 });
-
 
                 // Battle
                 this.ATBBattle = new ATBBattle({
@@ -108,50 +134,10 @@
                     enemies: [],
                     players: [this.p1, this.p2]
                 });
-
-                // input
-                this.keyZ = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Z);
-                this.keyX = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.X);
-                this.cursors = this.input.keyboard.createCursorKeys();
-
-              
             }
 
             update() {
                 this.ATBBattle.update();
-
-                if (this.cursors.up.isDown) { 
-                    let currentMenu = this.ATBBattle.UI.UIMenus.current;
-                    if (currentMenu) currentMenu.up();
-                }
-
-                if (this.cursors.down.isDown) { 
-                    let currentMenu = this.ATBBattle.UI.UIMenus.current;
-                    if (currentMenu) currentMenu.down();
-                }
-
-                if (this.cursors.left.isDown) { 
-                    let currentMenu = this.ATBBattle.UI.UIMenus.current;
-                    if (currentMenu) currentMenu.left();
-                }
-
-                if (this.cursors.right.isDown) { 
-                    let currentMenu = this.ATBBattle.UI.UIMenus.current;
-                    if (currentMenu) currentMenu.right();
-                }
-
-
-                if (this.keyZ.isDown) {
-                    
-                    let currentMenu = this.ATBBattle.UI.UIMenus.current;
-
-                    if (!currentMenu) return;
-
-                    currentMenu.currentItem.onSelect();
-                    this.ATBBattle.endPlayerTurn(this.ATBBattle.Players.current, player => console.log('end turn for: ', player.name));
-                }
-
-                if (this.keyX.isDown) console.log('hallo');
             }
         }
 
@@ -166,7 +152,7 @@
         let GAME = new Phaser.Game({
             width,
             height,
-            pixelArt: true,
+            //pixelArt: true,
             parent: 'parent',
             background: '#00ff00'
         });

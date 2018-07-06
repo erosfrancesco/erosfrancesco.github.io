@@ -30,9 +30,10 @@ class PlayerMenu {
         this.atb = new ATBPlayerBridge({scene, x: x - 80, y: y + textHeight, width: 160});
         this.atb.init(player);
         
-        //this.atb.bar.on('done', e => console.log('helo'));
         this.playerInfo = player.life + ' / ' + player.mana;
         this.player = player;
+
+        this.player.onDamage = () => { console.log('ouch'); this.playerInfo = player.life + ' / ' + player.mana; }
 	}
 
     get player() {
@@ -75,7 +76,6 @@ class PlayerMenu {
 	computePosition(options) {
 
 		let {player, height} = options;
-		//let {playerIndex} = player;
 
 		return { x: 900, y: height * this.playerIndex };
 	

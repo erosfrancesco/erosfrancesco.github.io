@@ -1,19 +1,15 @@
 /*******************************************************************************************/
 class Battle {
     constructor(options) {
-        options = options || {};
-        let {Animator, Enemies, Players, Turn} = options;
+
+        let {Animator, Enemies, Players, Turn, scene} = options;
 
         this.Animator = Animator || {};
         this.Enemies = Enemies;
         this.Players = Players;
         this.Turn = Turn;
+        this.Input = new KeyInputMapper({ scene });
 
-        /*
-        this.forAllCharacters(character => {
-            character._atbMax = this.Turn.max;
-        });
-        /**/
     }
 
     forAllCharacters(f) {
@@ -37,6 +33,7 @@ class Battle {
         // input update
     }
 
+
     get Animator() {
         return this._Animator;
     }
@@ -49,6 +46,13 @@ class Battle {
     }
     set Enemies(v) {
         this._Enemies = v;
+    }
+
+    get Input() {
+        return this._Input;
+    }
+    set Input(v) {
+        this._Input = v;
     }
 
     get Players() {

@@ -16,7 +16,7 @@
 
     <script src='../engine/phaser.min.js'></script>    
 	<script src='../engine/colors.js'></script>
-
+    <script src='../engine/input.js'></script>
 
     <script>
 
@@ -32,6 +32,11 @@
             }
 
             create () {
+
+                this.input = new KeyInputMapper({scene: this, debounce: 8});
+                this.input.mapKey( Phaser.Input.Keyboard.KeyCodes.A, key => { console.log('selected'); });
+                this.input.mapKey( Phaser.Input.Keyboard.KeyCodes.S, key => { console.log('selected'); });
+                //this.input.removeKey(Phaser.Input.Keyboard.KeyCodes.S);
 
 
                 // center origin
@@ -51,6 +56,8 @@
 
                 this.sprite.setTint(window.colors.stringTo0x( window.colors.lime ));
 
+                /*
+                
                 this.keyA = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
 
                 let combo = this.input.keyboard.createCombo('phaser', { maxKeyDelay: 3000 });
@@ -62,13 +69,14 @@
                 this.input.keyboard.on('keydown_B', function (event) {
                     console.log('hello a!');
                 });
+                /**/
 
             }
 
             update() {
-                if (Phaser.Input.Keyboard.JustDown(this.keyA)) {
-                    console.log('Pooling a');
-                }
+                //if (Phaser.Input.Keyboard.JustDown(this.keyA)) console.log('Pooling a');
+            
+                this.input.update();
             }
         }
 

@@ -30,12 +30,14 @@ class BattleUI {
 
 	}
 
+
     setPlayerStartMenu(options) {
         let { player, battle, scene } = options;
         let menu = new PlayerBattleMenu({ player, battle, scene });
 
         this.UIMenus.add(menu);
     }
+    /**/
 
     resetMenus() {
         this.Menus.reset();    

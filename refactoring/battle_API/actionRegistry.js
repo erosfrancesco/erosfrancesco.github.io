@@ -13,16 +13,23 @@ class PhaserAnimator {
 		this._busy = v;
 	}
 
+    get actions() {
+        return this._actions;
+    }
+    set actions(v) {
+        this._actions = v;
+    }
+
 }
 
 class ActionRegistry extends PhaserAnimator {
     constructor(options) {
         options = options || {};
-        let {actions} = options;
+        let {actions, busy} = options;
         actions = actions || [];
-        super({actions});
+        super({busy});
         
-        this._actions = actions;
+        this.actions = actions;
     }
     
     add(Action) {
@@ -31,52 +38,12 @@ class ActionRegistry extends PhaserAnimator {
     
     resolve() {
 
-        if (!this._actions[0]) { return; }
+        if (!this.actions[0]) { return; }
         
-        //console.log('Starting', this._actions );
         this.busy = true;
-        this._actions[0].resolve(() => {
+        this.actions[0].resolve( () => {
             this._actions.pop();
             this.busy = false;
         });
     }
 }
-
-/*
-// test action
-
-let TestAction = {
-    executor: {name: 'exeggutor'},
-    targets: [{name: 'palmapalmapalma'}],
-    
-    resolve: function(callback) {
-        console.log(this.executor.name);
-        this.targets.forEach(target => console.log(target.name));
-        setTimeout(() => {
-            console.log('DONE');
-            callback(); 
-        }, 2000);
-    }
-};
-
-
-let TestAction2 = {
-    executor: {name: 'exeggutor again'},
-    targets: [{name: 'palmapalmapalma'}],
-    
-    resolve: function(callback) {
-        console.log(this.executor.name);
-        this.targets.forEach(target => console.log(target.name));
-        setTimeout(() => {
-            console.log('DONE');
-            callback(); 
-        }, 2000);
-    }
-};
-
-let animator = new ActionRegistry();
-
-animator.add(TestAction);
-animator.add(TestAction2);
-setInterval(() => { if (!animator.busy) { animator.resolve(); } }, 30);
-/**/

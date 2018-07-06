@@ -42,13 +42,14 @@ class _ATBPlayersTurnWrapper {
 
 class ATBBattle extends Battle {
     constructor(options) {
-        options = options || {};
         
         let {
             players,
             enemies, 
-            scene
+            scene, 
+            input
         } = options;
+
 
         ///////////////////////////////////////////////////////////
 
@@ -91,7 +92,7 @@ class ATBBattle extends Battle {
 
 
 
-        super({Animator, Enemies, Players: Wrapper.Players});
+        super({Animator, Enemies, Players: Wrapper.Players, scene});
 
         this.Animator = Animator;
         this.Enemies = Enemies;
@@ -108,7 +109,45 @@ class ATBBattle extends Battle {
             ];
         });
 
+        /////////////////////////////////////////////////////////////////////////////
 
+        // input
+        this.Input.mapKey(Phaser.Input.Keyboard.KeyCodes.Z, key => {
+            let currentMenu = this.UI.UIMenus.current;
+            if (!currentMenu) return;
+            // build action
+            currentMenu.currentItem.onSelect({battle: this});
+            this.endPlayerTurn(this.Players.current, player => console.log('end turn for: ', player.name)); 
+        });
+
+        this.Input.mapKey(Phaser.Input.Keyboard.KeyCodes.X, key => {
+            let menuRegistry = this.UI.UIMenus;
+            if (!menuRegistry.current) return;
+            if (menuRegistry.length > 1) menuRegistry.remove();
+            
+        });
+        
+        this.Input.mapKey(Phaser.Input.Keyboard.KeyCodes.UP, key => { 
+            let currentMenu = this.UI.UIMenus.current;
+            if (currentMenu) currentMenu.up(); 
+        });
+        
+        this.Input.mapKey(Phaser.Input.Keyboard.KeyCodes.DOWN, key => {
+            let currentMenu = this.UI.UIMenus.current;
+            if (currentMenu) currentMenu.down(); 
+        });
+        
+        this.Input.mapKey(Phaser.Input.Keyboard.KeyCodes.LEFT, key => {
+            let currentMenu = this.UI.UIMenus.current;
+            if (currentMenu) currentMenu.left(); 
+        });
+        
+        this.Input.mapKey(Phaser.Input.Keyboard.KeyCodes.RIGHT, key => {
+            let currentMenu = this.UI.UIMenus.current;
+            if (currentMenu) currentMenu.right(); 
+        });
+
+        /////////////////////////////////////////////////////////////////////////////
                 
     }
 
@@ -121,6 +160,7 @@ class ATBBattle extends Battle {
         player._atbCurrent = 0;
         this.Players.current = false;
         this.Animator._busy = false;
+
         callback(player);
     }
 
@@ -129,6 +169,8 @@ class ATBBattle extends Battle {
     }
 
     update() {
+
+        this.Input.update();
 
         // battle.update and animator.update
         if (this.Animator._busy) { return; } 

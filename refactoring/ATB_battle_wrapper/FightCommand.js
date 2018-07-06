@@ -1,8 +1,8 @@
 class _ATBCommandProto {
     constructor(options) {
-        let {battle, label, action} = options;
+        let {label, action} = options;
 
-        this.battle = battle;
+        //this.battle = battle;
         this.label = label;
         this.action = action;
     }
@@ -16,6 +16,7 @@ class _ATBCommandProto {
         this._action = v;
     }
 
+    /*
     get battle() {
         return this._battle;
     }
@@ -23,6 +24,7 @@ class _ATBCommandProto {
     set battle(v) {
         this._battle = v;
     }
+    /**/
 
     get label() {
         return this._label;
@@ -38,15 +40,19 @@ class _ATBCommandProto {
 
 class FightCommand extends _ATBCommandProto {
     constructor(options) {
-        let {battle} = options;
 
-        super({battle});
-        this.label = 'FIGHT';
-        this.action = (options) => {
+        super({ label: 'FIGHT' });
 
-            options = options || {};
-            let {player} = options;
+        this.action = options => {
 
+            let {player, battle} = options;
+            let {Players, Enemies, Animator} = battle;
+
+            // select target
+            let target = Players.find((p, indx) => { return indx === 0; });
+
+            // build action to be executed and send it to the animator
+            Animator.add( new TestActionObject({executor: player, targets: [target], battle}) );
         };
     }
 }
@@ -56,15 +62,20 @@ class FightCommand extends _ATBCommandProto {
 
 class ItemsCommand extends _ATBCommandProto {
     constructor(options) {
-        let {battle} = options;
+        
 
-        super({battle});
-        this.label = 'ITEMS';
+        super({label: 'ITEMS'});
+
         this.action = (options) => {
 
-            options = options || {};
-            let {player} = options;
+            let {player, battle} = options;
+            let {Players, Enemies} = battle;
 
+            // select target
+            let target = Players.find((p, indx) => { return indx === 0; });
+
+            // calc damage
+            target.damage = 157;
         };
     }
 }
@@ -76,34 +87,30 @@ class TestActionObject {
         let {executor, targets, battle} = options;
 
         this.executor = executor;
-        //this.targets = targets;
+        this.targets = targets;
         this.battle = battle;
+
             
         this.resolve = callback => {
 
-            //ApplySpriteTint(this.executor.Sprite, 0xff00ff);
+            ApplySpriteTint(this.executor.Sprite, 0xff00ff);
 
             setTimeout(() => {
 
-                console.log('Action');
-
-                /*
+                
                 ApplySpriteTint(this.executor.Sprite, 0xffffff);
 
                 this.targets.forEach(target => {
                     ApplySpriteTint(target.Sprite, 0x00ff00);
                     // do some damage
                     target.damage = 40;
-                    // display changes
-                    target.menuDOM.update();
                 });
                 /**/
 
                 setTimeout(() => {
 
-                    //this.targets.forEach(target => ApplySpriteTint(target.Sprite, 0xffffff) );
+                    this.targets.forEach(target => ApplySpriteTint(target.Sprite, 0xffffff) );
 
-                    this.battle.endPlayerTurn(this.executor);
                     callback();
                 }, 1000);
                                 
