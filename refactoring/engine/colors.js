@@ -17,6 +17,8 @@
         white:   '#ffffff',
         black:   '#111111',
         silver:  '#dddddd',
+        whiteD2: '#d2d2d2',
+        shadow:  '#3d333d',
         stringTo0x: string => {  
             if (!string) { return 0xffffff };
             return '0x' + string.substr(1);

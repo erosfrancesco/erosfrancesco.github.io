@@ -4,15 +4,13 @@ _TextStylingFFVI = (scene, callback) => {
     .setStyle({ 
     })
     .setFontFamily('Arial')
-    .setFontSize(32)
+    .setFontSize(33)
     .setFontStyle('bold')
-    .setShadow(1, 2, "#333333", 2)
-    .setColor('#D2D2D2');
-
-    //o.setOrigin(0.5, 0);
+    .setShadow(2, 2, window.colors.shadow, 3)
+    .setColor(window.colors.silver);
 
     o.selected    = () => { o.setColor("#EACA2F"); };
-    o.notSelected = () => { o.setColor("#D2D2D2"); };
+    o.notSelected = () => { o.setColor(window.colors.silver); };
 
     return o;
 };
@@ -25,5 +23,7 @@ class FFVIText extends _PhaserText {
         let { scene, text, x, y, width, height } = options;
         
         super({ scene, text, x, y, width, height, styling: _TextStylingFFVI });
+
+        
     }
 }

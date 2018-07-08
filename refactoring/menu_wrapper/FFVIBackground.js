@@ -4,7 +4,7 @@ let _BackgroundFFVITextureHeight = 256;
 
 _BackgroundFFVIStyling = (parent) => {
 
-    let {scene, width, height, x, y} = parent;
+    let {scene, width, height, x, y, noArrows} = parent;
 
     if (!scene.textures.exists(_BackgroundFFVITextureId)) {
         
@@ -20,20 +20,49 @@ _BackgroundFFVIStyling = (parent) => {
         canvas.refresh();
     }
 
-    let sprite = scene.add.image(x, y, _BackgroundFFVITextureId );
+    this.background = scene.add.image(x, y, _BackgroundFFVITextureId );
+    this.background.setScale(width / _BackgroundFFVITextureWidth, height / _BackgroundFFVITextureHeight);
 
-    sprite.setScale(width / _BackgroundFFVITextureWidth, height / _BackgroundFFVITextureHeight);
-    return sprite;
+    
+    return this.background;
 }
 
 
 class FFVIMenuBackground extends MenuBackground {
     constructor(options) {
 
-        let {width, height, x, y, scene} = options;
+        let {width, height, x, y, scene, noArrows} = options;
 
-        super({width, height, x, y, scene, styling: _BackgroundFFVIStyling});
+        super({width, height, x, y, scene, noArrows, styling: _BackgroundFFVIStyling});
 
+        this.wrapper = scene.add.container(x, y);
+        this.wrapper.setSize(width, height / 2);
+        this.wrapper.setInteractive();
+        //this.wrapper.on('pointerover', () => console.log('hello') ) // test
+        
+        this.noArrows = noArrows;
+        if (!this.noArrows) {
+            this.upArrow    = new UpArrowButton   ({scene, x, y: y - 40 - height / 2 });
+            this.downArrow  = new DownArrowButton ({scene, x, y: y - 5 + height / 2 });
+            this.leftArrow  = new LeftArrowButton ({scene, x: x - 20 - width / 2, y: y - 20 });
+            this.rightArrow = new RightArrowButton({scene, x: x + 20 + width / 2, y: y - 20 });
+        }
+        
+
+    }
+
+    destroy() {
+        super.destroy();
+        if (!this.noArrows) {
+            this.upArrow.destroy();
+            this.downArrow.destroy();
+            this.leftArrow.destroy();
+            this.rightArrow.destroy();
+        }
+    }
+
+    setEvent(evnt, callback) {
+        this.wrapper.on(evnt, callback);
     }
 }
 

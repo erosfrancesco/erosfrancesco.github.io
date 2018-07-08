@@ -6,7 +6,7 @@ class FFVIMenu extends Menu {
 			cullX, cullY,
 			width, height,
 			x, y, 
-			scene
+			noArrows, scene
 		} = options;
 
 		super({ items, cullX, cullY });
@@ -16,6 +16,16 @@ class FFVIMenu extends Menu {
             x, y, 
             width, height
         });
+
+        this.background.upArrow.setEvent('pointerover', () => this.up() );
+        this.background.downArrow.setEvent('pointerover', () => this.down() );
+        this.background.leftArrow.setEvent('pointerover', () => this.left() );
+        this.background.rightArrow.setEvent('pointerover', () => this.right() );
+        //this.background.setEvent('pointerover', () => this.currentItem.onSelect() );
+
+
+
+        ////////////////////////////////////////////////////////////////////////////////////////
 
         this.scene = scene;
 

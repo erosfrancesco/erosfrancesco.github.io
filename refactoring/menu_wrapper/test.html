@@ -30,6 +30,7 @@
     <script src="../menu_API/MenuRegistry.js"></script>
     <script src="../menu_API/Background.js"></script>
 
+    <script src="../menu_wrapper/triangleArrow.js"></script>
     <script src="../menu_wrapper/FFVIBackground.js"></script>
     <script src="../menu_wrapper/FFVIText.js"></script>
     <script src="../menu_wrapper/FFVIMenu.js"></script>
@@ -104,8 +105,19 @@
                     items: [[this.button, this.button2], [this.button3, this.button4]]
                 });
 
-                //this.menu.down();
-                //this.menu.up();
+                /*
+                let x = 300;
+                let y = 300;
+                let width = 200;
+                let height = 200;
+
+
+                this.upArrow    = new UpArrowButton   ({scene: this, x, y: y - 55 - height / 2 });
+                this.downArrow  = new DownArrowButton ({scene: this, x, y: y - 5 + height / 2 });
+
+                this.leftArrow  = new LeftArrowButton ({scene: this, x: x - 25 - width / 2, y: y - 25 });
+                this.rightArrow = new RightArrowButton({scene: this, x: x + 25 + width / 2, y: y - 25 });
+                /**/
               
             }
 

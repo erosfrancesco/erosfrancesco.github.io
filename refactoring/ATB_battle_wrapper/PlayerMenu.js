@@ -16,7 +16,8 @@ class PlayerMenu {
         this.background = new FFVIMenuBackground({
             scene, 
             x, y, 
-            width, height
+            width, height,
+            noArrows: true
         });
 
 
