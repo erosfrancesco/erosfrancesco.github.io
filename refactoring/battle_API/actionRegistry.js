@@ -32,10 +32,20 @@ class ActionRegistry extends PhaserAnimator {
         this.actions = actions;
     }
     
+
+    get currentPlayerActionToBeExecuted() {
+        return this._currentPlayerActionToBeExecuted;
+    }
+    set currentPlayerActionToBeExecuted(v) {
+        this._currentPlayerActionToBeExecuted = v;
+    }
+    
+
     add(Action) {
         this._actions.push(Action);
     }
-    
+
+
     resolve() {
 
         if (!this.actions[0]) { return; }
@@ -46,4 +56,5 @@ class ActionRegistry extends PhaserAnimator {
             this.busy = false;
         });
     }
+
 }

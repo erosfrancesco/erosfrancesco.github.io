@@ -104,8 +104,8 @@ class ATBBattle extends Battle {
 
         this.Players.forEach(player => {
             player.Commands = [ 
-                new FightCommand({battle: this}),
-                new ItemsCommand({battle: this})
+                new FightCommand({battle: this, scene}),
+                new ItemsCommand({battle: this, scene})
             ];
         });
 
@@ -116,8 +116,8 @@ class ATBBattle extends Battle {
             let currentMenu = this.UI.UIMenus.current;
             if (!currentMenu) return;
             // build action
-            currentMenu.currentItem.onSelect({battle: this});
-            this.endPlayerTurn(this.Players.current, player => console.log('end turn for: ', player.name)); 
+            currentMenu.currentItem.onSelect({battle: this, scene});
+            //this.endPlayerTurn(this.Players.current, player => console.log('end turn for: ', player.name)); 
         });
 
         this.Input.mapKey(Phaser.Input.Keyboard.KeyCodes.X, key => {

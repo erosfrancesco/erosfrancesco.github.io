@@ -44,6 +44,7 @@ class PlayerBattleMenu extends FFVIMenu {
 
 		super(MenuOptions);
 
+        /*
         this.eventListenerCount = 0
 
         this.background.setEvent('pointerover', () => {
@@ -53,6 +54,7 @@ class PlayerBattleMenu extends FFVIMenu {
             currentMenu.currentItem.onSelect({battle});
             battle.endPlayerTurn(battle.Players.current, player => console.log('end turn for: ', player.name));
         });
+        /**/
         this.battle = battle;
 	}
 

@@ -1,0 +1,194 @@
+<head>
+  	<title> Battle test </title>
+</head>
+
+<body>
+
+    <style>
+    
+        #parent {
+            display: table;
+            margin: auto auto;
+        }
+
+        body {
+            margin: 1px;
+            overflow: hidden;
+            background-color: #555555;/**/
+        }
+  
+    </style>
+
+    <div id="parent"></div>
+
+
+    <script src='../engine/phaser.min.js'></script>
+	<script src='../engine/colors.js'></script>
+    <script src='../engine/input.js'></script>
+
+    <!-- Menu -->
+    <script src="../menu_API/Text.js"></script>
+    <script src="../menu_API/Menu.js"></script>
+    <script src="../menu_API/MenuRegistry.js"></script>
+    <script src="../menu_API/Background.js"></script>
+    <script src="../menu_wrapper/triangleArrow.js"></script>
+    <script src="../menu_wrapper/FFVIBackground.js"></script>
+    <script src="../menu_wrapper/FFVIText.js"></script>
+    <script src="../menu_wrapper/FFVIMenu.js"></script>
+    <!-- -->
+
+    
+    <!-- Battle Headers -->
+    <script src='../battle_API/actionRegistry.js'></script>
+    <script src="../battle_API/characterRegistry.js"></script>
+    <script src="../battle_API/turnSystem.js"></script>
+    <script src="../battle_API/player.js"></script>
+    <script src="../battle_API/enemy.js"></script>
+    <script src="../battle_API/stat.js"></script>
+    <script src="../battle_API/battle.js"></script>
+    <!-- -->
+    
+
+    <!-- ATB wrapper -->
+    <script src="../ATB_battle_wrapper/Atb.js"></script>
+    <script src="../ATB_battle_wrapper/TargetMenu.js"></script>
+    <script src="../ATB_battle_wrapper/PlayerMenu.js"></script>
+    <script src="../ATB_battle_wrapper/BattleUI.js"></script>
+    <script src="../ATB_battle_wrapper/battleAtb.js"></script>
+    <script src="../ATB_battle_wrapper/FightCommand.js"></script>
+    <script src="../ATB_battle_wrapper/BattleMenu.js"></script>
+    <!-- -->
+
+
+    <script src="../ATB_battle_wrapper/assets.js"></script>
+
+
+    <script>
+
+
+        class PreloadScene extends Phaser.Scene {
+
+            constructor (config) {
+                console.log('open battle!');
+                super(config);
+            }
+
+            preload () {
+                loadFFVICast(this);
+                this.load.image('background58', '../assets/worldOverHeaven.png');
+                this.load.image('kefka', '../assets/FinalBard.png');
+            }
+
+            create () {
+
+
+                let background = this.make.image({key: 'background58', x: 400, y: 250});
+                let kefka = this.make.image({key: 'kefka', x: 200, y: 170});
+
+
+                let sprite4 = makePlayerSpriteFromConfig(this, 'shadow', 610, 100);
+                let sprite3 = makePlayerSpriteFromConfig(this, 'edgar', 540, 200);
+                let sprite2 = makePlayerSpriteFromConfig(this, 'terra', 470, 300);
+                let sprite1 = makePlayerSpriteFromConfig(this, 'locke', 400, 400);
+
+
+
+                // players
+                this.p1 = new Player({
+                    Commands: [
+                        //new FightCommand(),
+                        //new ItemsCommand()
+                    ],
+                    name: "SuperPippo",
+                    stats: {
+                        "str": 50,
+                        "dex": 4,
+                        "lvl": 5,
+                        "lif": 1900,
+                        "man": 199
+                    },
+                    sprite: sprite1
+                });
+
+                this.p2 = new Player({
+                    Commands: [
+                        //new FightCommand(),
+                        //new ItemsCommand()
+                    ],
+                    name: 'Flash',
+                    stats: {
+                        "str": 30,
+                        "dex": 5,
+                        "lvl": 5,
+                        "lif": 1200,
+                        "man": 19
+                    },
+                    sprite: sprite2
+                });
+
+                this.p3 = new Player({
+                    Commands: [
+                        //new FightCommand(),
+                        //new ItemsCommand()
+                    ],
+                    name: "Rocco",
+                    stats: {
+                        "str": 30,
+                        "dex": 4,
+                        "lvl": 5,
+                        "lif": 2100,
+                        "man": 10
+                    },
+                    sprite: sprite3
+                });
+
+                this.p4 = new Player({
+                    Commands: [
+                        //new FightCommand(),
+                        //new ItemsCommand()
+                    ],
+                    name: "Emo",
+                    stats: {
+                        "str": 30,
+                        "dex": 4,
+                        "lvl": 5,
+                        "lif": 2100,
+                        "man": 10
+                    },
+                    sprite: sprite4
+                });
+
+                // Battle
+                this.ATBBattle = new ATBBattle({
+                    scene: this,
+                    enemies: [],
+                    players: [this.p1, this.p2, this.p3, this.p4]
+                });
+
+            }
+
+            update() {
+                this.ATBBattle.update();
+            }
+        }
+
+        
+    </script>
+
+    <script>
+
+        let width = 900;
+        let height = 500;
+
+        let GAME = new Phaser.Game({
+            width,
+            height,
+            //pixelArt: true,
+            parent: 'parent',
+            background: '#00ff00'
+        });
+
+        GAME.scene.add('Preload', PreloadScene, true);
+
+    </script>
+</body>
