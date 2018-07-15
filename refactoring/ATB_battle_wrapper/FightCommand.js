@@ -1,8 +1,8 @@
 class _ATBCommandProto {
     constructor(options) {
-        let {label, action} = options;
+        let {label, action, battle} = options;
 
-        //this.battle = battle;
+        this.battle = battle;
         this.label = label;
         this.action = action;
     }
@@ -23,6 +23,14 @@ class _ATBCommandProto {
     set label(v) {
         this._label = v;
     }
+
+    get battle() {
+        return this._label;
+    }
+
+    set battle(v) {
+        this._label = v;
+    }
 }
 
 
@@ -38,12 +46,18 @@ class FightCommand extends _ATBCommandProto {
             let {player, battle, scene} = options;
             let {Players, Enemies, Animator} = battle;
 
-            // build player action
-            Animator.currentPlayerActionToBeExecuted = new TestActionObject({executor: player, battle});
+            player.Action = new TestActionObject({executor: player, battle});
 
+            // build player action
+            Animator.addCharacterAction(player);
+            
             // compute available targets and set the target menu
             let targets = [];
             Players.forEach(p => targets.push(p));
+            Enemies.forEach(p => targets.push(p));
+
+            console.log(targets);
+            
             battle.UI.UIMenus.add( new TargetMenu({ scene, targets, battle }) );
         };
     }
@@ -114,6 +128,14 @@ class TestActionObject {
     }
     set targets(v) {
         this._targets = v;
+    }
+
+
+    get battle() {
+        return this._battle;
+    }
+    set battle(v) {
+        this._battle = v;
     }
 }
 

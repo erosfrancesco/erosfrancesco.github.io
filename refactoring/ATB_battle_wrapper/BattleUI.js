@@ -30,6 +30,25 @@ class BattleUI {
 
 	}
 
+    setPlayersMenu(options) {
+
+        let {scene, players, battle, sceneHeight, onBarLoaded } = options;
+
+        players.forEach((player, playerIndex) => {
+            
+            let menu = new PlayerMenu({ 
+                scene, 
+                player, 
+                sceneHeight, 
+                numberOfPlayers: players.length, 
+                playerIndex 
+            });
+            this.Menus.add(menu);
+            player.StatusMenu = menu;
+            player.StatusMenu.atb.bar.on('done', e => { onBarLoaded(e, player, players); });
+        });
+    }
+
 
     setPlayerStartMenu(options) {
         let { player, battle, scene } = options;

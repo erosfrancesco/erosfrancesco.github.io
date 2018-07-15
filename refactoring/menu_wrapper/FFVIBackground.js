@@ -42,8 +42,8 @@ class FFVIMenuBackground extends MenuBackground {
         
         this.noArrows = noArrows;
         if (!this.noArrows) {
-            this.upArrow    = new UpArrowButton   ({scene, x, y: y - 40 - height / 2 });
-            this.downArrow  = new DownArrowButton ({scene, x, y: y - 5 + height / 2 });
+            //this.upArrow    = new UpArrowButton   ({scene, x, y: y - 40 - height / 2 });
+            //this.downArrow  = new DownArrowButton ({scene, x, y: y - 5 + height / 2 });
             this.leftArrow  = new LeftArrowButton ({scene, x: x - 20 - width / 2, y: y - 20 });
             this.rightArrow = new RightArrowButton({scene, x: x + 20 + width / 2, y: y - 20 });
         }
@@ -54,8 +54,8 @@ class FFVIMenuBackground extends MenuBackground {
     destroy() {
         super.destroy();
         if (!this.noArrows) {
-            this.upArrow.destroy();
-            this.downArrow.destroy();
+            //this.upArrow.destroy();
+            //this.downArrow.destroy();
             this.leftArrow.destroy();
             this.rightArrow.destroy();
         }

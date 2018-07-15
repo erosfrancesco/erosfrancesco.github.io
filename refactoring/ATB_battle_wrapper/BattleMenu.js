@@ -3,7 +3,7 @@ class PlayerBattleMenu extends FFVIMenu {
 
         let {player, scene, battle} = options;
 
-        
+        console.log(options, 'dhe');        
 
         let width = 150;
         let height = 75;

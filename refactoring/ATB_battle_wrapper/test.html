@@ -31,6 +31,7 @@
     <script src="../menu_API/Menu.js"></script>
     <script src="../menu_API/MenuRegistry.js"></script>
     <script src="../menu_API/Background.js"></script>
+
     <script src="../menu_wrapper/triangleArrow.js"></script>
     <script src="../menu_wrapper/FFVIBackground.js"></script>
     <script src="../menu_wrapper/FFVIText.js"></script>
@@ -39,17 +40,20 @@
 
     
     <!-- Battle Headers -->
-    <script src='../battle_API/actionRegistry.js'></script>
-    <script src="../battle_API/characterRegistry.js"></script>
-    <script src="../battle_API/turnSystem.js"></script>
+    <script src="../battle_API/character.js"></script>
     <script src="../battle_API/player.js"></script>
     <script src="../battle_API/enemy.js"></script>
     <script src="../battle_API/stat.js"></script>
+
+    <script src='../battle_API/actionRegistry.js'></script>
+    <script src="../battle_API/characterRegistry.js"></script>
+    <script src="../battle_API/turnSystem.js"></script>
     <script src="../battle_API/battle.js"></script>
     <!-- -->
     
 
     <!-- ATB wrapper -->
+    <script src="../ATB_battle_wrapper/ActionManager.js"></script>
     <script src="../ATB_battle_wrapper/Atb.js"></script>
     <script src="../ATB_battle_wrapper/TargetMenu.js"></script>
     <script src="../ATB_battle_wrapper/PlayerMenu.js"></script>
@@ -59,9 +63,14 @@
     <script src="../ATB_battle_wrapper/BattleMenu.js"></script>
     <!-- -->
 
+    <!-- Characters -->
 
-    <script src="../ATB_battle_wrapper/assets.js"></script>
 
+    <script src="../players/assets.js"></script>
+    <script src="../players/Terra.js"></script>
+    <script src="../players/Locke.js"></script>
+    <script src="../players/Edgar.js"></script>
+    <script src="../players/Shadow.js"></script>
 
     <script>
 
@@ -75,31 +84,122 @@
 
             preload () {
                 loadFFVICast(this);
-                this.load.image('background58', '../assets/worldOverHeaven.png');
-                this.load.image('kefka', '../assets/FinalBard.png');
+                loadBattle01Assets(this);
+                //this.load.image('background58', '../assets/resized.png');
+                //this.load.image('kefka', '../assets/kefka-tolit.png');
             }
 
             create () {
 
 
-                let background = this.make.image({key: 'background58', x: 400, y: 250});
-                let kefka = this.make.image({key: 'kefka', x: 200, y: 170});
+                let background = this.make.image({key: 'backgroundBattle01', x: 350, y: 250 });
+                             
 
 
-                let sprite4 = makePlayerSpriteFromConfig(this, 'shadow', 610, 100);
-                let sprite3 = makePlayerSpriteFromConfig(this, 'edgar', 540, 200);
-                let sprite2 = makePlayerSpriteFromConfig(this, 'terra', 470, 300);
-                let sprite1 = makePlayerSpriteFromConfig(this, 'locke', 400, 400);
+                // Battle
+                this.ATBBattle = new ATBBattle({ scene: this });
 
 
+                this.shadow = new Shadow({
+                    scene: this, 
+                    battle: this.ATBBattle, 
+                    configs: {
+                        stats: {
+                            "str": 50,
+                            "dex": 4,
+                            "lvl": 5,
+                            "lif": 1900,
+                            "man": 199
+                        },
+                        spriteKey: 'shadow',
+                        x: 610,
+                        y: 200
+                    }
+                });
 
-                // players
-                this.p1 = new Player({
+
+                this.edgar = new Edgar({
+                    scene: this, 
+                    battle: this.ATBBattle, 
+                    configs: {
+                        stats: {
+                            "str": 50,
+                            "dex": 4,
+                            "lvl": 5,
+                            "lif": 1900,
+                            "man": 199
+                        },
+                        spriteKey: 'edgar',
+                        x: 540,
+                        y: 250
+                    }
+                });
+                
+
+                this.locke = new Locke({
+                    scene: this, 
+                    battle: this.ATBBattle, 
+                    configs: {
+                        stats: {
+                            "str": 50,
+                            "dex": 4,
+                            "lvl": 5,
+                            "lif": 1900,
+                            "man": 199
+                        },
+                        spriteKey: 'locke',
+                        x: 520,
+                        y: 325
+                    }
+                });
+                
+
+                this.terra = new Terra({
+                    scene: this, 
+                    battle: this.ATBBattle, 
+                    configs: {
+                        stats: {
+                            "str": 50,
+                            "dex": 4,
+                            "lvl": 5,
+                            "lif": 1900,
+                            "man": 199
+                        },
+                        spriteKey: 'terra',
+                        x: 450,
+                        y: 400
+                    }
+                });
+
+
+                
+
+                
+
+                let bossSprite = this.make.image({key: 'goblin_king_boss', x: 150, y: 200}); 
+                bossSprite.scaleX = -0.75;
+                bossSprite.scaleY = 0.75;
+
+
+                let leprechaunSprite2 = this.make.image({key: 'leprechaun', x: 375, y: 230}); 
+                leprechaunSprite2.scaleX = 0.25;
+                leprechaunSprite2.scaleY = 0.25;
+
+                let leprechaunSprite3 = this.make.image({key: 'leprechaun', x: 340, y: 340}); 
+                leprechaunSprite3.scaleX = 0.25;
+                leprechaunSprite3.scaleY = 0.25;
+
+                let leprechaunSprite1 = this.make.image({key: 'leprechaun', x: 150, y: 400}); 
+                leprechaunSprite1.scaleX = 0.25;
+                leprechaunSprite1.scaleY = 0.25;
+
+                // enemies
+                this.e1 = new Enemy({
                     Commands: [
-                        //new FightCommand(),
-                        //new ItemsCommand()
+                    new FightCommand({battle: this.ATBBattle, scene: this}),
+                    new ItemsCommand({battle: this.ATBBattle, scene: this})
                     ],
-                    name: "SuperPippo",
+                    name: "Leprechaun",
                     stats: {
                         "str": 50,
                         "dex": 4,
@@ -107,63 +207,60 @@
                         "lif": 1900,
                         "man": 199
                     },
-                    sprite: sprite1
+                    sprite: leprechaunSprite1
                 });
 
-                this.p2 = new Player({
+                this.e2 = new Enemy({
                     Commands: [
-                        //new FightCommand(),
-                        //new ItemsCommand()
+                    new FightCommand({battle: this.ATBBattle, scene: this}),
+                    new ItemsCommand({battle: this.ATBBattle, scene: this})
                     ],
-                    name: 'Flash',
+                    name: "Leprechaun",
                     stats: {
-                        "str": 30,
-                        "dex": 5,
-                        "lvl": 5,
-                        "lif": 1200,
-                        "man": 19
-                    },
-                    sprite: sprite2
-                });
-
-                this.p3 = new Player({
-                    Commands: [
-                        //new FightCommand(),
-                        //new ItemsCommand()
-                    ],
-                    name: "Rocco",
-                    stats: {
-                        "str": 30,
+                        "str": 50,
                         "dex": 4,
                         "lvl": 5,
-                        "lif": 2100,
-                        "man": 10
+                        "lif": 1900,
+                        "man": 199
                     },
-                    sprite: sprite3
+                    sprite: leprechaunSprite2
                 });
 
-                this.p4 = new Player({
+                this.e3 = new Enemy({
                     Commands: [
-                        //new FightCommand(),
-                        //new ItemsCommand()
+                    new FightCommand({battle: this.ATBBattle, scene: this}),
+                    new ItemsCommand({battle: this.ATBBattle, scene: this})
                     ],
-                    name: "Emo",
+                    name: "Leprechaun",
                     stats: {
-                        "str": 30,
+                        "str": 50,
                         "dex": 4,
                         "lvl": 5,
-                        "lif": 2100,
-                        "man": 10
+                        "lif": 1900,
+                        "man": 199
                     },
-                    sprite: sprite4
+                    sprite: leprechaunSprite3
                 });
 
-                // Battle
-                this.ATBBattle = new ATBBattle({
-                    scene: this,
-                    enemies: [],
-                    players: [this.p1, this.p2, this.p3, this.p4]
+                this.boss = new Enemy({
+                    Commands: [
+                    new FightCommand({battle: this.ATBBattle, scene: this}),
+                    new ItemsCommand({battle: this.ATBBattle, scene: this})
+                    ],
+                    name: "G. King",
+                    stats: {
+                        "str": 50,
+                        "dex": 4,
+                        "lvl": 5,
+                        "lif": 1900,
+                        "man": 199
+                    },
+                    sprite: bossSprite
                 });
+
+                //
+                this.ATBBattle.addCharacters([ this.terra, this.locke, this.edgar, this.shadow], [this.e1, this.e2, this.e3, this.boss]);
+                this.ATBBattle.init();
 
             }
 

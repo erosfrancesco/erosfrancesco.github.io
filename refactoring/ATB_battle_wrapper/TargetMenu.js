@@ -17,11 +17,7 @@ class TargetMenu extends Menu {
             let {x, y} = Sprite;
             
             item._targetLabel = new FFVIText({scene, width, height, x, y, text: name});
-            item.onSelect = () => {
-                Animator.currentPlayerActionToBeExecuted.targets = [item];
-                Animator.add( Animator.currentPlayerActionToBeExecuted );
-                battle.endPlayerTurn(battle.Players.current, player => console.log('end turn for: ', player.name));
-            };
+            item.onSelect = () => Animator.setPlayerActionTargets([item]);
         });
 
         this.updateItems();

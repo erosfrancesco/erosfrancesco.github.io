@@ -3,9 +3,11 @@ class _ATBPlayersTurnWrapper {
     constructor(options) {
 
         let { players, scene, onBarLoaded } = options;
+        players = players || [];
 
         // set stat menus
         this.UI = new BattleUI({ scene, players, sceneHeight: 500 });
+        this.onBarLoaded = onBarLoaded;
 
         // player registry
         this.Players = new CharacterRegistry({
@@ -21,6 +23,13 @@ class _ATBPlayersTurnWrapper {
         });
         
         this.Players.forEach(player => player.StatusMenu.atb.bar.on('done', e => { onBarLoaded(e, player, this.Players); }) );
+    }
+
+    set onBarLoaded(v) {
+        this._onBarLoaded = v;
+    }
+    get onBarLoaded() {
+        return this._onBarLoaded;
     }
 
     set Players(v) {
@@ -59,7 +68,7 @@ class ATBBattle extends Battle {
             scene,
             onBarLoaded: (e, player, Players) => {
 
-                if (player.ready) { return; }
+                if (player.ready) return;
                 
                 player.ready = true;
                 Players.current = Players.current || player;
@@ -82,17 +91,19 @@ class ATBBattle extends Battle {
 
 
 
+
+        super({ Enemies, Players: Wrapper.Players, scene});
+        this.onBarLoaded = (e, player, players) => { Wrapper.onBarLoaded(e, player, players); }
+
+
         ///////////////////////////////////////////////////////////
 
         // Initialize the Animator
-        let Animator = new ActionRegistry();
+        let Animator = new ActionManager({scene, battle: this});
 
         ///////////////////////////////////////////////////////////
 
 
-
-
-        super({Animator, Enemies, Players: Wrapper.Players, scene});
 
         this.Animator = Animator;
         this.Enemies = Enemies;
@@ -102,12 +113,14 @@ class ATBBattle extends Battle {
         this.scene = scene;
 
 
+        /*
         this.Players.forEach(player => {
             player.Commands = [ 
                 new FightCommand({battle: this, scene}),
                 new ItemsCommand({battle: this, scene})
             ];
         });
+        /**/
 
         /////////////////////////////////////////////////////////////////////////////
 
@@ -117,7 +130,6 @@ class ATBBattle extends Battle {
             if (!currentMenu) return;
             // build action
             currentMenu.currentItem.onSelect({battle: this, scene});
-            //this.endPlayerTurn(this.Players.current, player => console.log('end turn for: ', player.name)); 
         });
 
         this.Input.mapKey(Phaser.Input.Keyboard.KeyCodes.X, key => {
@@ -127,28 +139,44 @@ class ATBBattle extends Battle {
             
         });
         
+        
         this.Input.mapKey(Phaser.Input.Keyboard.KeyCodes.UP, key => { 
-            let currentMenu = this.UI.UIMenus.current;
-            if (currentMenu) currentMenu.up(); 
+            //let currentMenu = this.UI.UIMenus.current;
+            //if (currentMenu) currentMenu.up(); 
         });
         
         this.Input.mapKey(Phaser.Input.Keyboard.KeyCodes.DOWN, key => {
-            let currentMenu = this.UI.UIMenus.current;
-            if (currentMenu) currentMenu.down(); 
+            //let currentMenu = this.UI.UIMenus.current;
+            //if (currentMenu) currentMenu.down(); 
         });
         
         this.Input.mapKey(Phaser.Input.Keyboard.KeyCodes.LEFT, key => {
             let currentMenu = this.UI.UIMenus.current;
-            if (currentMenu) currentMenu.left(); 
+            if (currentMenu) currentMenu.up(); 
         });
         
         this.Input.mapKey(Phaser.Input.Keyboard.KeyCodes.RIGHT, key => {
             let currentMenu = this.UI.UIMenus.current;
-            if (currentMenu) currentMenu.right(); 
+            if (currentMenu) currentMenu.down(); 
         });
 
         /////////////////////////////////////////////////////////////////////////////
                 
+    }
+
+    addCharacters(players, enemies) {
+        players.forEach(player => this.Players.add(player) );
+        enemies.forEach(enemie => this.Enemies.add(enemie) );
+    }
+
+    init() {
+        this.UI.setPlayersMenu({
+            scene: this.scene, 
+            battle: this, 
+            players: this.Players, 
+            sceneHeight: 500,
+            onBarLoaded: (e, player, players) => this.onBarLoaded(e, player, players)
+        });
     }
 
     endPlayerTurn(player, callback) {
