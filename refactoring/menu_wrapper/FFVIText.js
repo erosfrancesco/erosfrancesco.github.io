@@ -8,10 +8,10 @@ _TextStylingFFVI = (scene, callback) => {
     .setFontStyle('bold')
     .setShadow(2, 2, window.colors.shadow, 3)
     .setColor(window.colors.silver);
+    //.setDepth(-100000);
 
     o.selected    = () => { o.setColor("#EACA2F"); };
     o.notSelected = () => { o.setColor(window.colors.silver); };
-
     return o;
 };
 

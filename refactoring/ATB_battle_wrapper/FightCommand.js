@@ -56,8 +56,6 @@ class FightCommand extends _ATBCommandProto {
             Players.forEach(p => targets.push(p));
             Enemies.forEach(p => targets.push(p));
 
-            console.log(targets);
-            
             battle.UI.UIMenus.add( new TargetMenu({ scene, targets, battle }) );
         };
     }

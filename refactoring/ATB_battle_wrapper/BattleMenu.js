@@ -1,9 +1,7 @@
 class PlayerBattleMenu extends FFVIMenu {
 	constructor(options) {
 
-        let {player, scene, battle} = options;
-
-        console.log(options, 'dhe');        
+        let {player, scene, battle} = options;      
 
         let width = 150;
         let height = 75;
@@ -44,17 +42,6 @@ class PlayerBattleMenu extends FFVIMenu {
 
 		super(MenuOptions);
 
-        /*
-        this.eventListenerCount = 0
-
-        this.background.setEvent('pointerover', () => {
-            let currentMenu = battle.UI.UIMenus.current;
-            if (!currentMenu) return;
-            // build action
-            currentMenu.currentItem.onSelect({battle});
-            battle.endPlayerTurn(battle.Players.current, player => console.log('end turn for: ', player.name));
-        });
-        /**/
         this.battle = battle;
 	}
 

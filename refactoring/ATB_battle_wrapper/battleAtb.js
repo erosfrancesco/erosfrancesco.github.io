@@ -19,6 +19,10 @@ class _ATBPlayersTurnWrapper {
                 if (!this.Player.length) {
                     console.log('game over');
                 }
+            },
+            onAdd: player => {
+                console.log('player', player);
+                player.Sprite.setInteractive();
             }
         });
         
@@ -72,7 +76,6 @@ class ATBBattle extends Battle {
                 
                 player.ready = true;
                 Players.current = Players.current || player;
-                console.log('turn on ', player.name);
             }
         });
 
@@ -84,7 +87,10 @@ class ATBBattle extends Battle {
         
         // enemy registry
         let Enemies = new CharacterRegistry({
-            characters: enemies
+            characters: enemies,
+            onAdd: enemy => {
+                enemy.Sprite.setInteractive();
+            }
         });
 
         ///////////////////////////////////////////////////////////
@@ -111,16 +117,6 @@ class ATBBattle extends Battle {
         this.UI = Wrapper.UI;
 
         this.scene = scene;
-
-
-        /*
-        this.Players.forEach(player => {
-            player.Commands = [ 
-                new FightCommand({battle: this, scene}),
-                new ItemsCommand({battle: this, scene})
-            ];
-        });
-        /**/
 
         /////////////////////////////////////////////////////////////////////////////
 

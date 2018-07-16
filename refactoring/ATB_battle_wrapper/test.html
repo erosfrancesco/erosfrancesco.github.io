@@ -21,6 +21,25 @@
 
     <div id="parent"></div>
 
+    <script>
+        // Resize
+        function resizeApp()
+        {
+            var div = document.getElementById('parent');
+
+            div.style.width = window.innerHeight * (8 / 6);
+            div.style.height = window.innerHeight;
+        }
+                
+        window.addEventListener('resize', function(e)
+        {
+            resizeApp();
+        });
+                
+        resizeApp();
+
+    </script>
+
 
     <script src='../engine/phaser.min.js'></script>
 	<script src='../engine/colors.js'></script>
@@ -64,184 +83,85 @@
     <!-- -->
 
     <!-- Characters -->
-
-
-    <script src="../players/assets.js"></script>
+    <script src="../players/playerJSON.js"></script>
+    <script src="../players/enemyJSON.js"></script>
+    <script src="../players/utils.js"></script>
     <script src="../players/Terra.js"></script>
     <script src="../players/Locke.js"></script>
     <script src="../players/Edgar.js"></script>
     <script src="../players/Shadow.js"></script>
+    <script src="../players/phaserScene.js"></script>
 
     <script>
 
-
-        class PreloadScene extends Phaser.Scene {
-
-            constructor (config) {
-                console.log('open battle!');
-                super(config);
+        class ATBBattleScene01 extends ATBBattleScene {
+            constructor(options) {
+                super(options);
             }
 
-            preload () {
+            preload() {
+                super.preload();
+
                 loadFFVICast(this);
                 loadBattle01Assets(this);
-                //this.load.image('background58', '../assets/resized.png');
-                //this.load.image('kefka', '../assets/kefka-tolit.png');
             }
 
-            create () {
+            create() {
+
+                super.create();
+
+                let background = this.make.image({key: BackgroundImageKey, x: 350, y: 250 });
+
+
+                let p0 = PLAYERTERRACONFIG;
+                p0.sprite.slot = 0;
+                this.makePlayer(p0);
+
+                let p1 = PLAYERLOCKECONFIG;
+                p1.sprite.slot = 1;
+                this.makePlayer(p1);
+
+                let p2 = PLAYEREDGARCONFIG;
+                p2.sprite.slot = 2;
+                this.makePlayer(p2);
+
+                let p3 = PLAYERSHDOWCONFIG;
+                p3.sprite.slot = 3;
+                this.makePlayer(p3);
+
+
+
+                let e0 = KINGGOBLINCONFIG;
+                e0.sprite.slot = 2;
+                this.makeEnemy(e0);
+
+                let e1 = LEPRECHAUNCONFIG;
+                e1.sprite.slot = 3;
+                this.makeEnemy(e1);
+
+                let e2 = LEPRECHAUNCONFIG;
+                e1.sprite.slot = 4;
+                this.makeEnemy(e2);
+
+                let e3 = LEPRECHAUNCONFIG;
+                e1.sprite.slot = 5;
+                this.makeEnemy(e3);
+
+
+
+                this.initBattle();
+
+            }
+        }
+
+
+        /*
+
+
 
 
                 let background = this.make.image({key: 'backgroundBattle01', x: 350, y: 250 });
                              
-
-
-                // Battle
-                this.ATBBattle = new ATBBattle({ scene: this });
-
-
-                this.shadow = new Shadow({
-                    scene: this, 
-                    battle: this.ATBBattle, 
-                    configs: {
-                        stats: {
-                            "str": 50,
-                            "dex": 4,
-                            "lvl": 5,
-                            "lif": 1900,
-                            "man": 199
-                        },
-                        spriteKey: 'shadow',
-                        x: 610,
-                        y: 200
-                    }
-                });
-
-
-                this.edgar = new Edgar({
-                    scene: this, 
-                    battle: this.ATBBattle, 
-                    configs: {
-                        stats: {
-                            "str": 50,
-                            "dex": 4,
-                            "lvl": 5,
-                            "lif": 1900,
-                            "man": 199
-                        },
-                        spriteKey: 'edgar',
-                        x: 540,
-                        y: 250
-                    }
-                });
-                
-
-                this.locke = new Locke({
-                    scene: this, 
-                    battle: this.ATBBattle, 
-                    configs: {
-                        stats: {
-                            "str": 50,
-                            "dex": 4,
-                            "lvl": 5,
-                            "lif": 1900,
-                            "man": 199
-                        },
-                        spriteKey: 'locke',
-                        x: 520,
-                        y: 325
-                    }
-                });
-                
-
-                this.terra = new Terra({
-                    scene: this, 
-                    battle: this.ATBBattle, 
-                    configs: {
-                        stats: {
-                            "str": 50,
-                            "dex": 4,
-                            "lvl": 5,
-                            "lif": 1900,
-                            "man": 199
-                        },
-                        spriteKey: 'terra',
-                        x: 450,
-                        y: 400
-                    }
-                });
-
-
-                
-
-                
-
-                let bossSprite = this.make.image({key: 'goblin_king_boss', x: 150, y: 200}); 
-                bossSprite.scaleX = -0.75;
-                bossSprite.scaleY = 0.75;
-
-
-                let leprechaunSprite2 = this.make.image({key: 'leprechaun', x: 375, y: 230}); 
-                leprechaunSprite2.scaleX = 0.25;
-                leprechaunSprite2.scaleY = 0.25;
-
-                let leprechaunSprite3 = this.make.image({key: 'leprechaun', x: 340, y: 340}); 
-                leprechaunSprite3.scaleX = 0.25;
-                leprechaunSprite3.scaleY = 0.25;
-
-                let leprechaunSprite1 = this.make.image({key: 'leprechaun', x: 150, y: 400}); 
-                leprechaunSprite1.scaleX = 0.25;
-                leprechaunSprite1.scaleY = 0.25;
-
-                // enemies
-                this.e1 = new Enemy({
-                    Commands: [
-                    new FightCommand({battle: this.ATBBattle, scene: this}),
-                    new ItemsCommand({battle: this.ATBBattle, scene: this})
-                    ],
-                    name: "Leprechaun",
-                    stats: {
-                        "str": 50,
-                        "dex": 4,
-                        "lvl": 5,
-                        "lif": 1900,
-                        "man": 199
-                    },
-                    sprite: leprechaunSprite1
-                });
-
-                this.e2 = new Enemy({
-                    Commands: [
-                    new FightCommand({battle: this.ATBBattle, scene: this}),
-                    new ItemsCommand({battle: this.ATBBattle, scene: this})
-                    ],
-                    name: "Leprechaun",
-                    stats: {
-                        "str": 50,
-                        "dex": 4,
-                        "lvl": 5,
-                        "lif": 1900,
-                        "man": 199
-                    },
-                    sprite: leprechaunSprite2
-                });
-
-                this.e3 = new Enemy({
-                    Commands: [
-                    new FightCommand({battle: this.ATBBattle, scene: this}),
-                    new ItemsCommand({battle: this.ATBBattle, scene: this})
-                    ],
-                    name: "Leprechaun",
-                    stats: {
-                        "str": 50,
-                        "dex": 4,
-                        "lvl": 5,
-                        "lif": 1900,
-                        "man": 199
-                    },
-                    sprite: leprechaunSprite3
-                });
-
                 this.boss = new Enemy({
                     Commands: [
                     new FightCommand({battle: this.ATBBattle, scene: this}),
@@ -255,20 +175,22 @@
                         "lif": 1900,
                         "man": 199
                     },
-                    sprite: bossSprite
+                    sprite: buildCharacterSprite({
+                        scene: this, 
+                        slot: 5, 
+                        type: 'image',
+                        config: {
+                            scaleX: -0.70,
+                            scaleY: 0.70,
+                            key: 'goblin_king_boss'
+                        }
+                    })
                 });
+                /**
 
                 //
-                this.ATBBattle.addCharacters([ this.terra, this.locke, this.edgar, this.shadow], [this.e1, this.e2, this.e3, this.boss]);
-                this.ATBBattle.init();
-
-            }
-
-            update() {
-                this.ATBBattle.update();
-            }
-        }
-
+                this.AT
+        /**/
         
     </script>
 
@@ -280,12 +202,11 @@
         let GAME = new Phaser.Game({
             width,
             height,
-            //pixelArt: true,
             parent: 'parent',
             background: '#00ff00'
         });
 
-        GAME.scene.add('Preload', PreloadScene, true);
+        GAME.scene.add('ATBBattleScene01', ATBBattleScene01, true);
 
     </script>
 </body>

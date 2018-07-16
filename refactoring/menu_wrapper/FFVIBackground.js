@@ -35,6 +35,8 @@ class FFVIMenuBackground extends MenuBackground {
 
         super({width, height, x, y, scene, noArrows, styling: _BackgroundFFVIStyling});
 
+        //this.sprite.setDepth(100);
+
         this.wrapper = scene.add.container(x, y);
         this.wrapper.setSize(width, height / 2);
         this.wrapper.setInteractive();

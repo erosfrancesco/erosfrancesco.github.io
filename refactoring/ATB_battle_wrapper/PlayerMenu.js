@@ -21,11 +21,13 @@ class PlayerMenu {
         });
 
 
+
  		this.item1 = new FFVIText({scene, width, height: textHeight, x: 0, y: -textHeight, text: player.name});
         this.item2 = new FFVIText({scene, width, height: textHeight, x: 0, y: 0, text: ''});
         this.wrapper = scene.add.container(x, y);
         this.wrapper.add(this.item1.sprite);
         this.wrapper.add(this.item2.sprite);
+
 
 
         this.atb = new ATBPlayerBridge({scene, x: x - 80, y: y + textHeight, width: 160});

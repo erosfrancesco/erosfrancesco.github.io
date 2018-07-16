@@ -22,12 +22,12 @@ class FFVIMenu extends Menu {
         this.background.downArrow.setEvent('pointerover', () => this.down() );
         this.background.leftArrow.setEvent('pointerover', () => this.left() );
         this.background.rightArrow.setEvent('pointerover', () => this.right() );
-        this.background.setEvent('pointerover', () => this.currentItem.onSelect() );
         /**/
 
 
-        this.background.leftArrow.setEvent('pointerover', () => this.up() );
-        this.background.rightArrow.setEvent('pointerover', () => this.down() );
+        this.background.leftArrow.setEvent('touch', () => this.up() );
+        this.background.rightArrow.setEvent('touch', () => this.down() );
+        this.background.setEvent('touch', () => this.currentItem.onSelect() );
 
 
         ////////////////////////////////////////////////////////////////////////////////////////
@@ -51,7 +51,6 @@ class FFVIMenu extends Menu {
             t.on('touchmove', pointer => this.left() );
             //t.on('pointermove', pointer => this.down() );
             /**/
-
         
 		});
 

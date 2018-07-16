@@ -18,6 +18,18 @@ class TargetMenu extends Menu {
             
             item._targetLabel = new FFVIText({scene, width, height, x, y, text: name});
             item.onSelect = () => Animator.setPlayerActionTargets([item]);
+
+            /******************************************************************/
+
+            Sprite.on('touch', () => {
+                this.X = colIndex;
+                this.Y = rowIndex;
+
+                this.updateItems();
+            });
+
+            item._targetLabel.on('touch',  () => item.onSelect() );
+            /******************************************************************/
         });
 
         this.updateItems();
