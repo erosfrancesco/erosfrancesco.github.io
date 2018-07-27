@@ -105,14 +105,18 @@
                 super.preload();
 
                 loadFFVICast(this);
-                loadBattle01Assets(this);
+                this.load.image('kefka', '../assets/kefka-tolit.png');
+                this.load.image('worldOverHeaven', '../assets/world_over_heavens.png');
+
             }
 
             create() {
 
                 super.create();
 
-                let background = this.make.image({key: BackgroundImageKey, x: 350, y: 250 });
+                let background = this.make.image({key: 'worldOverHeaven', x: 350, y: 250 });
+
+                //super.on('done', console.log('hello venet') );
 
 
                 let p0 = PLAYERTERRACONFIG;
@@ -132,33 +136,44 @@
                 this.makePlayer(p3);
 
 
+                let KEFKAJSONCONFIG = {
+                    commands: [ 'FIGHT', 'ITEMS' ],
+                    name: "Kefka",
+                    boss: true,
+                    sprite: {
+                        type: 'image',
+                        key: 'kefka',
+                        slot: 0,
+                        config: {
+                            scaleX: 1,
+                            scaleY: 1
+                        }
+                    },
+                    stats: {
+                        "str": 50,
+                        "dex": 4,
+                        "lvl": 5,
+                        "lif": 600,
+                        "man": 199
+                    }
+                };
 
-                let e0 = KINGGOBLINCONFIG;
-                e0.sprite.slot = 1;
-                this.makeEnemy(e0);
+                this.makeEnemy(KEFKAJSONCONFIG);
+                /**/
 
-                let e1 = LEPRECHAUNCONFIG;
-                e1.sprite.slot = 3;
-                this.makeEnemy(e1);
-
-                let e2 = LEPRECHAUNCONFIG;
-                e1.sprite.slot = 4;
-                this.makeEnemy(e2);
-
-                let e3 = LEPRECHAUNCONFIG;
-                e1.sprite.slot = 5;
-                this.makeEnemy(e3);
 
 
 
                 this.initBattle();
+                //console.log('d', this.scene);
+
+
+                this.scene.scene.events.on('done', () => console.log('venet') );
 
             }
         }
 
 
-      
-        
     </script>
 
     <script>
@@ -174,6 +189,7 @@
         });
 
         GAME.scene.add('ATBBattleScene01', ATBBattleScene01, true);
+
 
     </script>
 </body>

@@ -9,8 +9,9 @@ class Battle {
         this.Players = Players;
         this.Turn = Turn;
         this.Input = new KeyInputMapper({ scene });
-
     }
+
+    
 
     forAllCharacters(f) {
         this.Enemies.forEach((character, index) => { f(character, index); });

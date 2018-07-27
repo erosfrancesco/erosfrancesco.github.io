@@ -1,9 +1,11 @@
-class _ATBPlayersTurnWrapper {
+class _ATBPlayersTurnWrapper extends Phaser.Events.EventEmitter {
     
     constructor(options) {
 
         let { players, scene, onBarLoaded } = options;
         players = players || [];
+
+        super();
 
         // set stat menus
         this.UI = new BattleUI({ scene, players, sceneHeight: 500 });
@@ -15,18 +17,18 @@ class _ATBPlayersTurnWrapper {
             characters: players,
 
             onRemove: player => {
+
+                // remove from action list too...
                 player.setDeadStatus();
-                if (!this.Player.length) {
+                if (!this.Players.length) {
                     console.log('game over');
                 }
             },
             onAdd: player => {
-                console.log('player', player);
                 player.Sprite.setInteractive();
             }
         });
         
-        this.Players.forEach(player => player.StatusMenu.atb.bar.on('done', e => { onBarLoaded(e, player, this.Players); }) );
     }
 
     set onBarLoaded(v) {
@@ -70,12 +72,15 @@ class ATBBattle extends Battle {
         let Wrapper = new _ATBPlayersTurnWrapper({
             players,
             scene,
-            onBarLoaded: (e, player, Players) => {
+            onBarLoaded: player => {
 
                 if (player.ready) return;
                 
                 player.ready = true;
-                Players.current = Players.current || player;
+
+                if (this.Players.current) return;
+
+                this.Players.current = player;
             }
         });
 
@@ -99,7 +104,7 @@ class ATBBattle extends Battle {
 
 
         super({ Enemies, Players: Wrapper.Players, scene});
-        this.onBarLoaded = (e, player, players) => { Wrapper.onBarLoaded(e, player, players); }
+        this.onBarLoaded = player => { Wrapper.onBarLoaded(player); }
 
 
         ///////////////////////////////////////////////////////////
@@ -165,13 +170,40 @@ class ATBBattle extends Battle {
         enemies.forEach(enemie => this.Enemies.add(enemie) );
     }
 
+
+    applyDamageAndCheckLife(player, damage) {
+
+        player.damage = damage;
+
+        if (!player.life) {
+
+            //if ( player.isEnemy ) { }
+            this.Players.remove(p => { return p === player; });
+            player.StatusMenu.atb.stop(player);
+            if (this.Players.current === player) { 
+                this.endPlayerTurn(player, () => { console.log('removed', player.name); }); 
+            }
+        }
+    }
+
+    displayPlayerDamage(player, damage) {
+        player.displayText = new FFVIText({ 
+            scene: this.scene, 
+            text: damage, 
+            width: 50, height: 100,
+            x: player.Sprite.x,
+            y: player.Sprite.y
+        });
+        setTimeout(() => player.displayText.destroy(), 500);
+    }
+
     init() {
         this.UI.setPlayersMenu({
             scene: this.scene, 
             battle: this, 
             players: this.Players, 
             sceneHeight: 500,
-            onBarLoaded: (e, player, players) => this.onBarLoaded(e, player, players)
+            onBarLoaded: (player, players) => this.onBarLoaded(player, players)
         });
     }
 

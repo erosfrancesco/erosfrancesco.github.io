@@ -17,8 +17,18 @@ buildCharacterSprite = (options) => {
     ];
 
 
-    let {player, slot, scene, config, type, key, frame} = options;
-    let {x, y} = slotMap[slot];
+    const BossSlotMap = [
+        {x: 50,  y: 550},
+        {x: 350, y: 500},
+        {x: 200, y: 400}
+    ];
+
+
+    let {player, slot, scene, config, type, key, frame, boss} = options;
+    let SlotMap = (boss) ? BossSlotMap : slotMap;
+    let {x, y} = SlotMap[slot];
+    
+    
     let o = scene.make[type]({key, frame});
 
 
@@ -39,15 +49,6 @@ buildCharacterSprite = (options) => {
 
 /////////////////////////////////////////////////////////////////////////////
 
-BuildCharacterCommands = (scene, battle, commands) => {
-    const COMMANDNAMEMAP = {
-        'FIGHT': (options) => { return new FightCommand(options) },
-        'ITEMS': (options) => { return new ItemsCommand(options) }
-    };
-
-    let C = commands.map(name => { return COMMANDNAMEMAP[name]({battle, scene}); });
-    return C
-}
 
 /////////////////////////////////////////////////////////////////////////////
 
@@ -57,6 +58,8 @@ function MakeEnemy(scene, battle, options) {
 
     let {commands, stats, sprite, name, boss} = options;
     sprite.scene = scene;
+
+    sprite.boss = boss || false;
 
     let enemy = new Enemy({
         commands: BuildCharacterCommands(scene, battle, commands),
@@ -70,8 +73,6 @@ function MakeEnemy(scene, battle, options) {
 }
 
 function MakePlayer(scene, battle, options) {
-
-    console.log(options);
 
     let {commands, stats, sprite, name} = options;
     sprite.scene = scene;

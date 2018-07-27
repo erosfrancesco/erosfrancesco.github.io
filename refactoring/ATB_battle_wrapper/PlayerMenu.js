@@ -32,6 +32,10 @@ class PlayerMenu {
 
         this.atb = new ATBPlayerBridge({scene, x: x - 80, y: y + textHeight, width: 160});
         this.atb.init(player);
+
+
+
+        //this.atb.bar.on('ATBDone', e => { console.log('bum', this.player.name); });
         
         this.playerInfo = player.life + ' / ' + player.mana;
         this.player = player;

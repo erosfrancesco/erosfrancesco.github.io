@@ -15,8 +15,9 @@ class ATBLoadingBar extends Phaser.Events.EventEmitter {
 			x,
 			y,
 			scene,
-			width,
+			width
 		} = options;
+
 
 		x = x || 0;
     	y = y || 0;
@@ -48,6 +49,7 @@ class ATBLoadingBar extends Phaser.Events.EventEmitter {
     	this.percentage = 0;
 	}
 
+	
 	set x(v) {
 		this.background.x = v;
 		this.outline.x = v;
@@ -65,7 +67,7 @@ class ATBLoadingBar extends Phaser.Events.EventEmitter {
 		this.bar.percentage = v;
 
 		if (v > 99) {
-			this.emit('done', {});
+			this.emit('ATBDone');
 			this.tint = 0x12FF32;
 		}else{
 			this.tint = 0x3252D2;
@@ -82,6 +84,13 @@ class ATBLoadingBar extends Phaser.Events.EventEmitter {
 
 	get tint() {
 		return this.bar.tint;
+	}
+
+	on(event, callback) {
+		this.scene.scene.scene.events.on(event, callback);
+	}
+	emit(event, params) {
+		this.scene.scene.scene.events.emit(event, params);
 	}
 
 }
@@ -305,11 +314,14 @@ class ATBPlayerBridge extends ATBTurnSystemCore {
         
 		super({});
 
+
 		this.bar = new ATBLoadingBar({
 			x, y,
 			scene,
 			width
 		});
+
+		
 
 		parameters = parameters || { ATBParam1: 10 };
         max = max || 4096;
@@ -330,6 +342,8 @@ class ATBPlayerBridge extends ATBTurnSystemCore {
 	}
 
 	update(character) {
+
+		if (character.inactive) { return; }
 		
 		let { _atbCurrent, _atbMax, type } = character;
         
@@ -344,8 +358,22 @@ class ATBPlayerBridge extends ATBTurnSystemCore {
         return false;
     }
 
+    stop(character) {
+    	character._atbCurrent = 0;
+    	character.inactive = true;
+    }
+
 	init(character) {
+		character.inactive = false;
         character._atbMax = this.max;
         character._atbCurrent = 0;
+	}
+
+	get inactive() {
+		return this._inactive;
+	}
+
+	set inactive(v) {
+		this._inactive = v;
 	}
 }

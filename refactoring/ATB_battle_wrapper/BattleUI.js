@@ -1,8 +1,9 @@
-class BattleUI {
+class BattleUI extends Phaser.Events.EventEmitter {
 	constructor(options) {
 		options = options || {};
 
         let {scene, players, sceneHeight } = options;
+        super();
 
         // Menu stack
         // ATB status
@@ -45,7 +46,9 @@ class BattleUI {
             });
             this.Menus.add(menu);
             player.StatusMenu = menu;
-            player.StatusMenu.atb.bar.on('done', e => { onBarLoaded(e, player, players); });
+            
+            player.StatusMenu.atb.bar.on('ATBDone', e => onBarLoaded( player, players) );
+            /**/
         });
     }
 
