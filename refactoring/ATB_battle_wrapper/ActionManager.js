@@ -13,6 +13,7 @@ class ActionManager extends ActionRegistry {
     }
 
     setPlayerActionTargets(targets) {
+    	// check those targets!
         this.currentPlayerActionToBeExecuted.targets = targets;
         this.add( this.currentPlayerActionToBeExecuted );
         this.battle.endPlayerTurn(this.battle.Players.current, player => console.log('end turn for: ', player.name));

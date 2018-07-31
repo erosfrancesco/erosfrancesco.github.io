@@ -19,7 +19,10 @@ class _ATBPlayersTurnWrapper extends Phaser.Events.EventEmitter {
             onRemove: player => {
 
                 // remove from action list too...
-                player.setDeadStatus();
+                player.Animations.Death(player, () => {
+                    console.log('im dead');
+                });
+
                 if (!this.Players.length) {
                     console.log('game over');
                 }
@@ -74,12 +77,10 @@ class ATBBattle extends Battle {
             scene,
             onBarLoaded: player => {
 
-                if (player.ready) return;
-                
+                if (player.ready) return;                
                 player.ready = true;
 
                 if (this.Players.current) return;
-
                 this.Players.current = player;
             }
         });
@@ -95,6 +96,13 @@ class ATBBattle extends Battle {
             characters: enemies,
             onAdd: enemy => {
                 enemy.Sprite.setInteractive();
+            },
+            onRemove: enemy => {
+                enemy.Animations.Death(enemy, () => {
+                    console.log('GAH!');
+                });
+
+                // game win condition
             }
         });
 
@@ -104,7 +112,7 @@ class ATBBattle extends Battle {
 
 
         super({ Enemies, Players: Wrapper.Players, scene});
-        this.onBarLoaded = player => { Wrapper.onBarLoaded(player); }
+        this.onBarLoaded = player => Wrapper.onBarLoaded(player);
 
 
         ///////////////////////////////////////////////////////////
@@ -177,7 +185,11 @@ class ATBBattle extends Battle {
 
         if (!player.life) {
 
-            //if ( player.isEnemy ) { }
+            if ( player.type !== 'Ally' ) { 
+                this.Enemies.remove(p => { return p === player; });
+                return; 
+            }
+
             this.Players.remove(p => { return p === player; });
             player.StatusMenu.atb.stop(player);
             if (this.Players.current === player) { 
@@ -209,6 +221,7 @@ class ATBBattle extends Battle {
 
     endPlayerTurn(player, callback) {
 
+        // remove targets
         this.UI.UIMenus.reset();
 
         player.ready = false;

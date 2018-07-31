@@ -25,9 +25,9 @@ class FFVIMenu extends Menu {
         /**/
 
 
-        this.background.leftArrow.setEvent('touch', () => this.up() );
-        this.background.rightArrow.setEvent('touch', () => this.down() );
-        this.background.setEvent('touch', () => this.currentItem.onSelect() );
+        this.background.leftArrow.setEvent('pointerdown', () => this.up() );
+        this.background.rightArrow.setEvent('pointerdown', () => this.down() );
+        this.background.setEvent('pointerdown', () => this.currentItem.onSelect() );
 
 
         ////////////////////////////////////////////////////////////////////////////////////////

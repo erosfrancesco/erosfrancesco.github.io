@@ -116,9 +116,6 @@
 
                 let background = this.make.image({key: 'worldOverHeaven', x: 350, y: 250 });
 
-                //super.on('done', console.log('hello venet') );
-
-
                 let p0 = PLAYERTERRACONFIG;
                 p0.sprite.slot = 0;
                 this.makePlayer(p0);
@@ -161,14 +158,8 @@
                 this.makeEnemy(KEFKAJSONCONFIG);
                 /**/
 
-
-
-
                 this.initBattle();
-                //console.log('d', this.scene);
-
-
-                this.scene.scene.events.on('done', () => console.log('venet') );
+               // CharacterDeathAnimation1(this._ATBBattle.Players._playerList[0], () => { console.log('k'); });
 
             }
         }

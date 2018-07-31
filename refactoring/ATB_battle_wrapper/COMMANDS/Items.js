@@ -11,10 +11,10 @@ class ItemsCommand extends _ATBCommandProto {
             let {Players, Enemies} = battle;
 
             // select target
-            let target = Players.find((p, indx) => { return indx === 0; });
+            //let target = Players.find((p, indx) => { return indx === 0; });
 
             // calc damage
-            target.damage = 157;
+            //target.damage = 157;
         };
     }
 }

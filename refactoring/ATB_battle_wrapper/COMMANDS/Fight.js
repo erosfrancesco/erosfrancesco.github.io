@@ -34,9 +34,13 @@ class FightAction extends _ATBActionProto {
 
     resolve(callback) {
 
+        // executor sprite animation
         ApplySpriteTint(this.executor.Sprite, 0xff00ff);
-        let damage = 140;
 
+        // calc damage
+        let damage = 14000;
+
+        // targets sprite animation
         setTimeout(() => {
             ApplySpriteTint(this.executor.Sprite, 0xffffff);
 
@@ -45,6 +49,7 @@ class FightAction extends _ATBActionProto {
                 this.battle.displayPlayerDamage(target, damage);
             });
 
+            // apply damages
             setTimeout(() => {
 
                 this.targets.forEach(target => {
@@ -52,6 +57,7 @@ class FightAction extends _ATBActionProto {
                     this.battle.applyDamageAndCheckLife(target, damage);
                 });
 
+                // watch it!
                 callback();
 
             }, 1000);

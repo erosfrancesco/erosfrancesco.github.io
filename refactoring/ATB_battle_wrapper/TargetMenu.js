@@ -2,7 +2,7 @@ class TargetMenu extends Menu {
 	constructor(options) {
 
         let { scene, targets, battle } = options;
-        let {Animator} = battle;
+        let { Animator } = battle;
         let width = 75; 
         let height = 200;
 
@@ -21,14 +21,14 @@ class TargetMenu extends Menu {
 
             /******************************************************************/
 
-            Sprite.on('touch', () => {
+            Sprite.on('pointerdown', () => {
                 this.X = colIndex;
                 this.Y = rowIndex;
 
                 this.updateItems();
             });
 
-            item._targetLabel.on('touch',  () => item.onSelect() );
+            item._targetLabel.on('pointerdown',  () => item.onSelect() );
             /******************************************************************/
         });
 
