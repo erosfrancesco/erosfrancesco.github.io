@@ -6,7 +6,7 @@ class FFVIMenu extends Menu {
 			cullX, cullY,
 			width, height,
 			x, y, 
-			noArrows, scene
+			noArrows, scene, battle
 		} = options;
 
 		super({ items, cullX, cullY });
@@ -25,9 +25,9 @@ class FFVIMenu extends Menu {
         /**/
 
 
-        this.background.leftArrow.setEvent('pointerdown', () => this.up() );
-        this.background.rightArrow.setEvent('pointerdown', () => this.down() );
-        this.background.setEvent('pointerdown', () => this.currentItem.onSelect() );
+        this.background.leftArrow.setEvent('pointerdown', () => { this.up(); });
+        this.background.rightArrow.setEvent('pointerdown', () => { this.down(); });
+        this.background.setEvent('pointerdown', () => { this.currentItem.onSelect({scene, battle}); });
 
 
         ////////////////////////////////////////////////////////////////////////////////////////

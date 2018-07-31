@@ -28,7 +28,7 @@ class TargetMenu extends Menu {
                 this.updateItems();
             });
 
-            item._targetLabel.on('pointerdown',  () => item.onSelect() );
+            item._targetLabel.on('pointerdown', () => { item.onSelect() });
             /******************************************************************/
         });
 

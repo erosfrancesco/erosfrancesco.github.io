@@ -33,6 +33,7 @@ class PlayerBattleMenu extends FFVIMenu {
 
 		let MenuOptions = {
             scene,
+            battle,
             items,
             width,
             height,
