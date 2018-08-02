@@ -56,12 +56,12 @@ class TargetMenu extends Menu {
     }
 
     left() {
-        super.left();
+        super.right();
         this.updateItems();
     }
 
     right() {
-        super.right();
+        super.left();
         this.updateItems();
     }
 

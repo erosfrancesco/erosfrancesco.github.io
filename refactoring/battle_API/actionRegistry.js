@@ -45,16 +45,14 @@ class ActionRegistry extends PhaserAnimator {
         this._actions.push(Action);
     }
 
+    removeFirstAction() {
+        this._actions.pop();
+        this.busy = false;
+    }
 
-    resolve() {
 
-        if (!this.actions[0]) { return; }
-        
-        this.busy = true;
-        this.actions[0].resolve( () => {
-            this._actions.pop();
-            this.busy = false;
-        });
+    resolve() {        
+        this.actions[0].resolve( () => { this.removeFirstAction(); });
     }
 
 }

@@ -28,6 +28,9 @@ class ATBLoadingBar extends Phaser.Events.EventEmitter {
 
 
     	let graphics = this.scene.add.graphics();
+
+    	// here a gradient...
+
     	graphicOptions(graphics);
 
 		
@@ -42,7 +45,7 @@ class ATBLoadingBar extends Phaser.Events.EventEmitter {
 
 		this.background = new RoundedRectStroke({graphics, x, y, width: this.width, height: this.height});
 
-    	this.bar = new ATBBar({x, y, width, height:16, scene});
+    	this.bar = new ATBBar({x, y, width, height: 16, scene});
 
     	this.x = x;
     	this.y = y;
@@ -307,12 +310,15 @@ class ATBPlayerBridge extends ATBTurnSystemCore {
 		
 		let {
 			parameters, formula, max, 
+			onTurnReady,
 			x, y,
 			scene,
 			width
 		} = options;
         
 		super({});
+
+		this.onTurnReady = onTurnReady || function(p) { console.log(p.name, ' is ready'); }
 
 
 		this.bar = new ATBLoadingBar({
@@ -350,6 +356,11 @@ class ATBPlayerBridge extends ATBTurnSystemCore {
         if ( _atbCurrent < _atbMax ) {
 
             character._atbCurrent += this.formula(character, this.parameters);
+
+            if (character._atbCurrent >= _atbMax) { 
+            	//console.log('im ', character.name); 
+            	this.onTurnReady(character);
+            }
             
             if (type === 'Ally') { this.bar.percentage = (_atbCurrent * 100 / _atbMax); }
             
@@ -368,6 +379,16 @@ class ATBPlayerBridge extends ATBTurnSystemCore {
         character._atbMax = this.max;
         character._atbCurrent = 0;
 	}
+
+	
+	get onTurnReady() {
+		return this._onTurnReady;
+	}
+
+	set onTurnReady(v) {
+		this._onTurnReady = v;
+	}
+
 
 	get inactive() {
 		return this._inactive;

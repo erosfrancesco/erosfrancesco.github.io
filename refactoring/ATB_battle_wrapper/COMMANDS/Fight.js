@@ -5,8 +5,12 @@ class FightCommand extends _ATBCommandProto {
 
         this.action = options => {
 
+
             let {player, battle, scene} = options;
             let {Players, Enemies, Animator} = battle;
+
+
+            //console.log('built action for ', player.name);
 
             player.Action = new FightAction({executor: player, battle});
 
@@ -34,11 +38,11 @@ class FightAction extends _ATBActionProto {
 
     resolve(callback) {
 
-        // executor sprite animation
-        ApplySpriteTint(this.executor.Sprite, 0xff00ff);
-
         // calc damage
         let damage = 14000;
+
+        // executor sprite animation
+        ApplySpriteTint(this.executor.Sprite, 0xff00ff);
 
         // targets sprite animation
         setTimeout(() => {
@@ -46,22 +50,25 @@ class FightAction extends _ATBActionProto {
 
             this.targets.forEach(target => {
                 ApplySpriteTint(target.Sprite, 0x00ff00);
-                this.battle.displayPlayerDamage(target, damage);
-            });
 
-            // apply damages
-            setTimeout(() => {
-
-                this.targets.forEach(target => {
+                // apply damages
+                setTimeout(() => {
+                   
                     ApplySpriteTint(target.Sprite, 0xffffff);
-                    this.battle.applyDamageAndCheckLife(target, damage);
-                });
+                    
+                    this.battle.displayPlayerDamage(target, damage, () => {
+                        this.resolveCallback(() => {
+                            this.battle.applyDamageAndCheckLife(target, damage);
+                        });
+                    });
+                    // watch that callback!
 
-                // watch it!
-                callback();
+                    callback();
 
-            }, 1000);
-                            
+                }, 1000);
+                
+            });
+   
         }, 1000);
     }
 }

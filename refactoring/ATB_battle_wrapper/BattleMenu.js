@@ -17,12 +17,15 @@ class PlayerBattleMenu extends FFVIMenu {
 
         player.Commands.forEach(command => {
 
+
+
             let text = command.label;
             let menuItem = new FFVIText({ scene, text });
 
             // build action
             menuItem.onSelect = options => {
                 options = options || {};
+
                 options.player = player;
                 options.battle = battle;
                 command.action(options);

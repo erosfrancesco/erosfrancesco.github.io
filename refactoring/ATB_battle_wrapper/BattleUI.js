@@ -41,14 +41,13 @@ class BattleUI extends Phaser.Events.EventEmitter {
                 scene, 
                 player, 
                 sceneHeight, 
+                onBarLoaded,
                 numberOfPlayers: players.length, 
                 playerIndex 
             });
+            //menu.atb.onTurnReady = onBarLoaded;
             this.Menus.add(menu);
             player.StatusMenu = menu;
-            
-            player.StatusMenu.atb.bar.on('ATBDone', e => onBarLoaded( player, players) );
-            /**/
         });
     }
 
@@ -62,7 +61,8 @@ class BattleUI extends Phaser.Events.EventEmitter {
     /**/
 
     resetMenus() {
-        this.Menus.reset();    
+        this.Menus.reset();  
+        this.UIMenus.reset();  
     }
 
 }

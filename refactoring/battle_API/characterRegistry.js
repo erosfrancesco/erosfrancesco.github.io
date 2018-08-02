@@ -13,13 +13,14 @@ class CharacterRegistry extends Phaser.Events.EventEmitter {
 		} = options;
 
 		characters = characters || [];
-		onAdd = onAdd || function(p) {};
-		onRemove = onRemove || function(p) {};
+		onAdd = onAdd || function(p, callback) { callback(); };
+		onRemove = onRemove || function(p, callback) { callback(); };
 
 		this.setAddCallback(onAdd);
 		this.setRemoveCallback(onRemove);
 
 		this._playerList = [];
+		this._queue = [];
 		characters.forEach(p => this.add(p) );
 	}
 
@@ -28,9 +29,7 @@ class CharacterRegistry extends Phaser.Events.EventEmitter {
 	}
 	
 	add(player) {
-		this._playerList.push(player);
-		this.emit('adding', {});
-		this._addCallback(player, this);
+		this._addCallback(player, () => this._playerList.push(player) );
 	}
 
 	forEach(f) {
@@ -40,10 +39,9 @@ class CharacterRegistry extends Phaser.Events.EventEmitter {
 	remove(filters) {
 		let match = this._playerList.find(filters);
 		if ( match ) {
-
-			this._playerList.splice(this._playerList.indexOf(match), 1);
-			//this.emit('remove', {filters});
-			this._removeCallback(match, this);
+			this._removeCallback(match, () => {
+				this._playerList.splice(this._playerList.indexOf(match), 1);
+			});
 		}
 	}
 	
@@ -51,8 +49,11 @@ class CharacterRegistry extends Phaser.Events.EventEmitter {
 		return this._playerList.find(filters);
 	}
 
-	//on(evnt, callback) { this.addListener(event, callback); }
-	
+	random() {
+		let max = this.length - 1;
+		let index = Phaser.Math.Between(0, this.length - 1);
+		return this.find((c, indx) => { return indx === index; });
+	}
 	
 	setRemoveCallback(f) {
 		this._removeCallback = f;
@@ -62,4 +63,12 @@ class CharacterRegistry extends Phaser.Events.EventEmitter {
 		this._addCallback = f;
 	}
 	/**/
+
+	get queue() {
+		return this._queue;
+	}
+
+	set queue(v) {
+		this._queue = v;
+	}
 }

@@ -1,3 +1,4 @@
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
 
 BuildCharacterCommands = (scene, battle, commands) => {
@@ -53,9 +54,9 @@ RGBATween = (scene, tweenConfig) => {
 }
 
 
+/*
 CharacterDeathAnimation1 = (player, callback) => {
 
-    console.log(player);
 
     let {Sprite} = player;
     let {scene} = Sprite;
@@ -64,7 +65,7 @@ CharacterDeathAnimation1 = (player, callback) => {
         targets: Sprite,
         props: {
             g: 0, 
-            //r: 128,
+            r: 128,
             b: 128,
             a: 0,
             ease: 'Linear' },
@@ -73,6 +74,7 @@ CharacterDeathAnimation1 = (player, callback) => {
     });
 
 }
+/**/
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -120,11 +122,27 @@ class _ATBActionProto {
 
         this.executor = executor;
         this.battle = battle;
+        this.watcher = 0;
     }
 
-    resolve(callback) {
+    resolve(callback) { // example
         setTimeout(() => callback(), 1000); 
     }
+
+
+    resolveCallback(callback) {
+        this.watcher++;
+        if ( this.watcher === this.targets.length ) { callback(); }
+    }
+
+
+    get watcher() {
+        return this._watcher;
+    }
+    set watcher(v) {
+        this._watcher = v;
+    }
+
 
     get targets() {
         return this._targets;
@@ -139,5 +157,37 @@ class _ATBActionProto {
     }
     set battle(v) {
         this._battle = v;
+    }
+}
+
+
+
+CharacterDeathAnimation1 = (player, callback) => {
+
+    let {Sprite} = player;
+    let {scene} = Sprite;
+
+    let tween = RGBATween(scene, {
+        targets: Sprite,
+        props: {
+            g: 0, 
+            r: 128,
+            b: 128,
+            a: 0,
+            ease: 'Linear' },
+        duration: 500,
+        onComplete: callback
+    });
+
+}
+
+class ATBDeathAnimation extends _ATBActionProto {
+    constructor(options) {
+        super(options);
+        this.animation = options.animation;
+    }
+
+    resolve(callback) {
+        this.animation(this.executor, callback)
     }
 }

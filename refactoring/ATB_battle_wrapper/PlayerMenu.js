@@ -1,7 +1,7 @@
 class PlayerMenu {
 	constructor(options) {
 
-        let {scene, player, sceneHeight, numberOfPlayers, playerIndex } = options;
+        let {scene, player, sceneHeight, numberOfPlayers, playerIndex, onBarLoaded } = options;
 
 
         this.playerIndex = playerIndex;
@@ -30,14 +30,14 @@ class PlayerMenu {
 
 
 
-        this.atb = new ATBPlayerBridge({scene, x: x - 80, y: y + textHeight, width: 160});
+        this.atb = new ATBPlayerBridge({scene, x: x - 80, y: y + textHeight, width: 160, onTurnReady: onBarLoaded });
         this.atb.init(player);
 
 
         this.playerInfo = player.life + ' / ' + player.mana;
         this.player = player;
 
-        this.player.onDamage = () => { console.log('ouch'); this.playerInfo = player.life + ' / ' + player.mana; }
+        this.player.onDamage = () => { this.playerInfo = player.life + ' / ' + player.mana; }
 	}
 
     get player() {

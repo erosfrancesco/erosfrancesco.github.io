@@ -19,19 +19,22 @@ class Battle {
     }
 
     // set current player and enemy
-    update() {
-        
+    update(callback) {
+
         // check if there is a new player turn
         if ( !this.Players.current ) {
-            this.Players.current = this.Players.find( player => { return player.ready; }) || false;
+            //let player = this.Players.find( player => { return player.ready } ) || false;
+            this.Players.current = this.Players.queue[0]; //player;
         }
 
         // check if there is a new enemy turn
         if ( !this.Enemies.current ) {
-            this.Enemies.current = this.Enemies.find( enemy => { return enemy.ready; }) || false;
+            
+            let enemy = this.Enemies.find( enemy => { return enemy.ready; }); 
+            this.Enemies.current = enemy || false;
         }
 
-        // input update
+        callback();
     }
 
 
