@@ -1,14 +1,21 @@
-class Shadow extends Player {
-	constructor(options) {
-
-		let {scene, battle, configs} = options;
-
-		super(configs);
-		this.Commands = [
-            new FightCommand({battle, scene}),
-            new ItemsCommand({battle, scene})
-        ];
-        this.Sprite = makePlayerSpriteFromConfig(scene, configs.spriteKey, configs.x, configs.y);
-        this.name = 'Shadow';
-	}
-}
+const PLAYERSHDOWCONFIG = {
+    commands: [ 'FIGHT', 'ITEMS' ],
+    name: 'ShdoW',
+    sprite: {
+        type: 'sprite',
+        key: 'FFVICast', 
+        frame: 4,
+        slotMap: slotMaps.players,
+        config: {
+            scaleX: 1.1,
+            scaleY: 1.1
+        }
+    },
+    stats: {
+        "str": 6,
+        "dex": 6,
+        "lvl": 5,
+        "lif": 70,
+        "man": 9
+    }
+};

@@ -5,12 +5,8 @@ class FightCommand extends _ATBCommandProto {
 
         this.action = options => {
 
-
             let {player, battle, scene} = options;
             let {Players, Enemies, Animator} = battle;
-
-
-            //console.log('built action for ', player.name);
 
             player.Action = new FightAction({executor: player, battle});
 
@@ -38,8 +34,7 @@ class FightAction extends _ATBActionProto {
 
     resolve(callback) {
 
-        // calc damage
-        let damage = 14000;
+
 
         // executor sprite animation
         ApplySpriteTint(this.executor.Sprite, 0xff00ff);
@@ -51,6 +46,9 @@ class FightAction extends _ATBActionProto {
             this.targets.forEach(target => {
                 ApplySpriteTint(target.Sprite, 0x00ff00);
 
+                // calc damage
+                let damage = ComputeFightDamageValue(this.executor);
+                
                 // apply damages
                 setTimeout(() => {
                    
@@ -76,4 +74,11 @@ class FightAction extends _ATBActionProto {
 
 function ApplySpriteTint(sprite, color) {
     sprite.setTint(color);
+}
+
+function ComputeFightDamageValue(exec, target) {
+    let damage = 30;
+    let roll = Phaser.Math.Between(1, exec.Stats.get('str') ) * 2;
+    damage += roll;
+    return damage;
 }

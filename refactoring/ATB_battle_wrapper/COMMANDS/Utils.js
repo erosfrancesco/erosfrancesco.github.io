@@ -54,28 +54,6 @@ RGBATween = (scene, tweenConfig) => {
 }
 
 
-/*
-CharacterDeathAnimation1 = (player, callback) => {
-
-
-    let {Sprite} = player;
-    let {scene} = Sprite;
-
-    let tween = RGBATween(scene, {
-        targets: Sprite,
-        props: {
-            g: 0, 
-            r: 128,
-            b: 128,
-            a: 0,
-            ease: 'Linear' },
-        duration: 500,
-        onComplete: callback
-    });
-
-}
-/**/
-
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
 
 class _ATBCommandProto {

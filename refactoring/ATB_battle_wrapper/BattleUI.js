@@ -55,14 +55,13 @@ class BattleUI extends Phaser.Events.EventEmitter {
     setPlayerStartMenu(options) {
         let { player, battle, scene } = options;
         let menu = new PlayerBattleMenu({ player, battle, scene });
-
         this.UIMenus.add(menu);
     }
     /**/
 
     resetMenus() {
         this.Menus.reset();  
-        this.UIMenus.reset();  
+        this.UIMenus.reset();
     }
 
 }

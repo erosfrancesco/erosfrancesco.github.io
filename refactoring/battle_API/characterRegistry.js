@@ -37,12 +37,10 @@ class CharacterRegistry extends Phaser.Events.EventEmitter {
 	}
 	
 	remove(filters) {
-		let match = this._playerList.find(filters);
-		if ( match ) {
-			this._removeCallback(match, () => {
-				this._playerList.splice(this._playerList.indexOf(match), 1);
-			});
-		}
+
+		let match = this._playerList.findIndex(filters);
+		if ( match < 0 ) return;
+		this._removeCallback(this._playerList[match], () => this._playerList.splice(match, 1) );
 	}
 	
 	find(filters) {

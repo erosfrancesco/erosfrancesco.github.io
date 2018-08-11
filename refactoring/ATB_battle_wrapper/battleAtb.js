@@ -2,7 +2,7 @@ class _ATBPlayersTurnWrapper extends Phaser.Events.EventEmitter {
     
     constructor(options) {
 
-        let { players, scene, onBarLoaded } = options;
+        let { players, scene, onBarLoaded, onRemove, onAdd } = options;
         players = players || [];
 
         super();
@@ -15,26 +15,7 @@ class _ATBPlayersTurnWrapper extends Phaser.Events.EventEmitter {
         this.Players = new CharacterRegistry({
 
             characters: players,
-
-            onRemove: (player, callback) => {
-                // remove
-                let newAction = new ATBDeathAnimation({
-                    executor: player, 
-                    battle: this,
-                    animation: player.Animations.Death(player, () => {
-                    
-                        console.log( player.name, ' is dead');
-                        // reset current turn;
-                        callback();
-
-                        // unorthodox
-                        if (!this.Players.length) {
-                            console.log('game over');
-                        }
-                    })
-                });    
-            },
-
+            onRemove,
             onAdd: (player, callback) => {
                 player.Sprite.setInteractive();
                 player.index = this.Players.length;
@@ -91,6 +72,27 @@ class ATBBattle extends Battle {
 
                 this.Players.queue.push(player);      
                 player.ready = true;
+            },
+
+            onRemove: (player, callback) => {
+                // remove
+                let newAction = new ATBDeathAnimation({
+                    executor: player, 
+                    battle: this,
+                    animation: player.Animations.Death(player, () => {
+                    
+                        console.log( player.name, ' is dead');
+                        
+                        // reset current turn;
+                        callback();
+                        //this.resetCurrentPlayerTurn(() => {});
+
+                        // unorthodox
+                        if (!this.Players.length) {
+                            console.log('game over');
+                        }
+                    })
+                });    
             }
         });
 
@@ -106,22 +108,19 @@ class ATBBattle extends Battle {
             onAdd: (enemy, callback) => {
                 enemy.Sprite.setInteractive();
                 enemy.index = this.Enemies.length;
-                console.log(this.Enemies);
                 callback();
             },
 
             onRemove: (enemy, callback) => {
-
-                //console.log('removing ', enemy, this.Enemies );
 
                 let newAction = new ATBDeathAnimation({
                     executor: enemy, 
                     battle: this,
                     animation: enemy.Animations.Death(enemy, () => {
                     
-                        console.log('GAH!');
-                        this.resetPlayerTurn(this.Players.current, callback);
+                        console.log( enemy.name, ': GAH!');
                         // reset current turn;
+                        //this.resetPlayerTurn(this.Players.current, callback);
                         callback();
 
                         // unorthodox
@@ -192,7 +191,6 @@ class ATBBattle extends Battle {
             let currentMenu = this.UI.UIMenus.current;
             if (currentMenu) currentMenu.down(); 
         });
-
         /////////////////////////////////////////////////////////////////////////////
                 
     }
@@ -208,32 +206,32 @@ class ATBBattle extends Battle {
 
 
         if ( character.type !== 'Ally' ) {
-            this.Enemies.remove(enemy => { return enemy.index === character.index; });
+            this.Enemies.remove(enemy => { return enemy.id === character.id; });
             return; 
         }
 
 
         if (this.Players.current === character) { 
-            this.endPlayerTurn(this.Players.current, () => {}); 
+            this.endCurrentPlayerTurn(() => {
+                console.log('end player turn.');
+            }); 
         }
 
         character.StatusMenu.atb.stop(character);
-        this.Players.remove(player => { return player === character; });
-
-        
+        this.Players.remove(player => { return player.id === character.id; });
     }
 
 
     applyDamageAndCheckLife(character, damage) {
 
-        if (character.Statuses.Dead) return;
+        if (character.Statuses.Dead) { console.log('killing a dead character'); return };
         
-
         character.damage = damage;
 
-        if (!character.life) {
-            this.killCharacter(character);
-        }
+        if (character.life > 0) return;
+
+        this.killCharacter(character);
+        
     }
 
     displayPlayerDamage(player, damage, callback) {
@@ -262,37 +260,37 @@ class ATBBattle extends Battle {
         });
     }
 
-    resetPlayerTurn(player, callback) {
+    resetCurrentPlayerTurn(callback) {
+
+        let current = this.Players.current;
         
-        if (!player) { callback(); return; }
+        if (!current) { callback(); return; }
 
         this.UI.resetMenus();
-        player.ready = false;
-        player.Action = false;
-        //let i = this.PlayerQueue.indexOf(player);
-        //if (i > -1) { this.PlayerQueue.splice(i ,1); }
-        this.Players.queue.shift();
-        callback(player);
+        current.ready = false;
+        current.Action = false;
+
+        callback(current);
     }
 
-    endPlayerTurn(player, callback) {
+    // player must be current.
+    endCurrentPlayerTurn(callback) {
+
+        let current = this.Players.current;
 
         // remove targets
         this.UI.resetMenus();
 
-        player.ready = false;
+        current.ready = false;
+        
         this.Players.queue.shift();
-        /*
-        let i = this.PlayerQueue.indexOf(player);
-        if (i > -1) { this.PlayerQueue.splice(i ,1); }
-        /**/
 
-        player.Action = false;
-        player._atbCurrent = 0;
+        current.Action = false;
+        current._atbCurrent = 0;
         this.Players.current = false;
-        this.Animator._busy = false;
+        //this.Animator._busy = false;
 
-        callback(player);
+        callback(current);
     }
 
     endEnemyTurn(callback) {
@@ -307,9 +305,7 @@ class ATBBattle extends Battle {
         if (this.Animator._busy) return;
 
         // resolve atb
-        this.Players.forEach( player => {
-            player.StatusMenu.turnUpdate();
-        });
+        this.Players.forEach( player => player.StatusMenu.turnUpdate() );
         
         super.update(() => {
 
@@ -318,11 +314,13 @@ class ATBBattle extends Battle {
             // check if there is an action that needs to be loaded or resolved
             if (!this.Players.current) { return; }
             if (this.Players.current.Action) { return; }
-            
+
             // menu
             if (!this.UI.UIMenus.length) {
 
+                
                 if (this.Players.current.Statuses.Dead) {
+                    console.log('nope');
                     this.Players.queue.shift();
                     this.Players.current = false;
                     return;

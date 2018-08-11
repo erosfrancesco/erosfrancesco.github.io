@@ -46,22 +46,22 @@ class TargetMenu extends Menu {
 
 
     up() {
-        super.up();
-        this.updateItems();
-    }
-
-    down() {
         super.down();
         this.updateItems();
     }
 
+    down() {
+        super.up();
+        this.updateItems();
+    }
+
     left() {
-        super.right();
+        super.left();
         this.updateItems();
     }
 
     right() {
-        super.left();
+        super.right();
         this.updateItems();
     }
 

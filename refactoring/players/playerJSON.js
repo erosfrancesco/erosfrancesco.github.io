@@ -15,6 +15,9 @@ const PLAYERTERRACONFIG = {
         "lvl": 5,
         "lif": 90,
         "man": 29
+    },
+    Animations: {
+        "Death": CharacterDeathAnimation1
     }
 };
 

@@ -96,107 +96,65 @@
 
     <script>
 
-        const playerSlotMap = [
-            {x: 550, y: 400},
-            {x: 500, y: 450},
-            {x: 450, y: 500},
-            {x: 400, y: 600}
-        ];
-
-        const bossSlotMap = [
-            {x: 50,  y: 550},
-            {x: 350, y: 500},
-            {x: 200, y: 400}
-        ];
-
-        const BACKGROUNDCONFIG = {
-            sprite: {
-                key: 'battleBackground', 
-                x: 350, y: 250, 
-                src: '../assets/world_over_heavens.png'
-            },
-            //onCreate: (img, scene) => {} 
-        };
-
-
-        let p0 = PLAYERTERRACONFIG;
-        p0.sprite.slot = 0;
-        p0.sprite.slotMap = playerSlotMap;
-
-        let p1 = PLAYERLOCKECONFIG;
-        p1.sprite.slot = 1;
-        p1.sprite.slotMap = playerSlotMap;
-
-        let p2 = PLAYEREDGARCONFIG;
-        p2.sprite.slot = 2;
-        p2.sprite.slotMap = playerSlotMap;
-
-        let p3 = PLAYERSHDOWCONFIG;
-        p3.sprite.slot = 3;
-        p3.sprite.slotMap = playerSlotMap;
-        
-
-
-        const KEFKAJSONCONFIG = {
-            commands: [ 'FIGHT', 'ITEMS' ],
-            name: "Kefka",
-            boss: true,
-            sprite: {
-                src: '../assets/kefka-tolit.png',
-                type: 'image',
-                key: 'kefka',
-                slot: 0,
-                slotMap: bossSlotMap,
-                config: {
-                    scaleX: 1,
-                    scaleY: 1
-                }
-            },
-            stats: {
-                "str": 50,
-                "dex": 4,
-                "lvl": 5,
-                "lif": 600,
-                "man": 199
-            }
-        };
-
-
-
-
-
-
-        class ATBBattleScene01 extends ATBBattleScene {
-            constructor(options) {
-                super(options);
-            }
+        class ATBBossBattleScene01 extends ATBBattleScene {
+            constructor(options) { super(options); }
 
             preload() {
                 super.preload();
 
                 loadFFVICast(this);
-                this.load.image(KEFKAJSONCONFIG.sprite.key, KEFKAJSONCONFIG.sprite.src);
-                this.load.image(BACKGROUNDCONFIG.sprite.key, BACKGROUNDCONFIG.sprite.src);
-
+                this.load.image('Guzma', '../assets/Guzma.png');
+                this.load.image('hipHopStreets', '../assets/hip_hop_streets.png');
             }
 
             create() {
 
                 super.create();
 
-                let background = this.make.image(BACKGROUNDCONFIG.sprite);
-                if (BACKGROUNDCONFIG.sprite.onCreate) {
-                    BACKGROUNDCONFIG.sprite.onCreate(background, this);
-                }
+                let background = this.make.image({key: 'hipHopStreets', x: 350, y: 250 });
+                background.setScale(0.5);
 
-                
-                this.makePlayer(p0);
-                this.makePlayer(p1);
-                this.makePlayer(p2);
-                this.makePlayer(p3);
+                let p0 = PLAYERTERRACONFIG;
+                p0.sprite.slot = 0;
+                this.makePlayer(p0, slotMap);
 
-                this.makeEnemy(KEFKAJSONCONFIG);
-                
+                let p1 = PLAYERLOCKECONFIG;
+                p1.sprite.slot = 1;
+                this.makePlayer(p1, slotMap);
+
+                let p2 = PLAYEREDGARCONFIG;
+                p2.sprite.slot = 2;
+                this.makePlayer(p2, slotMap);
+
+                let p3 = PLAYERSHDOWCONFIG;
+                p3.sprite.slot = 3;
+                this.makePlayer(p3, slotMap);
+
+
+                let GUZMAJSONCONFIG = {
+                    commands: [ 'FIGHT', 'ITEMS' ],
+                    name: "Guzma",
+                    boss: true,
+                    sprite: {
+                        type: 'image',
+                        key: 'Guzma',
+                        slot: 0,
+                        config: {
+                            scaleX: 0.5,
+                            scaleY: 0.5
+                        }
+                    },
+                    stats: {
+                        "str": 50,
+                        "dex": 4,
+                        "lvl": 5,
+                        "lif": 600,
+                        "man": 199
+                    }
+                };
+
+                this.makeEnemy(GUZMAJSONCONFIG);
+                /**/
 
                 this.initBattle();
 
@@ -218,7 +176,7 @@
             background: '#00ff00'
         });
 
-        GAME.scene.add('ATBBattleScene01', ATBBattleScene01, true);
+        GAME.scene.add('ATBBattleScene01', ATBBossBattleScene01, true);
 
 
     </script>
