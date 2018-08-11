@@ -5,20 +5,18 @@
 <body>
 
     <style>
-	    
     
     #parent {
         display: table;
         margin: auto auto;
-height: 100vh;
     }
+  
     </style>
     <div id="parent"></div>
 
-    <script src='../engine/phaser3.min.js'></script>    
+    <script src='../engine/phaser.min.js'></script>    
 	<script src='../engine/colors.js'></script>
-    <script src="../engine/Input.js"></script>
-
+    <script src='../engine/input.js'></script>
 
     <script>
 
@@ -30,10 +28,18 @@ height: 100vh;
             }
 
             preload () {
-                this.load.spritesheet('FFVICast', '../assets/ffviCast.png', { frameWidth: 680 / 4, frameHeight: 756 / 4 });
+                this.load.setPath('../assets/');
+                this.load.multiatlas('FFVICastSheet', 'ffviCast.json');
+                //this.load.spritesheet('FFVICast2', ['ffviCast.png', 'ffviCast_n.png'], { frameWidth: 680 / 4, frameHeight: 756 / 4 });
+                this.load.spritesheet('FFVICast', 'ffviCast.png', { frameWidth: 680 / 4, frameHeight: 756 / 4 });
             }
 
             create () {
+
+                this.inputKeyb = new KeyInputMapper({scene: this, debounce: 8});
+                this.inputKeyb.mapKey( Phaser.Input.Keyboard.KeyCodes.A, key => { console.log('selected'); });
+                this.inputKeyb.mapKey( Phaser.Input.Keyboard.KeyCodes.S, key => { console.log('selected'); });
+                //this.inputKeyb.removeKey(Phaser.Input.Keyboard.KeyCodes.S);
 
 
                 // center origin
@@ -50,9 +56,27 @@ height: 100vh;
                 this.sprite.x = 200;
                 this.sprite.y = 200;
 
+
+
+
+                this.capguy_anim = this.add.sprite(550, 300, 'FFVICastSheet', '02');
+                 // switch on light
+                this.capguy_anim.setPipeline('Light2D');
+                
+               
+
+                var light  = this.lights.addLight(350, 250, 1000);
+                this.lights.enable();
+                this.lights.setAmbientColor(0x333355);
+                /**/
+
+                //this.sprite.setTint(window.colors.stringTo0x( window.colors.lime ));
+
+                /*
+                
                 this.keyA = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
 
-                let combo = this.input.keyboard.createCombo('phaser', { maxKeyDelay: 2000 });
+                let combo = this.input.keyboard.createCombo('phaser', { maxKeyDelay: 3000 });
 
                 this.input.keyboard.on('keycombomatch', function (event) {
                     console.log('You typed phaser quickly!');
@@ -61,13 +85,20 @@ height: 100vh;
                 this.input.keyboard.on('keydown_B', function (event) {
                     console.log('hello a!');
                 });
+                /**/
 
+// use mouse pointer to move light position
+                this.input.on('pointermove', function (pointer) {
+                    light.x = pointer.x;
+                    light.y = pointer.y;
+                });
             }
 
             update() {
-                if (Phaser.Input.Keyboard.JustDown(this.keyA)) {
-                    console.log('Pooling a');
-                }
+                //if (Phaser.Input.Keyboard.JustDown(this.keyA)) console.log('Pooling a');
+            
+                this.inputKeyb.update();
+
             }
         }
 
@@ -82,7 +113,7 @@ height: 100vh;
         let GAME = new Phaser.Game({
             width,
             height,
-            pixelArt: true,
+            
             parent: 'parent'
         });
 
