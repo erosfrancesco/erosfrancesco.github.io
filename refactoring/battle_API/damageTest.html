@@ -1,0 +1,5 @@
+<script src="./damage.js"></script>
+<script>
+	let a = new BattleDamage({value: 3, piercing: true, blunt: true});
+	console.log( a.is('piercing', 'slashing'), a.is('blunt', 'piercing') );
+</script>

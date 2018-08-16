@@ -49,7 +49,7 @@ buildCharacterSprite = (options) => {
 
 function MakeEnemy(scene, battle, options) {
 
-    let {commands, stats, sprite, name, boss, Animations} = options;
+    let {commands, stats, sprite, name, boss, Animations, onDamageType} = options;
     sprite.scene = scene;
 
     sprite.boss = boss || false;
@@ -59,7 +59,8 @@ function MakeEnemy(scene, battle, options) {
         isBoss: Boolean(boss),
         name,
         sprite: buildCharacterSprite(sprite),
-        stats
+        stats,
+        onDamageType
     });
 
     return enemy;
@@ -67,7 +68,7 @@ function MakeEnemy(scene, battle, options) {
 
 function MakePlayer(scene, battle, options) {
 
-    let {commands, stats, sprite, name, Animations} = options;
+    let {commands, stats, sprite, name, Animations, onDamageType} = options;
     sprite.scene = scene;
 
     let player = new Player({
@@ -75,7 +76,8 @@ function MakePlayer(scene, battle, options) {
         name,
         sprite: buildCharacterSprite(sprite),
         stats, 
-        Animations
+        Animations,
+        onDamageType
     });
 
     return player;

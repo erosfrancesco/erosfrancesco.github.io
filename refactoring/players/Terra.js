@@ -13,6 +13,7 @@ const PLAYERTERRACONFIGS = {
     },
     stats: {
         "str": 4,
+        "def": 1,
         "dex": 3,
         "lvl": 5,
         "lif": 90,

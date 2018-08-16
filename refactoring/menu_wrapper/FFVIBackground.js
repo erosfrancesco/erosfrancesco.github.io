@@ -1,10 +1,14 @@
-let _BackgroundFFVITextureId     = 'FFVIBlueGradient';
-let _BackgroundFFVITextureWidth  = 256;
-let _BackgroundFFVITextureHeight = 256;
+const _BackgroundFFVITextureId     = 'FFVIBlueGradient';
+const _BackgroundFFVITextureWidth  = 256;
+const _BackgroundFFVITextureHeight = 256;
 
 _BackgroundFFVIStyling = (parent) => {
 
-    let {scene, width, height, x, y, noArrows} = parent;
+    let {
+        scene, 
+        width, height, x, y, 
+        noArrows, verticalArrows, horizontalArrows
+    } = parent;
 
     if (!scene.textures.exists(_BackgroundFFVITextureId)) {
         
@@ -31,36 +35,49 @@ _BackgroundFFVIStyling = (parent) => {
 class FFVIMenuBackground extends MenuBackground {
     constructor(options) {
 
-        let {width, height, x, y, scene, noArrows} = options;
+        let {
+            width, height, x, y, 
+            scene, 
+            noArrows, verticalArrows, horizontalArrows
+        } = options;
 
-        super({width, height, x, y, scene, noArrows, styling: _BackgroundFFVIStyling});
+        super({
+            width, height, 
+            x, y, 
+            scene, 
+            noArrows, verticalArrows, horizontalArrows, 
+            styling: _BackgroundFFVIStyling
+        });
 
-        //this.sprite.setDepth(100);
+        this.noArrows = noArrows;
+        this.verticalArrows = verticalArrows;
+        this.horizontalArrows = horizontalArrows;
 
         this.wrapper = scene.add.container(x, y);
         this.wrapper.setSize(width, height / 2);
         this.wrapper.setInteractive();
-        //this.wrapper.on('pointerover', () => console.log('hello') ) // test
-        
-        this.noArrows = noArrows;
-        if (!this.noArrows) {
-            //this.upArrow    = new UpArrowButton   ({scene, x, y: y - 40 - height / 2 });
-            //this.downArrow  = new DownArrowButton ({scene, x, y: y - 5 + height / 2 });
+
+
+        if (this.noArrows) return;
+
+        if (this.verticalArrows) {
+            this.upArrow    = new UpArrowButton   ({scene, x, y: y - 40 - height / 2 });
+            this.downArrow  = new DownArrowButton ({scene, x, y: y - 5 + height / 2 });
+        }
+
+        if (this.horizontalArrows) {
             this.leftArrow  = new LeftArrowButton ({scene, x: x - 20 - width / 2, y: y - 20 });
             this.rightArrow = new RightArrowButton({scene, x: x + 20 + width / 2, y: y - 20 });
         }
-        
-
     }
 
     destroy() {
         super.destroy();
-        if (!this.noArrows) {
-            //this.upArrow.destroy();
-            //this.downArrow.destroy();
-            this.leftArrow.destroy();
-            this.rightArrow.destroy();
-        }
+
+        if (this.upArrow) this.upArrow.destroy();
+        if (this.downArrow) this.downArrow.destroy();
+        if (this.leftArrow) this.leftArrow.destroy();
+        if (this.rightArrow) this.rightArrow.destroy();
     }
 
     setEvent(evnt, callback) {

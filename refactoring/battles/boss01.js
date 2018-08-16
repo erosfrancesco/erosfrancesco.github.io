@@ -4,6 +4,7 @@ const DIOBARDOCONFIG = {
     boss: true,
     stats: {
         "str": 50,
+        "def": 1,
         "dex": 4,
         "lvl": 5,
         "lif": 200,

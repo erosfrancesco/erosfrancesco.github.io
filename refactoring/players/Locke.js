@@ -29,6 +29,7 @@ const PLAYERLOCKECONFIG = {
     },
     stats: {
         "str": 5,
+        "def": 1,
         "dex": 4,
         "lvl": 5,
         "lif": 100,

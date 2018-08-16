@@ -13,6 +13,7 @@ const PLAYERSHDOWCONFIG = {
     },
     stats: {
         "str": 6,
+        "def": 1,
         "dex": 6,
         "lvl": 5,
         "lif": 70,

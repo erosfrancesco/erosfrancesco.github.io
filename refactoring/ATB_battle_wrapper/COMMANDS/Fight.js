@@ -35,7 +35,6 @@ class FightAction extends _ATBActionProto {
     resolve(callback) {
 
 
-
         // executor sprite animation
         ApplySpriteTint(this.executor.Sprite, 0xff00ff);
 
@@ -47,7 +46,7 @@ class FightAction extends _ATBActionProto {
                 ApplySpriteTint(target.Sprite, 0x00ff00);
 
                 // calc damage
-                let damage = ComputeFightDamageValue(this.executor);
+                let damage = ComputeFightDamageValue(this.executor, target);
                 
                 // apply damages
                 setTimeout(() => {
@@ -59,8 +58,8 @@ class FightAction extends _ATBActionProto {
                             this.battle.applyDamageAndCheckLife(target, damage);
                         });
                     });
+                    
                     // watch that callback!
-
                     callback();
 
                 }, 1000);
@@ -77,8 +76,25 @@ function ApplySpriteTint(sprite, color) {
 }
 
 function ComputeFightDamageValue(exec, target) {
-    let damage = 30;
-    let roll = Phaser.Math.Between(1, exec.Stats.get('str') ) * 2;
-    damage += roll;
-    return damage;
+
+    let value = 30;
+    let atkRoll = Phaser.Math.Between(1, exec.Stats.get('str') ) * 2;
+    let defRoll = Phaser.Math.Between(1, target.Stats.get('def') ) * 2;
+    
+    value -= defRoll;
+    value += atkRoll;
+    value = (value < 0) ? 0 : value;
+    
+    let damage = new BattleDamage({value, blunt: true});
+
+    Object.keys(damage.types).forEach(type => {
+        if (target.events.onDamageType[type])
+        target.events.onDamageType[type](damage);
+    });
+
+    return value;
 }
+
+
+
+

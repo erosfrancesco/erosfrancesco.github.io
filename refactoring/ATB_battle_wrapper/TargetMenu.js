@@ -3,8 +3,6 @@ class TargetMenu extends Menu {
 
         let { scene, targets, battle } = options;
         let { Animator } = battle;
-        let width = 75; 
-        let height = 200;
 
         super({
             items: [targets],
@@ -14,7 +12,9 @@ class TargetMenu extends Menu {
 
         this.itemIterator((item, colIndex, rowIndex) => {
             let {Sprite, name} = item;
-            let {x, y} = Sprite;
+            let {x, y, width, height} = Sprite;
+
+            x -= (width / 4);
             
             item._targetLabel = new FFVIText({scene, width, height, x, y, text: name});
             item.onSelect = () => Animator.setPlayerActionTargets([item]);
@@ -28,7 +28,7 @@ class TargetMenu extends Menu {
                 this.updateItems();
             });
 
-            item._targetLabel.on('pointerdown', () => { item.onSelect() });
+            item._targetLabel.on('pointerdown', () => item.onSelect() );
             /******************************************************************/
         });
 

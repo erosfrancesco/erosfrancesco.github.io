@@ -41,7 +41,8 @@ class PlayerBattleMenu extends FFVIMenu {
             width,
             height,
             x,
-            y
+            y,
+            horizontalArrows: true
         };
 
 		super(MenuOptions);

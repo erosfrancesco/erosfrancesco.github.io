@@ -28,15 +28,18 @@
             }
 
             preload () {
-                this.load.spritesheet('FFVICast', '../assets/ffviCast.png', { frameWidth: 680 / 4, frameHeight: 756 / 4 });
+                this.load.setPath('../assets/');
+                this.load.multiatlas('FFVICastSheet', 'ffviCast.json');
+                //this.load.spritesheet('FFVICast2', ['ffviCast.png', 'ffviCast_n.png'], { frameWidth: 680 / 4, frameHeight: 756 / 4 });
+                this.load.spritesheet('FFVICast', 'ffviCast.png', { frameWidth: 680 / 4, frameHeight: 756 / 4 });
             }
 
             create () {
 
-                this.input = new KeyInputMapper({scene: this, debounce: 8});
-                this.input.mapKey( Phaser.Input.Keyboard.KeyCodes.A, key => { console.log('selected'); });
-                this.input.mapKey( Phaser.Input.Keyboard.KeyCodes.S, key => { console.log('selected'); });
-                //this.input.removeKey(Phaser.Input.Keyboard.KeyCodes.S);
+                this.inputKeyb = new KeyInputMapper({scene: this, debounce: 8});
+                this.inputKeyb.mapKey( Phaser.Input.Keyboard.KeyCodes.A, key => { console.log('selected'); });
+                this.inputKeyb.mapKey( Phaser.Input.Keyboard.KeyCodes.S, key => { console.log('selected'); });
+                //this.inputKeyb.removeKey(Phaser.Input.Keyboard.KeyCodes.S);
 
 
                 // center origin
@@ -54,7 +57,20 @@
                 this.sprite.y = 200;
 
 
-                this.sprite.setTint(window.colors.stringTo0x( window.colors.lime ));
+
+
+                this.capguy_anim = this.add.sprite(550, 300, 'FFVICastSheet', '02');
+                 // switch on light
+                this.capguy_anim.setPipeline('Light2D');
+                
+               
+
+                var light  = this.lights.addLight(350, 250, 1000);
+                this.lights.enable();
+                this.lights.setAmbientColor(0x333355);
+                /**/
+
+                //this.sprite.setTint(window.colors.stringTo0x( window.colors.lime ));
 
                 /*
                 
@@ -71,12 +87,18 @@
                 });
                 /**/
 
+// use mouse pointer to move light position
+                this.input.on('pointermove', function (pointer) {
+                    light.x = pointer.x;
+                    light.y = pointer.y;
+                });
             }
 
             update() {
                 //if (Phaser.Input.Keyboard.JustDown(this.keyA)) console.log('Pooling a');
             
-                this.input.update();
+                this.inputKeyb.update();
+
             }
         }
 
@@ -91,7 +113,7 @@
         let GAME = new Phaser.Game({
             width,
             height,
-            pixelArt: true,
+            
             parent: 'parent'
         });
 

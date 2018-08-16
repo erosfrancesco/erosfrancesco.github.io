@@ -6,7 +6,7 @@ class FFVIMenu extends Menu {
 			cullX, cullY,
 			width, height,
 			x, y, 
-			noArrows, scene, battle
+			noArrows, verticalArrows, horizontalArrows, scene, battle
 		} = options;
 
 		super({ items, cullX, cullY });
@@ -14,20 +14,22 @@ class FFVIMenu extends Menu {
 		this.background = new FFVIMenuBackground({
             scene, 
             x, y, 
-            width, height
+            width, height,
+            noArrows, verticalArrows, horizontalArrows
         });
 
-		/*
-        this.background.upArrow.setEvent('pointerover', () => this.up() );
-        this.background.downArrow.setEvent('pointerover', () => this.down() );
-        this.background.leftArrow.setEvent('pointerover', () => this.left() );
-        this.background.rightArrow.setEvent('pointerover', () => this.right() );
-        /**/
 
+        if (horizontalArrows) {
+        	this.background.leftArrow.setEvent('pointerdown', () => this.up() );
+        	this.background.rightArrow.setEvent('pointerdown', () => this.down() );
+        }
 
-        this.background.leftArrow.setEvent('pointerdown', () => { this.up(); });
-        this.background.rightArrow.setEvent('pointerdown', () => { this.down(); });
-        this.background.setEvent('pointerdown', () => { this.currentItem.onSelect({scene, battle}); });
+        if (verticalArrows) {
+        	this.background.upArrow.setEvent('pointerdown', () => this.left() );
+        	this.background.downArrow.setEvent('pointerdown', () => this.right() );
+        }
+        
+        this.background.setEvent('pointerdown', () => this.currentItem.onSelect({scene, battle}) );
 
 
         ////////////////////////////////////////////////////////////////////////////////////////
@@ -36,22 +38,10 @@ class FFVIMenu extends Menu {
 
 		this.wrapper = scene.add.container(x, y);
 		this.itemIterator((t, colIndex, rowIndex) => {
-
 			this.computeItemSize(t, colIndex, rowIndex);
 			this.computeItemPosition(t, colIndex, rowIndex);
 			this.computeItemVisibility(t, colIndex, rowIndex);
 			this.wrapper.add(t.sprite);
-
-			/*
-			t.on('pointerover', pointer => t.sprite.selected() );
-            t.on('pointerout',  pointer => t.sprite.notSelected() );
-            t.on('pointerdown', pointer => this.right() );
-
-            t.on('touchstart', pointer => t.sprite.selected() );
-            t.on('touchmove', pointer => this.left() );
-            //t.on('pointermove', pointer => this.down() );
-            /**/
-        
 		});
 
 	}
@@ -72,17 +62,17 @@ class FFVIMenu extends Menu {
 			return;
 		}
 
-		if (t.x < 0) {
+		if (t.x < 0 ) {
 			t.visible = false;
 			return;
 		}
 
-		if (t.y >= this.height) {
+		if (t.y >= this.height + 1 - (this.height / this.cullY ) ) {
 			t.visible = false;
 			return;
 		}
 
-		if (t.y < 0) {
+		if (t.y < 1 - this.height / this.cullY ) {
 			t.visible = false;
 			return;
 		}
@@ -91,13 +81,15 @@ class FFVIMenu extends Menu {
 	}
 
 	computeItemPosition(t, ix, iy) {
-		t.x = t.width * ix;
-		t.y = t.height * iy;
+		t.x = t.width * (ix); // to work here
+		t.y = t.height * (iy - (this.cullY - 1) / 2);
 	}
 
 	computeItemSize(t) {
 		t.width = this.width / this.cullX;
 		t.height = this.height / this.cullY;
+		t.sprite.width = t.width;
+		t.sprite.height = t.height;
 	}
 
 

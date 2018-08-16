@@ -2,10 +2,12 @@ _TextStylingFFVI = (scene, callback) => {
     
     let o = scene.add.text(0, 0, "")
     .setStyle({ 
+        //backgroundColor: 'black'
     })
     .setFontFamily('Arial')
     .setFontSize(33)
     .setFontStyle('bold')
+    .setOrigin(0.5)
     .setShadow(2, 2, window.colors.shadow, 3)
     .setColor(window.colors.silver);
 

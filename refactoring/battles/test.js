@@ -12,10 +12,14 @@ const LEPRECHAUNCONFIG = {
     },
     stats: {
         "str": 50,
+        "def": 1,
         "dex": 4,
         "lvl": 5,
         "lif": 1900,
         "man": 199
+    },
+    onDamageType: {
+        blunt: (damage) => { return Math.floor(damage.value * 5 / 2); }
     }
 };
 
@@ -25,6 +29,7 @@ const KINGGOBLINCONFIG = {
     boss: true,
     stats: {
         "str": 50,
+        "def": 1,
         "dex": 4,
         "lvl": 5,
         "lif": 1900,
