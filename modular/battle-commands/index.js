@@ -2,4 +2,4 @@
 import FightCommand from './command-fight.js';
 import CharacterDeathAnimation from './animation-death.js';
 
-export {FightCommand, CharacterDeathAnimation};
+export default {FightCommand, CharacterDeathAnimation};

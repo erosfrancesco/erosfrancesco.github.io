@@ -55,6 +55,7 @@ export default class PlayerUI extends FFVIMenuBackground {
 
         this.atb = new ATBPlayerBar({
             scene, 
+            onBarLoaded,
             x: x - 80, 
             y: y + textHeight, 
             width: 160
@@ -64,6 +65,8 @@ export default class PlayerUI extends FFVIMenuBackground {
 
         this.playerInfo = player.life + ' / ' + player.mana;
         this.player = player;
+
+        this.onBarLoaded = onBarLoaded;
 
         //this.player.onDamage = () => { this.playerInfo = player.life + ' / ' + player.mana; }
 	}
@@ -92,11 +95,5 @@ export default class PlayerUI extends FFVIMenuBackground {
     set playerIndex(v) {
         this._playerIndex = v;
     }
-
-    /*
-    turnUpdate() {
-        this.atb.update(this.player);
-    }
-    /**/
 
 }

@@ -1,65 +1,67 @@
 import ATBCharacterBridge from './atb-system.js';
+import ActionRegistry from './battle-animator.js';
+
+
+function AttachTurnSystemToCharacter(character, battle) {
+    character.TurnSystem = new ATBCharacterBridge({ character, onReady: () => {
+            let registry = ( character.isAlly() ) ? battle.Players : battle.Enemies;
+            registry.queue.push(character);
+            battle.onCharacterDone(character);
+        }
+    }); 
+}
+
+function ManageRegistryTurn(battle, registry) {
+    if ( registry && !registry.current && registry.queue[0] ) { 
+        registry.current = registry.queue[0]; 
+        battle.onCharacterTurn(registry.current);
+    }
+}
+
 
 export default class AtbBattle {
 
     constructor(options) {
 
-        let {Animator, Enemies, Players, onCharacterUpdate, scene} = options;
+        let {
+            Enemies, Players, 
+            onCharacterUpdate, onCharacterTurn, onCharacterDone, 
+            scene
+        } = options;
 
-        //this.Animator = Animator || {};
+        this.Animator = new ActionRegistry();
+
         this.Enemies = Enemies;
         this.Players = Players;
         this.onCharacterUpdate = onCharacterUpdate || function () {};
+        this.onCharacterTurn = onCharacterTurn || function () {};
+        this.onCharacterDone = onCharacterDone || function () {};
 
-        this.forAllCharacters(character => { 
-            character.TurnSystem = new ATBCharacterBridge({
-                character, 
-                onReady: () => {
-                    if (character.isAlly()) { this.Players.queue.push(character); return; }
-                    this.Enemies.queue.push(character);
-                }
-            }); 
-        });
-
-
-
-        //this.forAllCharacters(character => {console.log(character)});
-        
-        //this.Input = new KeyInputMapper({ scene });
+        this.forAllCharacters(character => AttachTurnSystemToCharacter(character, this) );
     }
 
     
 
     forAllCharacters(f) {
-        //this.Enemies.forEach((character, index) => f(character, index) );
-        //this.Players.forEach((character, index) => f(character, index) );
+        this.Enemies.forEach((character, index) => f(character, index) );
+        this.Players.forEach((character, index) => f(character, index) );
     }
 
     // set current player and enemy
     update(callback) {
+        
+        // resolve actions
+        if (this.Animator.busy) { return; }
+        if (this.Animator.hasAction) { this.Animator.resolve(); return; }
 
         // update character atb
-        this.forAllCharacters(character => { 
-            character.TurnSystem.update(); 
-            this.onCharacterUpdate(character); 
-        });
-
-        //console.log(this.Players.queue);
+        this.forAllCharacters(c => c.TurnSystem.update(() => this.onCharacterUpdate(c) ) );
         
-        // check if there is a new player turn
-        if ( !this.Players.current && this.Players.queue[0] ) { 
-            this.Players.current = this.Players.queue[0]; 
-            console.log(this.Players.current.name, ' ally is ready');
-        }
-
-        // check if there is a new enemy turn
-        if ( !this.Enemies.current && this.Enemies.queue[0]) { 
-            this.Enemies.current = this.Enemies.queue[0];
-            console.log(this.Enemies.current.name, ' enemy is ready');
-        }
+        // manage turns
+        ManageRegistryTurn(this, this.Players);
+        ManageRegistryTurn(this, this.Enemies);
 
         callback();
-        /**/
     }
 
 
@@ -98,10 +100,26 @@ export default class AtbBattle {
         this._Turn = v;
     }
 
+
+
+    get onCharacterDone() {
+        return this._onCharacterDone;
+    }
+    set onCharacterDone(v) {
+        this._onCharacterDone = v;
+    }
+
     get onCharacterUpdate() {
         return this._onCharacterUpdate;
     }
     set onCharacterUpdate(v) {
         this._onCharacterUpdate = v;
+    }
+
+    get onCharacterTurn() {
+        return this._onCharacterTurn;
+    }
+    set onCharacterTurn(v) {
+        this._onCharacterTurn = v;
     }
 }

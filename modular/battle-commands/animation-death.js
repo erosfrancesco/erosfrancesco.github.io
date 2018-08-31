@@ -2,7 +2,7 @@ import DefaultBattleAnimation from './animation-default.js';
 import AnimationUtils from './animation-utils.js';
 let {RGBATween, ApplySpriteTint} = AnimationUtils;
 
-CharacterDeathTween = (player, callback) => {
+let CharacterDeathTween = (player, callback) => {
 
     let {Sprite} = player;
     let {scene} = Sprite;

@@ -2,8 +2,8 @@ import ATBPlayerBar from './atb-bar.js';
 import PlayerUI from './player-ui.js';
 
 //
-/*
-import Character from '../battle_stats/character.js';
+
+import Character from '../scene/character.js';
 import AtbBattle from '../battle_utils/atb-battle.js';
 import CharacterRegistry from '../battle_utils/character-registry.js';
 import ENGINE from '../engine/index.js';
@@ -11,48 +11,80 @@ import ENGINE from '../engine/index.js';
 let { game, GameUtilities } = ENGINE;
 
 
-/*
-let a = new Character({name: 'lol'});
-let b = new Character({name: 'lol', ally: true});
+
+let a = new Character({
+    name: 'hìdhu',
+    ally: true, 
+    stats: {
+        'life': 100,
+        'dexterity': 3
+    }
+});
+let b = new Character({
+    name: 'lolly', 
+    ally: true, 
+    stats: {
+        'life': 100
+    }
+});
 
 
-let Players = new CharacterRegistry();
+let Players = new CharacterRegistry({characters: [a, b]});
 let Enemies = new CharacterRegistry();
-Players.add(a);
-Players.add(b);
 
 
 let scene = game.scene.scenes[0];
-let player = new Character({
-    name: 'lolly', 
-    stats: {
-        'life': 100,
-        'damage': 4,
-        'mana': 2,
-        'usedMana': 2
-    }
-});
+
 let sceneHeight = game.config.height;
 let numberOfPlayers = 2;
-let playerIndex = 1;
 
 
-let test = new PlayerUI({
+a.UI = new PlayerUI({
     scene, 
-    player, 
+    player: a, 
     sceneHeight, 
     numberOfPlayers, 
-    playerIndex, 
-    onBarLoaded: () => { console.log('hello world'); } 
+    playerIndex: 0
 });
-test.atb.percentage = 0;
+a.UI.atb.percentage = 0;
 
 
-let t = new AtbBattle({Players, Enemies, onCharacterUpdate: p => {
+b.UI = new PlayerUI({
+    scene, 
+    player: b, 
+    sceneHeight, 
+    numberOfPlayers, 
+    playerIndex: 1
+});
+b.UI.atb.percentage = 0;
+
+
+let t = new AtbBattle({
+    Players, 
+    Enemies, 
+    
+    onCharacterUpdate: p => {
         if (!p.isAlly()) return;
 
         let percentage = 100 * p.TurnSystem.counter / p.TurnSystem.max;
-        test.atb.percentage = percentage;        
+        p.UI.atb.percentage = percentage;
+    },
+
+    onCharacterTurn: p => {
+        console.log('character ' + p.name + ' is ready!');
+    },
+    
+    onCharacterDone: p => {
+        console.log('turn on ', p.name);
+        ///*
+        t.Animator.add({
+            resolve: callback => {
+                console.log('2 second action');
+                setTimeout( callback, 2000);
+                
+            }
+        });
+        /**/
     }
 });
 

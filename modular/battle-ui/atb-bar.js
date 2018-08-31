@@ -8,13 +8,15 @@ export default class ATBPlayerBar extends ATBBarGraphics {
 			x, y,
 			scene,
 			player,
-			width
+			width,
+			onBarLoaded
 		} = options;
         
 		super({
 			x, y,
 			scene,
-			width: width,
+			onBarLoaded,
+			width,
 			height: 16
 		});
 

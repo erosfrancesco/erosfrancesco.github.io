@@ -1,7 +1,7 @@
-ApplySpriteTint = (sprite, color) => { sprite.setTint(color); }
+let ApplySpriteTint = (sprite, color) => { sprite.setTint(color); }
 
 
-RGBATween = (scene, tweenConfig) => {
+let RGBATween = (scene, tweenConfig) => {
 
     let TintTween = {
         r: 255,

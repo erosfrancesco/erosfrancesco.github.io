@@ -1,3 +1,4 @@
+// Character has been moved
 import AtbBattle from './atb-battle.js';
 import Character from '../battle_stats/index.js';
 import CharacterRegistry from './character-registry.js';

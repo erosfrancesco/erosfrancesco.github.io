@@ -15,7 +15,7 @@ const config = {
 	height: 500,
 	backgroundColor: '#444',
 	parent: "game-container",
-	pixelArt: true,
+//	pixelArt: true,
 	scene: PauseLoop,
 	physics: {
 		default: "arcade",
@@ -30,8 +30,8 @@ const game = new Phaser.Game(config);
 export default { game, ColorMap, KeyMapper, GameUtilities };
 
 
-/*
 
+/*
 // test
 
 class TestScene extends Phaser.Scene {

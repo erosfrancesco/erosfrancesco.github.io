@@ -22,7 +22,7 @@ class PhaserAnimator {
 
 }
 
-class ActionRegistry extends PhaserAnimator {
+export default class ActionRegistry extends PhaserAnimator {
     constructor(options) {
         options = options || {};
         let {actions, busy} = options;
@@ -39,6 +39,14 @@ class ActionRegistry extends PhaserAnimator {
     set currentPlayerActionToBeExecuted(v) {
         this._currentPlayerActionToBeExecuted = v;
     }
+
+    get firstAction() {
+    	return this.actions[0];
+    }
+
+    get hasAction() {
+    	return this.actions.length;
+    }
     
 
     add(Action) {
@@ -51,9 +59,10 @@ class ActionRegistry extends PhaserAnimator {
     }
 
     resolve() {
+    	this.busy = true;
         this.actions[0].resolve( () => this.removeFirstAction() );
-    }
+    }    
 
 }
 
-export default {PhaserAnimator, ActionRegistry};
+//export default {PhaserAnimator, ActionRegistry};

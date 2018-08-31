@@ -1,3 +1,7 @@
+import FFVIMenu from '../../menu_API/ffvi-menu.js';
+import FFVIText from '../../menu_API/ffvi-text.js';
+
+
 export default class PlayerBattleMenu extends FFVIMenu {
 	constructor(options) {
 
@@ -16,7 +20,6 @@ export default class PlayerBattleMenu extends FFVIMenu {
         let items = [[]];
 
         player.Commands.forEach(command => {
-
 
 
             let text = command.label;

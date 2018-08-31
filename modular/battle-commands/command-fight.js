@@ -1,7 +1,7 @@
 import DefaultBattleCommand from './command-default.js';
 import FightAction from './animation-fight.js';
 
-class FightCommand extends DefaultBattleCommand {
+export default class FightCommand extends DefaultBattleCommand {
     constructor(options) {
 
         super({ label: 'FIGHT' });

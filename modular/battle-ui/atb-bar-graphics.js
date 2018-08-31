@@ -3,14 +3,6 @@ import ROUNDED from './rounded-rect.js';
 let {RoundedRectFill, RoundedRectStroke} = ROUNDED;
 
 
-/*
-// used for background and outline
-function graphicOptions(graphics) {
-	graphics.lineStyle(2, 0x929292, 1);
-	graphics.fillStyle( 0xD2D2D2, 0.5 );
-}
-/**/
-
 function graphicOptions1(graphics) { graphics.fillStyle( ColorsMap.toHex('olive'), 1 ); }
 
 function GradientOptions(obj) {
@@ -69,7 +61,8 @@ export default class ATBBarGraphics {
 		let {
 			scene,
 			width, height,
-			x, y
+			x, y,
+			onBarLoaded
 		} = options;
 
 
@@ -133,6 +126,8 @@ export default class ATBBarGraphics {
 		this._percentage = v;
 
 		let factor = v / 100;
+
+		//console.log(v);
 		
 		this.barMiddle.scaleX = factor;
 

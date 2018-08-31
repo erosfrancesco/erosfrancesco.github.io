@@ -2,7 +2,7 @@ const _default_max = 255;
 function AtbValueFormula(character) {
     
     // ally
-    if ( character.isAlly() ) {
+    if ( character.ally ) {
         return ( 20 + character.getVelocity() );
     }
 
@@ -56,7 +56,7 @@ export default class ATBCharacterBridge {
 
 
 
-    update() {
+    update(callback) {
 
         if (this.character.ready) return;
 
@@ -64,9 +64,11 @@ export default class ATBCharacterBridge {
         
         if (this.counter >= this.max) { 
             this.counter = this.max;
-            this.character.ready = true; 
+            this.character.ready = true;
             this.onReady(this.character); 
         }
+
+        callback(this.character);
     }
 }
 
