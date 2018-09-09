@@ -11,6 +11,7 @@ const players = [PLAYERTERRACONFIG, PLAYEREDGARCONFIG, PLAYERLOCKECONFIG, PLAYER
 
 
 const GUZMACONFIG = {
+    AI: function(callback) { console.log('AI!'); callback(); },
     commands: [ 'FIGHT' ],
     name: "Guzma",
     boss: true,

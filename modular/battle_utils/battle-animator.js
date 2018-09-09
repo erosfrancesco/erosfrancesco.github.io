@@ -61,8 +61,19 @@ export default class ActionRegistry extends PhaserAnimator {
     resolve() {
     	this.busy = true;
         this.actions[0].resolve( () => this.removeFirstAction() );
-    }    
+    }
+
+
+    ///////// character interface
+
+    computeCharacterAction(character) {
+        let {Actions} = character;
+        return Actions;
+    }
+
+    loadCharacterAction(character) {
+        let action = this.computeCharacterAction(character);
+        this.add(action);
+    }
 
 }
-
-//export default {PhaserAnimator, ActionRegistry};

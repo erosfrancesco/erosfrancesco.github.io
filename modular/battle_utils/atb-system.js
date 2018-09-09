@@ -1,9 +1,10 @@
 const _default_max = 255;
 function AtbValueFormula(character) {
+
     
     // ally
-    if ( character.ally ) {
-        return ( 20 + character.getVelocity() );
+    if ( character.isAlly() ) {
+        return ( 2 + character.getVelocity() );
     }
 
     // enemy
@@ -15,12 +16,13 @@ function AtbValueFormula(character) {
 export default class ATBCharacterBridge {
     
     constructor(options) {
-        let {character, onReady} = options;
+        let {character, onReady, inactive} = options;
         
         this.character = character;
         this.onReady = onReady;
         this.max = _default_max;
         this.counter = 0;
+        this.inactive = inactive || false;
     }
 
 
@@ -58,7 +60,7 @@ export default class ATBCharacterBridge {
 
     update(callback) {
 
-        if (this.character.ready) return;
+        if (this.character.ready || this.inactive) return;
 
         this.counter += AtbValueFormula(this.character); // here the formula
         
@@ -69,6 +71,32 @@ export default class ATBCharacterBridge {
         }
 
         callback(this.character);
+    }
+
+
+
+
+    //
+    stop() {
+        this.counter = 0;
+        this.inactive = true;
+    }
+
+    pause(character) {
+        this.inactive = true;
+    }
+
+    init(character) {
+        this.inactive = false;
+    }
+
+
+    get inactive() {
+        return this._inactive;
+    }
+
+    set inactive(v) {
+        this._inactive = v;
     }
 }
 

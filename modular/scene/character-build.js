@@ -6,7 +6,7 @@ let {Player, Enemy} = CHARACTERS;
 
 function MakeEnemy(scene, battle, options) {
 
-    let {commands, stats, sprite, name, boss, Animations, onDamageType} = options;
+    let {AI, commands, stats, sprite, name, boss, Animations, onDamageType} = options;
     sprite.scene = scene;
 
     sprite.boss = boss || false;
@@ -19,6 +19,8 @@ function MakeEnemy(scene, battle, options) {
         stats,
         onDamageType
     });
+
+    enemy.AI = AI;
 
     return enemy;
 }

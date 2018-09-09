@@ -55,6 +55,7 @@ export default class PlayerUI extends FFVIMenuBackground {
 
         this.atb = new ATBPlayerBar({
             scene, 
+            player,
             onBarLoaded,
             x: x - 80, 
             y: y + textHeight, 

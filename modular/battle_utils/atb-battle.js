@@ -3,7 +3,9 @@ import ActionRegistry from './battle-animator.js';
 
 
 function AttachTurnSystemToCharacter(character, battle) {
-    character.TurnSystem = new ATBCharacterBridge({ character, onReady: () => {
+    character.TurnSystem = new ATBCharacterBridge({ 
+        //inactive: true, 
+        character, onReady: () => {
             let registry = ( character.isAlly() ) ? battle.Players : battle.Enemies;
             registry.queue.push(character);
             battle.onCharacterDone(character);
@@ -12,7 +14,10 @@ function AttachTurnSystemToCharacter(character, battle) {
 }
 
 function ManageRegistryTurn(battle, registry) {
-    if ( registry && !registry.current && registry.queue[0] ) { 
+    if ( registry && !registry.current && registry.queue[0] ) {
+
+        // if the player has an action
+
         registry.current = registry.queue[0]; 
         battle.onCharacterTurn(registry.current);
     }

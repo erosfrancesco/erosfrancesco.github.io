@@ -10,6 +10,9 @@ export default class Character {
 		this.type = (ally) ? 'Ally' : 'Enemy';
 		this.name = name || '???';
 
+		// AI
+		//this.AI = AI;
+
 		// animations
 		this.Animations = Animations; // || { Death: CharacterDeathAnimation1 };
 			

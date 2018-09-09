@@ -14,12 +14,12 @@ const PLAYERTERRACONFIG = {
         }
     },
     stats: {
-        "str": 4,
-        "def": 1,
-        "dex": 3,
-        "lvl": 5,
-        "lif": 90,
-        "man": 29
+        "strenght": 4,
+        "defense": 1,
+        "dexterity": 1,
+        "level": 5,
+        "life": 90,
+        "mana": 29
     },
     Animations: {
         //"Death": CharacterDeathAnimation1

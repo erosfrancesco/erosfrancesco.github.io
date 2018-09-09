@@ -14,12 +14,12 @@ const PLAYERSHDOWCONFIG = {
         }
     },
     stats: {
-        "str": 6,
-        "def": 1,
-        "dex": 6,
-        "lvl": 5,
-        "lif": 70,
-        "man": 9
+        "strenght": 4,
+        "defense": 1,
+        "dexterity": 1,
+        "level": 2,
+        "life": 90,
+        "mana": 29
     }
 };
 
