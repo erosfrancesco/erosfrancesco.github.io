@@ -1,10 +1,11 @@
 export default class DefaultBattleAnimation {
     constructor(options) {
 
-        let {executor, battle} = options;
+        let {executor, battle, onDone} = options;
 
         this.executor = executor;
         this.battle = battle;
+        this.onDone = onDone || function () {};
         this.watcher = 0;
     }
 
@@ -15,7 +16,15 @@ export default class DefaultBattleAnimation {
 
     resolveCallback(callback) {
         this.watcher++;
-        if ( this.watcher >= this.targets.length ) callback();
+        if ( this.watcher >= this.targets.length ) { this.onDone(); callback(); }
+    }
+
+    
+    get onDone() {
+        return this._onDone;
+    }
+    set onDone(v) {
+        this._onDone = v;
     }
 
 

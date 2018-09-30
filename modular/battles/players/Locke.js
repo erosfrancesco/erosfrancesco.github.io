@@ -14,12 +14,12 @@ const PLAYERLOCKECONFIG = {
         }
     },
     stats: {
-        "str": 5,
-        "def": 1,
-        "dex": 4,
-        "lvl": 5,
-        "lif": 100,
-        "man": 19
+        "strenght": 4,
+        "defense": 1,
+        "dexterity": 2,
+        "level": 2,
+        "life": 90,
+        "mana": 29
     }
 };
 

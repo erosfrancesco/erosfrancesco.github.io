@@ -36,7 +36,10 @@ function MakePlayer(scene, battle, options) {
         sprite: buildCharacterSprite(sprite),
         stats, 
         Animations,
-        onDamageType
+        onDamageType,
+        onDamage: () => {
+            player.UI.item2.text = player.life + ' / ' + player.mana;
+        }
     });
 
     return player;

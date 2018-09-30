@@ -1,3 +1,6 @@
+//import UTILS from '../engine/utils.js';
+//let {deepClone} = UTILS;
+
 class PhaserAnimator {
 	constructor(options) {
         options = options || {};
@@ -32,14 +35,7 @@ export default class ActionRegistry extends PhaserAnimator {
         this.actions = actions;
     }
     
-
-    get currentPlayerActionToBeExecuted() {
-        return this._currentPlayerActionToBeExecuted;
-    }
-    set currentPlayerActionToBeExecuted(v) {
-        this._currentPlayerActionToBeExecuted = v;
-    }
-
+    
     get firstAction() {
     	return this.actions[0];
     }
@@ -50,29 +46,65 @@ export default class ActionRegistry extends PhaserAnimator {
     
 
     add(Action) {
+        // Action must be computed
         this.actions.push(Action);
     }
 
     removeFirstAction() {
-        this.actions.pop();
+        this.currentAction = false;
+        this.actions.splice(0, 1);
         this.busy = false;
     }
 
     resolve() {
+        
     	this.busy = true;
-        this.actions[0].resolve( () => this.removeFirstAction() );
+        this.currentAction = this.actions[0];
+
+        if (!this.currentAction) { return; }
+
+        this.currentAction.resolve( () => this.removeFirstAction() );
     }
 
+    /////////
+
+    computeActionTarget(action) {
+        const {targets} = action;
+        const computedTargets = [];
+
+        targets.forEach(target => {
+            const {pointer, registry} = target;
+            // err management
+            const character = registry._playerList[pointer];
+            computedTargets.push(character);
+        });
+        return computedTargets;
+    }
+
+    computeActionExecutor(action) {
+        const {executor} = action;
+        const {pointer, registry} = executor;
+        // err management
+        const character = registry._playerList[pointer];
+      
+        return character;
+    }
 
     ///////// character interface
 
     computeCharacterAction(character) {
-        let {Actions} = character;
-        return Actions;
+        const {Actions} = character;
+        return Actions || false;
     }
 
     loadCharacterAction(character) {
+        
         let action = this.computeCharacterAction(character);
+
+        if (!action) { return; }
+        action.executor = this.computeActionExecutor(action);
+        action.targets = this.computeActionTarget(action);
+
         this.add(action);
     }
 

@@ -1,12 +1,37 @@
 import ATBCharacterBridge from './atb-system.js';
 import ActionRegistry from './battle-animator.js';
 
+import AnimationUtils from '../battle-commands/animation-utils.js';
+let {RGBATween} = AnimationUtils;
+/*
+import AnimationUtils from '../battle-commands/animation-utils.js';
+let {RGBATween} = AnimationUtils;
+
+let CharacterDeathTween = (player, callback) => {
+
+    let {Sprite} = player;
+    let {scene} = Sprite;
+
+    let tween = RGBATween(scene, {
+        targets: Sprite,
+        props: {
+            g: 0, 
+            r: 128,
+            b: 128,
+            a: 0,
+            ease: 'Linear' 
+        },
+        duration: 500,
+        onComplete: callback
+    });
+
+}
+*/
 
 function AttachTurnSystemToCharacter(character, battle) {
     character.TurnSystem = new ATBCharacterBridge({ 
-        //inactive: true, 
         character, onReady: () => {
-            let registry = ( character.isAlly() ) ? battle.Players : battle.Enemies;
+            const registry = ( character.isAlly() ) ? battle.Players : battle.Enemies;
             registry.queue.push(character);
             battle.onCharacterDone(character);
         }
@@ -14,12 +39,8 @@ function AttachTurnSystemToCharacter(character, battle) {
 }
 
 function ManageRegistryTurn(battle, registry) {
-    if ( registry && !registry.current && registry.queue[0] ) {
-
-        // if the player has an action
-
-        registry.current = registry.queue[0]; 
-        battle.onCharacterTurn(registry.current);
+    if ( registry && registry.queue[0] && !registry.current ) {
+        battle.onCharacterTurn(registry.queue[0]);
     }
 }
 
@@ -30,9 +51,11 @@ export default class AtbBattle {
 
         let {
             Enemies, Players, 
-            onCharacterUpdate, onCharacterTurn, onCharacterDone, 
+            onCharacterUpdate, onCharacterTurn, onCharacterDone, onCharacterDeath,
             scene
         } = options;
+
+        this.scene = scene;
 
         this.Animator = new ActionRegistry();
 
@@ -41,11 +64,21 @@ export default class AtbBattle {
         this.onCharacterUpdate = onCharacterUpdate || function () {};
         this.onCharacterTurn = onCharacterTurn || function () {};
         this.onCharacterDone = onCharacterDone || function () {};
+        this.onCharacterDeath = onCharacterDeath || function () {};
+
 
         this.forAllCharacters(character => AttachTurnSystemToCharacter(character, this) );
     }
 
     
+    applyDamage(target, damage) {
+        target.damage = damage;
+
+        // check character death
+        if (target.life > 0) return;
+        // character, battle, scene
+        this.onCharacterDeath(target, this, this.scene);
+    }
 
     forAllCharacters(f) {
         this.Enemies.forEach((character, index) => f(character, index) );

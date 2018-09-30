@@ -17,6 +17,7 @@ export default class MenuRegistry {
     remove() {
         if ( this._menuList[this._keep] ) {
             this.current.destroy();
+            //console.log(this.current.destroy);
             this.onDestroy(this.current, () => this._menuList.pop() );
         } 
     }

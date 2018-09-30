@@ -1,3 +1,5 @@
+// battle damage
+import BattleDamage from '../battle_utils/battle-damage.js';
 import DefaultBattleAnimation from './animation-default.js';
 import Utils from './animation-utils.js';
 let {ApplySpriteTint, RGBATween} = Utils;
@@ -7,21 +9,23 @@ let {ApplySpriteTint, RGBATween} = Utils;
 function ComputeFightDamageValue(exec, target) {
 
     let value = 30;
-    let atkRoll = Phaser.Math.Between(1, exec.Stats.get('str') ) * 2;
-    let defRoll = Phaser.Math.Between(1, target.Stats.get('def') ) * 2;
+    let atkRoll = Phaser.Math.Between(1, exec.Stats.get('strength') ) * 2;
+    let defRoll = Phaser.Math.Between(1, target.Stats.get('defense') ) * 2;
     
     value -= defRoll;
     value += atkRoll;
     value = (value < 0) ? 0 : value;
     
+
     let damage = new BattleDamage({value, blunt: true});
 
     Object.keys(damage.types).forEach(type => {
         if (target.events.onDamageType[type])
         target.events.onDamageType[type](damage);
     });
+    /**/
 
-    return value;
+    return 100;
 }
 
 
@@ -42,6 +46,8 @@ export default class FightAction extends DefaultBattleAnimation {
         setTimeout(() => {
             ApplySpriteTint(this.executor.Sprite, 0xffffff);
 
+            // 
+
             this.targets.forEach(target => {
                 ApplySpriteTint(target.Sprite, 0x00ff00);
 
@@ -50,15 +56,16 @@ export default class FightAction extends DefaultBattleAnimation {
                 
                 // apply damages
                 setTimeout(() => {
-                   
+
+                    
                     ApplySpriteTint(target.Sprite, 0xffffff);
                     
-                    this.battle.displayPlayerDamage(target, damage, () => {
+                    //this.battle.displayPlayerDamage(target, damage, () => {
                         this.resolveCallback(() => {
-                            this.battle.applyDamageAndCheckLife(target, damage);
+                            this.battle.applyDamage(target, damage);
                             callback();
                         });
-                    });
+                    //});
 
                 }, 1000);
                 

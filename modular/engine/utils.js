@@ -6,7 +6,7 @@ function deepClone(o){
 	
 	let _out = Array.isArray(o) ? [] : {};
 	
-	Object.keys(o).forEach(_key=> {
+	Object.keys(o).forEach(_key => {
 		let v = o[_key];
 		_out[_key] = (typeof v === "object") ? deepClone(v) : v;
 	});

@@ -78,15 +78,19 @@ export default class ATBCharacterBridge {
 
     //
     stop() {
+        this.reset();
+        this.pause();
+    }
+
+    reset() {
         this.counter = 0;
+    }
+
+    pause() {
         this.inactive = true;
     }
 
-    pause(character) {
-        this.inactive = true;
-    }
-
-    init(character) {
+    init() {
         this.inactive = false;
     }
 

@@ -3,132 +3,127 @@ let {game} = ENGINE;
 
 
 
-class topDownTileWorld extends Phaser.Scene {
+class topDownIsometricWorld extends Phaser.Scene {
     constructor (config) {
         super();
     }
 
     preload () {
+
+        this.load.setBaseURL('./');
+        this.load.tilemapTiledJSON('map', 'map.json');
+
         /*
-        this.load.spritesheet('tiles', 
-            '../assets/Stone.png', 
-            {frameWidth: 192 / 6, frameHeight: 160 / 5});
-        /**/
-        this.load.spritesheet('tiles', 
-            '../assets/Stone.png', 
-            //'../assets/Chiara_Enterbrain_TileA4_RecoloursWalls_zpshqigdnzs.png', 
-            {frameWidth: 16, frameHeight: 16});
+         * this.load.atlas({
+         *     key: 'mainmenu',
+         *     textureURL: 'images/MainMenu.png',
+         *     atlasURL: 'images/MainMenu.json'
+         *     normalMap: 'images/MainMenu-n.png',
+         * });
+         */
+        this.load.atlas({
+            key: 'isoblocks01', 
+            textureURL: 'isoblocks.png', 
+            atlasURL: 'isoblocks.json'
+        });
+        
     }
 
     create () {
-        
-        // Create a blank map
-        this.map = this.make.tilemap({
-            tileWidth: 16,
-            tileHeight: 16,
-            width: 10 * 10,
-            height: 10 * 10
+
+        // map building
+        const {tileheight, tilewidth, layers} = this.cache.tilemap.get('map').data;
+        const tileMap = this.cache.json.get('isoblocks01').frames;
+
+        this.tiles = [];
+
+        this.multiLayerParser({layers, tilewidth, tileheight, x: -300, y: 0},  ({id, tx, ty, centerX, centerY}) => { 
+            const tilesId = 'isoblocks01';
+            const tileId = Object.keys(tileMap)[id];
+            const tile = this.physics.add.image(centerX + tx, centerY + ty, tilesId, tileId);
+            this.tiles.push(tile);
+            return tile;
         });
 
-        // Load up a tileset
-        // last two arguments: margin & padding (px)
-        const tileset = this.map.addTilesetImage('tiles');
-        const numberOfTilesInARow = 4;
-        const tileMap = {
-            BRICKS: {
-                NE: 0 + (0 * numberOfTilesInARow),
-                N1: 1 + (0 * numberOfTilesInARow),
-                N2: 2 + (0 * numberOfTilesInARow),
-                NO: 3 + (0 * numberOfTilesInARow),
 
-                E1: 0 + (1 * numberOfTilesInARow),
-                C1: 1 + (1 * numberOfTilesInARow),
-                C2: 2 + (1 * numberOfTilesInARow),
-                O1: 3 + (1 * numberOfTilesInARow),
+        /*        
+        // camera effect
+        this.tweens.add({
+            targets: this.cameras.main,
+            scrollX: 500,
+            ease: 'Sine.Power2',
+            duration: 5000,
+            repeat: -1,
+            yoyo: true
+        });
+        /**/
 
-                E2: 0 + (2 * numberOfTilesInARow),
-                C3: 1 + (2 * numberOfTilesInARow),
-                C4: 2 + (2 * numberOfTilesInARow),
-                O2: 3 + (2 * numberOfTilesInARow),
+        // staticGroup || group
+        this.collider = this.physics.add.group({});
+        this.tiles.forEach(tile => {
+            let a = this.collider.add(tile);
+            tile.body.setBounce(0, 0); 
+        });
 
+        this.player = this.physics.add.sprite(450, 100, 'isoblocks01', 'block-001');
+        this.player.depth = 120;
 
-                SE: 0 + (3 * numberOfTilesInARow),
-                S1: 1 + (3 * numberOfTilesInARow),
-                SO: 3 + (3 *numberOfTilesInARow)
-            }
-        };
+        this.physics.add.collider(this.player, this.collider);
 
-        // Create an empty layer and give it the name "Layer 1"
-        this.layer = this.map.createBlankDynamicLayer('Layer 1', tileset);
-
-        // fill layer
-        //this.layer.fill(tileMap.BRICKS.C2);
-
-
-        
-        this.map.weightedRandomize( 0, 0, 100, 100, [ 
-            { index: tileMap.BRICKS.C1, weight: 4 }, // Probability is 3 / 4
-            { index: tileMap.BRICKS.C2, weight: 3 }, // Probability is 1 / 4
-            { index: tileMap.BRICKS.C3, weight: 1 }, // Probability is 3 / 4
-            { index: tileMap.BRICKS.C4, weight: 2 }  // Probability is 1 / 4
-        ]);
-
-        this.map.weightedRandomize( 2, 1, 4, 1, [ 
-            { index: tileMap.BRICKS.N2, weight: 2 }, // Probability is 1 / 3
-            { index: tileMap.BRICKS.N1, weight: 1 }, // Probability is 2 / 3
-        ]);     
-
-
-        this.layer.putTileAt(tileMap.BRICKS.NE, 1, 1);
-        this.layer.putTileAt(tileMap.BRICKS.NO, 6, 1);
-
-
-        this.map.weightedRandomize( 1, 2, 1, 4, [ 
-            { index: tileMap.BRICKS.E2, weight: 2 },
-            { index: tileMap.BRICKS.E1, weight: 1 },
-        ]);
-
-
-        this.map.weightedRandomize( 6, 2, 1, 4, [ 
-            { index: tileMap.BRICKS.O2, weight: 1 },
-            { index: tileMap.BRICKS.O1, weight: 2 },
-        ]);
-
-
+        this.cursors = this.input.keyboard.createCursorKeys();
     }
 
     update() {
-
+        if (this.cursors.left.isDown) {
+            this.player.setVelocityX(-160);
+        } else if (this.cursors.right.isDown) {
+            this.player.setVelocityX(160);
+        } else if (this.cursors.up.isDown) {
+            this.player.setVelocityY(-160);
+        } else if (this.cursors.down.isDown) {
+            this.player.setVelocityY(160);
+        } else {
+            this.player.setVelocityX(0);
+        }
     }
 
+    //////////////////////////////////////////////////////////////////////////////////////////////
 
-    //////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-    get map() {
-        return this._map;
-    }
-    set map(v) {
-        this._map = v;
-    }
-
-    get layers() {
-        return this._layers;
-    }
-    set layers(v) {
-        this._layers = v;
+    multiLayerParser ({layers, tilewidth, tileheight, x, y}, iterator) {
+        layers.forEach((layer, i) => {
+            const {width, height, data} = layer;
+            const z = i * height;
+            this.layerParser({data, tilewidth, tileheight, width, height, x, y, z}, iterator);
+        });   
     }
 
-    //////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    layerParser({data, tilewidth, tileheight, width, height, x, y, z}, iterator) {
 
+        z = z || 0;
+
+        const tileWidthHalf = tilewidth / 2;
+        const tileHeightHalf = tileheight / 2;
+        const centerX = (x || 0) + width * tileWidthHalf;
+        const centerY = 16 + (y || 0);
+
+        data.forEach((frameNumber, index) => {
+            if (!frameNumber) return;
+
+            const x = index % width;
+            const y = Math.floor(index / height);
+            const tx = (x - y) * tileWidthHalf;
+            const ty = (x + y) * tileHeightHalf;
+
+            let tile = iterator({id: frameNumber, tx, ty, centerX, centerY});
+            tile.depth = centerY + ty + z;
+        });
+    }
 }
 
 
 
 function BuildScene() { 
-    return new topDownTileWorld({
-        //assets
-    });
+    return new topDownIsometricWorld({});
 }
 
 game.scene.add('battle', BuildScene, true);
-/**/

@@ -75,8 +75,7 @@ export default class CharacterRegistry extends Phaser.Events.EventEmitter {
 	}
 	
 	remove(filters) {
-
-		let match = this.playerList.findIndex(filters);
+		const match = this.playerList.findIndex(filters);
 		if ( match < 0 ) return;
 		this.removeCallback(this.playerList[match], () => this.playerList.splice(match, 1) );
 	}
@@ -85,10 +84,19 @@ export default class CharacterRegistry extends Phaser.Events.EventEmitter {
 		return this.playerList.find(filters);
 	}
 
-	random() {
-		let max = this.length - 1;
-		let index = Phaser.Math.Between(0, this.length - 1);
-		return this.find((c, indx) => { return indx === index; });
+	findIndex(filters) {
+		return this.playerList.findIndex(filters);
 	}
+
+	random() {
+		const max = this.length - 1;
+		const index = Phaser.Math.Between(0, this.length - 1);
+		return this.find((c, indx) => indx === index );
+	}
+
+	randomIndex() {
+		return Phaser.Math.Between(0, this.length - 1);
+	}
+	
 	
 }

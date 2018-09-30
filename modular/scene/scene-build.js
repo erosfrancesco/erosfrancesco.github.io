@@ -2,7 +2,7 @@ import CharacterRegistry from '../battle_utils/character-registry.js';
 import PlayerUI from '../battle-ui/player-ui.js'
 import AtbBattle from '../battle_utils/atb-battle.js';
 import TURNPHASE from './turn-wrapper.js';
-let {onCharacterTurn} = TURNPHASE;
+let {onCharacterTurn, onCharacterDeath} = TURNPHASE;
 
 import LoadAssets from './asset-loader.js';
 
@@ -14,6 +14,7 @@ import BuildBattleBackground from './battle-background.js';
 import UTILS from '../engine/utils.js';
 let {deepClone} = UTILS;
 
+import FightAction from '../battle-commands/animation-fight.js';
 import BattleKeyInput from './key-input.js';
 
 
@@ -85,13 +86,52 @@ export default class ATBBattleScene extends Phaser.Scene {
 
             onCharacterTurn: p => {
                 onCharacterTurn(p, this.ATBBattle, this);
-                console.log('character ' + p.name + ' turn!');
+                //console.log("it's " + p.name + " turn!");
             },
 
             onCharacterDone: p => {
-                console.log('character ' + p.name + ' is ready!');
+                //console.log('character ' + p.name + ' is ready!');
+                //onCharacterTurn(p, this.ATBBattle, this);
+            },
+
+            onCharacterDeath: p => {
+                onCharacterDeath(p, this.ATBBattle, this);
             }
         });
+/*
+        let battle = this.ATBBattle;
+
+        let f1 = new FightAction({executor: {
+            pointer: 0,
+            registry: battle.Players
+        }, battle, onDone: () => {
+            console.log('done attacking 1');
+        }});
+
+        f1.targets = [{
+            pointer: 0,
+            registry: battle.Enemies
+        }];
+
+
+        let f2 = new FightAction({executor: {
+            pointer: 0,
+            registry: battle.Enemies
+        }, battle, onDone: () => {
+            console.log('done attacking 2');
+        }});
+
+        f2.targets = [{
+            pointer: 0,
+            registry: battle.Enemies
+        }];
+
+
+        this.ATBBattle.Animator.add(f1);
+        this.ATBBattle.Animator.add(f2);
+        /**/
+
+
 
 
         // BattleKeyInput
@@ -172,7 +212,7 @@ export default class ATBBattleScene extends Phaser.Scene {
         let params = deepClone(options);
         let enemy = MakeEnemy(this, this.ATBBattle, params);
         enemy.id = 'e - ' + this.enemyList.length;
-        //player.playerListIndex = this.playerList.length;
+        enemy.playerListIndex = this.enemyList.length;
         this.enemyList.push(enemy);
     }
 

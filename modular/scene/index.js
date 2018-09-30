@@ -6,12 +6,51 @@ import buildCharacterSprite from './sprite-utils.js';
 import PLAYERS from '../battles/players/index.js';
 let { PLAYERTERRACONFIG, PLAYEREDGARCONFIG, PLAYERLOCKECONFIG, PLAYERSHDOWCONFIG, playerAssets } = PLAYERS;
 playerAssets.spritesheet[0].src = './sprites/' + playerAssets.spritesheet[0].src;
-const players = [PLAYERTERRACONFIG, PLAYEREDGARCONFIG, PLAYERLOCKECONFIG, PLAYERSHDOWCONFIG];
+const players = [PLAYEREDGARCONFIG, PLAYERLOCKECONFIG, PLAYERSHDOWCONFIG];
+
+
+
+import FightAction from '../battle-commands/animation-fight.js';
+
+const AITest = function(options, callback) {
+    let {character, battle} = options;
+
+    character = battle.Enemies.current;
+
+    const pointer = battle.Enemies.findIndex(enemy => enemy.id === character.id);
+    const registry = battle.Enemies;
+
+    character.Actions = new FightAction({executor: { pointer, registry }, battle, 
+        onDone: () => { console.log('guzma done'); }
+    });
+
+    character.Actions.targets = [{
+        pointer: battle.Players.randomIndex(),
+        registry: battle.Players
+    }];
+
+    /*
+    
+    character.Actions = new FightAction({executor: {
+        pointer, //: battle.Enemies.randomIndex(),
+        registry: battle.Enemies
+    }, battle, onDone: () => {
+        //console.log('done attacking');
+    }});
+
+    character.Actions.targets = [{
+        pointer: battle.Players.randomIndex(),
+        registry: battle.Players
+    }];
+    /**/
+
+    callback();
+};
 
 
 
 const GUZMACONFIG = {
-    AI: function(callback) { console.log('AI!'); callback(); },
+    AI: AITest,
     commands: [ 'FIGHT' ],
     name: "Guzma",
     boss: true,
