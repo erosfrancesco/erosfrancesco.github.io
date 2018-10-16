@@ -5,7 +5,7 @@ They're obviously build with Phaser 3 Graphics objects.
 
 
 ### Menu
-See: [menus/README.md] (README)
+See [README](./menus/README.md)
 
 ### ATB bar
 
