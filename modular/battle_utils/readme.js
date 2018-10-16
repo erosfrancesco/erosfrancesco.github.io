@@ -1,3 +1,3 @@
 Add BattleAnimator to atbBattle
-Fu**ing BattleAnimator had a bug with removeFirstAction method that cost me time to figure out!
+Fu**ing BattleAnimator had a bug with removeFirstAction method. Took time to figure that out!
 
