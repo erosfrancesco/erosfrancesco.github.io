@@ -46,9 +46,11 @@
 - ##### randomIndex
     Return a random character index
 
+- ### ActionRegistry 
+A registry for actions to be executed in battle. Checked in the main loop.
 
 
 ## Bugs
-- ##### F\*\*\* Battle Animator. 
+- ##### F\*\*\* ActionRegistry 
 	Took time to figure this one
     removeFirstAction method didn't work properly. Fixed
