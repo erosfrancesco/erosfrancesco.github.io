@@ -1,6 +1,6 @@
-#Work in progress
+# Work in progress
 
-##Bugs
+## Bugs
 F*** BattleAnimator. Took time to figure that out!
   removeFirstAction
 
