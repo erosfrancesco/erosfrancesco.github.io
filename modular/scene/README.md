@@ -1,6 +1,8 @@
 # Work in progress
 
 ## Asset loader
+Used in ATBBattleScene class. \n <br>
+Possible asset types (See Phaser loader):
 - image
 - spritesheet
 - audio
