@@ -7,7 +7,8 @@ Possible asset types (See Phaser loader):
 - spritesheet
 - audio
 
-``` var assets = {
+``` 
+var assets = {
 
   baseUrl: '../assets/',
   image: [{
@@ -23,4 +24,5 @@ Possible asset types (See Phaser loader):
      src: 'ffviCast.png'
   }]
 
-} ```
+} 
+```
