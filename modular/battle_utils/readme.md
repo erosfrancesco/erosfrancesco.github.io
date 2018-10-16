@@ -3,13 +3,13 @@
 ### Turn System
   Atb attached by default
 #### Events:
-      * onCharacterUpdate
+- onCharacterUpdate
       Triggered every tick of the Turn System.
-      * onCharacterTurn
+- onCharacterTurn
       Triggered when a character must initiate its turn
-      * onCharacterDone
+- onCharacterDone
       Triggered when a character must terminate its turn
-      * onCharacterDeath
+- onCharacterDeath
       Triggered when a character is about to die
 
 
