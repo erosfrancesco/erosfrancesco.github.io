@@ -3,16 +3,16 @@
 ### Turn System
  Atb attached by default
 #### Events:
-- onCharacterUpdate
+- ##### onCharacterUpdate
 	Triggered every tick of the Turn System.
 
-- onCharacterTurn
+- ##### onCharacterTurn
 	Triggered when a character must initiate its turn
 
-- onCharacterDone
+- ##### onCharacterDone
 	Triggered when a character must terminate its turn
 
-- onCharacterDeath
+- ##### onCharacterDeath
 	Triggered when a character is about to die
 
 
@@ -25,30 +25,30 @@
   Keep in mind that other methods could be added in the future.
   
 #### Useful Methods
-- add
+- ##### add
     Add a character to the registry. Then execute addCallback function, passing character as parameter.
     
-- remove
+- ##### remove
     Remove a character from the registry. Before execute removeCallback function, passing character as parameter.
 
-- forEach
+- ##### forEach
     Iterator. Same as javascript Array.forEach method.
 
-- find
+- ##### find
     Return the first character that matches the provided filters. Same as javascript Array.find method.
 
-- findIndex
+- ##### findIndex
     Same as above, only return the character index instead of the character
 
-- random
+- ##### random
     Return a random character
 
-- randomIndex
+- ##### randomIndex
     Return a random character index
 
 
 
 ## Bugs
-- **F\*\*\*** Battle Animator. 
+- ##### F\*\*\* Battle Animator. 
 	Took time to figure this one
     removeFirstAction method didn't work properly. Fixed
