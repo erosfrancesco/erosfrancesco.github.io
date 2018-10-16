@@ -6,3 +6,5 @@ var tween = this.tweens.add({
         delay: 2000
     });
     
+
+timerEvent = this.time.addEvent({ delay: 1000, callback: () => {console.log('hello there');} });
