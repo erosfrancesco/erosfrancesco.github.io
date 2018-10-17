@@ -1,15 +1,15 @@
 import StylizableText from './phaser/text.js';
 import ENGINE from '../engine/index.js';
+// colorMap must be imported some other way...
 const {game, ColorMap} = ENGINE;
 
 
 // options is the parent text to be stylized.
 // return it.
-const FFVItextStyling = options => {
-
-    let {scene} = options;
+const FFVItextStyling = ({scene}) => {
     
-    let o = scene.add.text(0, 0, "")
+    const o = scene.add.text(0, 0, "")
+    // styling options
     .setStyle({ 
         //backgroundColor: 'black'
     })
@@ -22,6 +22,7 @@ const FFVItextStyling = options => {
 
     o.selected    = () => { o.setColor("#EACA2F"); };
     o.notSelected = () => { o.setColor(ColorMap.colors.silver); };
+
     return o;
 };
 
