@@ -5,9 +5,8 @@ import ARROWBUTTONS from './arrow-button.js';
 let {UpArrowButton, DownArrowButton, LeftArrowButton, RightArrowButton} = ARROWBUTTONS;
 import MenuBackground from '../logic/menu-background.js';
 
-// option is the menu
-// return the stylized background
-const _BackgroundFFVIStyling = menu => {
+// return a standard stylized background
+const defaultStyling = menu => {
 
     let {
         scene, 
@@ -15,22 +14,8 @@ const _BackgroundFFVIStyling = menu => {
         noArrows, verticalArrows, horizontalArrows
     } = menu;
 
-    if (!scene.textures.exists(_BackgroundFFVITextureId)) {
-        
-        let canvas = scene.textures.createCanvas(_BackgroundFFVITextureId, _BackgroundFFVITextureWidth, _BackgroundFFVITextureHeight);
-        let grd = canvas.context.createLinearGradient(0, 0, 0, _BackgroundFFVITextureHeight);
-
-        grd.addColorStop(0, ColorMap.colors.aqua);
-        grd.addColorStop(1, ColorMap.colors.navy);
-
-        canvas.context.fillStyle = grd;
-        canvas.context.fillRect(0, 0, _BackgroundFFVITextureWidth, _BackgroundFFVITextureHeight);
-
-        canvas.refresh();
-    }
-
-    let background = scene.add.image(x, y, _BackgroundFFVITextureId );
-    background.setScale(width / _BackgroundFFVITextureWidth, height / _BackgroundFFVITextureHeight);
+    let background = scene.add.image(x, y, '' );
+    background.setScale(width, height);
     
     return background;
 }
@@ -39,13 +24,14 @@ const _BackgroundFFVIStyling = menu => {
 
 
 
-export default class FFVIMenuBackground extends MenuBackground {
+export default class StylizedMenuBackground extends MenuBackground {
     constructor(options) {
 
         let {
             width, height, x, y, 
             scene, 
-            noArrows, verticalArrows, horizontalArrows
+            noArrows, verticalArrows, horizontalArrows,
+            styling = defaultStyling
         } = options;
 
         super({
@@ -53,7 +39,7 @@ export default class FFVIMenuBackground extends MenuBackground {
             x, y, 
             scene, 
             noArrows, verticalArrows, horizontalArrows, 
-            styling: _BackgroundFFVIStyling
+            styling
         });
 
         this.noArrows = noArrows;
@@ -91,10 +77,3 @@ export default class FFVIMenuBackground extends MenuBackground {
         this.wrapper.on(evnt, callback);
     }
 }
-
-
-
-const _BackgroundFFVITextureId     = 'FFVIBlueGradient';
-const _BackgroundFFVITextureWidth  = 256;
-const _BackgroundFFVITextureHeight = 256;
-
