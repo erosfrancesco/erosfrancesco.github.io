@@ -1,4 +1,4 @@
-export default class ColorsMap {
+export default class ColorMap {
     constructor() {}
 
 
