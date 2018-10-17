@@ -4,13 +4,13 @@ import FFVIMenuBackground from './ffvi-menu-background.js';
 import FFVIText from './ffvi-text.js';
 import FFVIMenu from './ffvi-menu.js';
 
-import MenuRegistry from './menu-registry.js';
+import MenuRegistry from './logic/registry.js';
 import ENGINE from '../engine/index.js';
 let { game, ColorMap, KeyMapper, GameUtilities } = ENGINE;
 
 export default { game, ColorMap, KeyMapper, GameUtilities, FFVIMenu, MenuRegistry, FFVIText, FFVIMenuBackground };
 
-/*
+
 let button1 = new FFVIText({
     scene: game.scene.scenes[0], 
     text: 'Option1', 
