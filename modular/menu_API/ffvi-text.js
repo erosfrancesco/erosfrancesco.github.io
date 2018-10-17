@@ -1,11 +1,11 @@
-import _PhaserText from './phaser-text.js';
+import StylizableText from './phaser/text.js';
 import ENGINE from '../engine/index.js';
-let {game, ColorMap} = ENGINE;
+const {game, ColorMap} = ENGINE;
 
 
 // options is the parent text to be stylized.
 // return it.
-const _TextStylingFFVI = options => {
+const FFVItextStyling = options => {
 
     let {scene} = options;
     
@@ -26,14 +26,9 @@ const _TextStylingFFVI = options => {
 };
 
 
-export default class FFVIText extends _PhaserText {
+export default class FFVIText extends StylizableText {
     constructor(options) {
-
-        // options decostruction
-        let { scene, text, x, y, width, height } = options;
-        
-        super({ scene, text, x, y, width, height, styling: _TextStylingFFVI });
-
-        
+        options.styling = FFVItextStyling;
+        super(options);
     }
 }
