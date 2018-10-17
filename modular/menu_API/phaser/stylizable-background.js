@@ -1,37 +1,17 @@
 // import modules (es6)
-//import ColorMap from '../../ColorMap.js';
 import ARROWBUTTONS from './arrow-button.js';
-let {UpArrowButton, DownArrowButton, LeftArrowButton, RightArrowButton} = ARROWBUTTONS;
+const {UpArrowButton, DownArrowButton, LeftArrowButton, RightArrowButton} = ARROWBUTTONS;
 import MenuBackground from '../logic/stylizable-background.js';
-
-/*
-// return a standard stylized background
-const defaultStyling = menu => {
-
-    const {
-        scene, 
-        width, height, x, y, 
-        noArrows, verticalArrows, horizontalArrows
-    } = menu;
-
-    const background = scene.add.image(x, y, '' );
-    background.setScale(width, height);
-    
-    return background;
-}
-/**/
-
-
 
 
 export default class StylizedMenuBackground extends MenuBackground {
     constructor(options) {
 
-        let {
+        const {
             width, height, x, y, 
             scene, 
             noArrows, verticalArrows, horizontalArrows,
-            styling// = defaultStyling
+            styling
         } = options;
 
         super({

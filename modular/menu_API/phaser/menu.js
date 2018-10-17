@@ -5,18 +5,20 @@ export default class StylizableMenu extends Menu {
 	constructor(options) {
 
 		const {
+			items,
+			x, y,
 			cullX, cullY,
 			width, height,
 			noArrows, verticalArrows, horizontalArrows,
-      background,
-      scene, 
-      battle
+      		background,
+      		scene, 
+      		battle
 		} = options;
 
-		super(options);
+		super({items, cullX, cullY});
 
-	  this.background = background;
-
+		this.scene = scene;
+	  	this.background = background;
 
         if (horizontalArrows) {
         	this.background.leftArrow.setEvent('pointerdown', () => this.up() );
@@ -29,13 +31,10 @@ export default class StylizableMenu extends Menu {
         }
         
         this.background.setEvent('pointerdown', () => this.currentItem.onSelect({scene, battle}) );
-
-
-        ////////////////////////////////////////////////////////////////////////////////////////
-
-        this.scene = scene;
+        
 
 		this.wrapper = scene.add.container(x, y);
+		
 		this.itemIterator((t, colIndex, rowIndex) => {
 			this.computeItemSize(t, colIndex, rowIndex);
 			this.computeItemPosition(t, colIndex, rowIndex);

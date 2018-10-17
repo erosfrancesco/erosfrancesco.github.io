@@ -1,9 +1,8 @@
+
 // Character has been moved
 import AtbBattle from '../battle_utils/atb-battle.js';
 import PlayerBattleMenu from '../battle-ui/menus/battle-menu.js';
 //import GAMEUTILS from '../engine/utils.js';
-
-
 
 import AnimationUtils from '../battle-commands/animation-utils.js';
 let {RGBATween} = AnimationUtils;
@@ -32,7 +31,7 @@ player turn => {
 
 */
 
-/**/
+
 import FightAction from '../battle-commands/animation-fight.js';
 function StartPlayerTurn(player, battle, scene) {
 	
@@ -46,13 +45,18 @@ function StartPlayerTurn(player, battle, scene) {
     
     setTimeout(() => {
 
+    	const pointer = battle.Players.findIndex(p => p.id === player.id );
+    	const registry = battle.Players;
 
-    	player.Actions = new FightAction({executor: {
-	        pointer: battle.Players.findIndex(p => p.id === player.id ),
-	        registry: battle.Players
-	    }, battle, onDone: () => {
-	        //console.log('done attacking');
-	    }});
+
+    	player.Actions = new FightAction({
+	    	executor: {
+		        pointer,
+		        registry
+		    }, battle, onDone: () => {
+		        //console.log('done attacking');
+		    }
+		});
 
 	    player.Actions.targets = [{
 	        pointer: battle.Players.randomIndex(),
@@ -83,7 +87,6 @@ function onCharacterTurn(character, battle, scene) {
     // enemy
     character.AI({character, battle}, () => { EndCharacterTurn(character, battle, scene); });
     /**/
-
 }
 
 function SetActionSelectionPhase(character, battle, scene) {
@@ -130,7 +133,7 @@ function EndPlayerTurn(player, battle, scene) {
 	
 }
 
-/**/
+
 
 
 function onCharacterDeath(character, battle, scene) { 
@@ -159,3 +162,4 @@ function onCharacterDeath(character, battle, scene) {
 
 
 export default {onCharacterTurn, onCharacterDeath};
+/**/

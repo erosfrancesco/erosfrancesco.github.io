@@ -1,5 +1,5 @@
 // import modules (es6)
-import StylizedMenuBackground from './phaser/background.js';
+import StylizedMenuBackground from './phaser/stylizable-background.js';
 import ColorMap from '../colorMap.js';
 
 
@@ -11,13 +11,7 @@ const _backgroundFFVITextureHeight = 256;
 
 
 // return a FFVI-style background
-const backgroundFFVIStyling = menu => {
-
-    const {
-        scene, 
-        width, height, 
-        x, y
-    } = menu;
+const backgroundFFVIStyling = ({ scene, width, height, x, y }) => {
 
     if (!scene.textures.exists(_backgroundFFVITextureId)) {
         

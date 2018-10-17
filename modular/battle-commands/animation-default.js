@@ -50,6 +50,10 @@ export default class DefaultBattleAnimation {
     set battle(v) {
         this._battle = v;
     }
+
+    get scene() {
+        return this._battle.scene;
+    }
 }
 
 

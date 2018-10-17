@@ -1,8 +1,10 @@
 // battle damage
 import BattleDamage from '../battle_utils/battle-damage.js';
 import DefaultBattleAnimation from './animation-default.js';
+
+import AwaitWaterfall from './awaitWaterfall.js';
 import Utils from './animation-utils.js';
-let {ApplySpriteTint, RGBATween} = Utils;
+const {ApplySpriteTint, RGBATween} = Utils;
 
 
 
@@ -23,7 +25,8 @@ function ComputeFightDamageValue(exec, target) {
         if (target.events.onDamageType[type])
         target.events.onDamageType[type](damage);
     });
-    /**/
+
+    console.log(damage);
 
     return 100;
 }
@@ -37,40 +40,87 @@ export default class FightAction extends DefaultBattleAnimation {
     }
 
     resolve(callback) {
-
-
-        // executor sprite animation
-        ApplySpriteTint(this.executor.Sprite, 0xff00ff);
-
-        // targets sprite animation
-        setTimeout(() => {
-            ApplySpriteTint(this.executor.Sprite, 0xffffff);
-
-            // 
-
-            this.targets.forEach(target => {
-                ApplySpriteTint(target.Sprite, 0x00ff00);
-
-                // calc damage
-                let damage = ComputeFightDamageValue(this.executor, target);
-                
-                // apply damages
-                setTimeout(() => {
-
-                    
-                    ApplySpriteTint(target.Sprite, 0xffffff);
-                    
-                    //this.battle.displayPlayerDamage(target, damage, () => {
-                        this.resolveCallback(() => {
-                            this.battle.applyDamage(target, damage);
-                            callback();
-                        });
-                    //});
-
-                }, 1000);
-                
-            });
-   
-        }, 1000);
+        this.executorWaterfall(() => {
+            delete this.executor.__FightActionWaterfall;
+            callback();
+        });        
     }
+
+
+    // executor
+    executorWaterfall(callback) {
+        this.executor.__FightActionWaterfall = new AwaitWaterfall([ 
+
+            // first step
+            (next) => {
+                ApplySpriteTint(this.executor.Sprite, 0xff00ff);
+                this.executor.Sprite.__FightActionEvent1 = this.scene.time.addEvent({ 
+                    delay: 1000,
+                    callback: next
+                });
+            }, 
+
+            // second step
+            (next) => {
+                delete this.executor.Sprite.__FightActionEvent1;
+                ApplySpriteTint(this.executor.Sprite, 0xffffff);
+                next();
+            },
+
+            // final step
+            (next) => {
+                this.targets.forEach(target => this.targetWaterfall(target, next) );
+            }
+        ], (err) => {
+            callback(err);
+        });
+    }
+
+
+
+    // for each target
+    targetWaterfall(target, callback) {
+
+        this.target.__FightActionWaterfallTarget = new AwaitWaterfall([
+                        
+            // target first step
+            (next) => {
+                ApplySpriteTint(target.Sprite, 0x00ff00);
+                const damage = ComputeFightDamageValue(this.executor, target);
+                next(damage);
+            },
+
+            // target second step
+            (next, damage) => {
+                target.Sprite.__FightActionEvent1 = this.scene.time.addEvent({
+                    delay: 1000,
+                    callback: () => next(damage)
+                });
+            },
+
+            // target final step
+            (next, damage) => {
+                delete target.Sprite.__FightActionEvent1;
+                ApplySpriteTint(target.Sprite, 0xffffff);
+                        
+                // optional step to display damage
+                //battle.displayPlayerDamage(target, damage, () => next({target, damage}) );
+                //(next, {damage, target}) => {
+                
+                this.resolveCallback(() => {
+                    console.log('hello there');
+                    this.battle.applyDamage(target, damage);
+                    callback();
+                });
+                
+                next();
+            }
+
+        ], (err) => {});
+    }
+
 }
+
+
+
+

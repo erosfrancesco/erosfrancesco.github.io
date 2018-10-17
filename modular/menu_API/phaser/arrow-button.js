@@ -1,5 +1,3 @@
-//import ENGINE from '../../engine/index.js';
-//let {game, ColorMap} = ENGINE;
 // import (es6)
 import ColorMap from '../../colorMap.js';
 

@@ -1,4 +1,4 @@
-import StylizableText from './phaser/text.js';
+import StylizableText from './phaser/stylizable-text.js';
 import ColorMap from '../colorMap.js';
 
 // import ENGINE from '../engine/index.js';

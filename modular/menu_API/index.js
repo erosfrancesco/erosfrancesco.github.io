@@ -6,21 +6,21 @@ import FFVIMenu from './ffvi-menu.js';
 
 import MenuRegistry from './logic/registry.js';
 import ENGINE from '../engine/index.js';
-let { game, ColorMap, KeyMapper, GameUtilities } = ENGINE;
+const { game, KeyMapper, GameUtilities } = ENGINE;
 
-export default { game, ColorMap, KeyMapper, GameUtilities, FFVIMenu, MenuRegistry, FFVIText, FFVIMenuBackground };
+export default { game, KeyMapper, GameUtilities, FFVIMenu, MenuRegistry, FFVIText, FFVIMenuBackground };
 
-
-let button1 = new FFVIText({
+/*
+const button1 = new FFVIText({
     scene: game.scene.scenes[0], 
     text: 'Option1', 
-    x: 0, y: 0, 
+    x: -100, y: 200, 
     width: 250, height: 50
 });
 
 
 // test
-let a = new FFVIMenu({
+const a = new FFVIMenu({
 	scene: game.scene.scenes[0],
 	x: 400,
     y: 300,

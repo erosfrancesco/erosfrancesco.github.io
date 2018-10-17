@@ -2,7 +2,7 @@ export default class MenuText {
     constructor(options) {
 
         // options decostruction
-        let { 
+        const { 
             scene, 
             text, styling, 
             width, height,

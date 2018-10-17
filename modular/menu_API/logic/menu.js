@@ -3,14 +3,11 @@ export default class Menu {
 
 		// options decostruction
 		let {
-			items,
-			cullX, cullY
+			items = [[]],
+			cullX = 1, cullY = 1
 		} = options;
 
 		// options sanitization
-		items = items || [[]];
-		cullX = cullX || 1;
-		cullY = cullY || 1;
 		cullY = (cullY > items.length)    ? items.length    : cullY;
 		cullX = (cullX > items[0].length) ? items[0].length : cullX;
 
