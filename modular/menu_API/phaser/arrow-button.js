@@ -1,7 +1,7 @@
 //import ENGINE from '../../engine/index.js';
 //let {game, ColorMap} = ENGINE;
 // import (es6)
-import ColorMap from '../../ColorMap.js';
+import ColorMap from '../../colorMap.js';
 
 // settings
 const base = 40;
