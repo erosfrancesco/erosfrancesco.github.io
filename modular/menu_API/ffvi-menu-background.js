@@ -12,16 +12,16 @@ const _backgroundFFVITextureHeight = 256;
 // return a FFVI-style background
 const backgroundFFVIStyling = menu => {
 
-    let {
+    const {
         scene, 
-        width, height, x, y, 
-        noArrows, verticalArrows, horizontalArrows
+        width, height, 
+        x, y
     } = menu;
 
     if (!scene.textures.exists(_backgroundFFVITextureId)) {
         
-        let canvas = scene.textures.createCanvas(_backgroundFFVITextureId, _backgroundFFVITextureWidth, _backgroundFFVITextureHeight);
-        let grd = canvas.context.createLinearGradient(0, 0, 0, _backgroundFFVITextureHeight);
+        const canvas = scene.textures.createCanvas(_backgroundFFVITextureId, _backgroundFFVITextureWidth, _backgroundFFVITextureHeight);
+        const grd = canvas.context.createLinearGradient(0, 0, 0, _backgroundFFVITextureHeight);
 
         grd.addColorStop(0, ColorMap.colors.aqua);
         grd.addColorStop(1, ColorMap.colors.navy);
@@ -32,7 +32,7 @@ const backgroundFFVIStyling = menu => {
         canvas.refresh();
     }
 
-    let background = scene.add.image(x, y, _backgroundFFVITextureId );
+    const background = scene.add.image(x, y, _backgroundFFVITextureId );
     background.setScale(width / _backgroundFFVITextureWidth, height / _backgroundFFVITextureHeight);
     
     return background;
@@ -44,20 +44,8 @@ const backgroundFFVIStyling = menu => {
 
 export default class FFVIMenuBackground extends StylizedMenuBackground {
     constructor(options) {
-
-        let {
-            width, height, x, y, 
-            scene, 
-            noArrows, verticalArrows, horizontalArrows
-        } = options;
-
-        super({
-            width, height, 
-            x, y, 
-            scene, 
-            noArrows, verticalArrows, horizontalArrows, 
-            styling: backgroundFFVIStyling
-        });
+        options.styling = backgroundFFVIStyling;
+        super(options);
     }
 }
 
