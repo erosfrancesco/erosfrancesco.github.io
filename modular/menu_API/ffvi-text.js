@@ -1,7 +1,9 @@
 import StylizableText from './phaser/text.js';
-import ENGINE from '../engine/index.js';
+import ColorMap from '../../colorMap.js';
+
+// import ENGINE from '../engine/index.js';
 // colorMap must be imported some other way...
-const {game, ColorMap} = ENGINE;
+// const {game, ColorMap} = ENGINE;
 
 
 // options is the parent text to be stylized.
