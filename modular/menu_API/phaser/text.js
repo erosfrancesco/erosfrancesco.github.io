@@ -1,6 +1,6 @@
 import MenuText from '../phaser/text.js';
-import ENGINE from '../../engine/index.js';
-const {game, ColorMap} = ENGINE;
+import ColorMap from '../../ColorMap.js';
+
 
 
 // options is the parent text to be stylized.
