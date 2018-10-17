@@ -1,8 +1,8 @@
-import MenuText from '../phaser/text.js';
-import ColorMap from '../../ColorMap.js';
+//import MenuText from '../phaser/text.js';
+//import ColorMap from '../../ColorMap.js';
 
 
-
+/*
 // options is the parent text to be stylized.
 // return it.
 const _TextStylingFFVI = options => {
@@ -24,7 +24,7 @@ const _TextStylingFFVI = options => {
     o.notSelected = () => { o.setColor(ColorMap.colors.silver); };
     return o;
 };
-
+/**/
 
 export default class StylizableText extends MenuText {
     constructor(options) {
