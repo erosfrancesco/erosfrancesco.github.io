@@ -1,4 +1,4 @@
-export default class _PhaserText {
+export default class MenuText {
     constructor(options) {
 
         // options decostruction
