@@ -1,7 +1,8 @@
-import Menu from './logic/menu.js';
+//import Menu from './logic/menu.js';
 import FFVIMenuBackground from './ffvi-menu-background.js';
+import StylizableMenu from './phaser/menu.js';
 
-export default class FFVIMenu extends Menu {
+export default class FFVIMenu extends StylizableMenu {
 	constructor(options) {
 
 		const {
@@ -9,11 +10,18 @@ export default class FFVIMenu extends Menu {
 			cullX, cullY,
 			width, height,
 			x, y, 
-			noArrows, verticalArrows, horizontalArrows, scene, battle
+			noArrows, verticalArrows, horizontalArrows, 
+			scene, battle,
+			background = new FFVIMenuBackground({
+			    scene, 
+			    x, y, 
+			    width, height,
+			    noArrows, verticalArrows, horizontalArrows
+			})
 		} = options;
 
 		super(options);
-
+/*
 	this.background = new FFVIMenuBackground({
             scene, 
             x, y, 
@@ -46,10 +54,11 @@ export default class FFVIMenu extends Menu {
 			this.computeItemVisibility(t, colIndex, rowIndex);
 			this.wrapper.add(t.sprite);
 		});
+		/**/
 
 	}
 
-
+/*
 	get width() { return this.background.width; }
 	set width(v) { this.background.width = v; }
 
@@ -128,4 +137,5 @@ export default class FFVIMenu extends Menu {
 		this.background.destroy();
         this.wrapper.destroy();
     }
+	/**/
 }
