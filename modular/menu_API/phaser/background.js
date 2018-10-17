@@ -1,6 +1,5 @@
 // import modules (es6)
-import ENGINE from '../../engine/index.js';
-let {game, ColorMap} = ENGINE;
+import ColorMap from '../../ColorMap.js';
 import ARROWBUTTONS from './arrow-button.js';
 let {UpArrowButton, DownArrowButton, LeftArrowButton, RightArrowButton} = ARROWBUTTONS;
 import MenuBackground from '../logic/background.js';
