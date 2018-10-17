@@ -1,10 +1,16 @@
 // import modules (es6)
-import MenuBackground from '../logic/background.js';
+import StylizedMenuBackground from './phaser/background.js';
+
+
+// Some settings
+const _backgroundFFVITextureId     = 'FFVIBlueGradient';
+const _backgroundFFVITextureWidth  = 256;
+const _backgroundFFVITextureHeight = 256;
 
 
 
-// return the stylized background
-const _BackgroundFFVIStyling = menu => {
+// return a FFVI-style background
+const backgroundFFVIStyling = menu => {
 
     let {
         scene, 
@@ -12,22 +18,22 @@ const _BackgroundFFVIStyling = menu => {
         noArrows, verticalArrows, horizontalArrows
     } = menu;
 
-    if (!scene.textures.exists(_BackgroundFFVITextureId)) {
+    if (!scene.textures.exists(_backgroundFFVITextureId)) {
         
-        let canvas = scene.textures.createCanvas(_BackgroundFFVITextureId, _BackgroundFFVITextureWidth, _BackgroundFFVITextureHeight);
-        let grd = canvas.context.createLinearGradient(0, 0, 0, _BackgroundFFVITextureHeight);
+        let canvas = scene.textures.createCanvas(_backgroundFFVITextureId, _backgroundFFVITextureWidth, _backgroundFFVITextureHeight);
+        let grd = canvas.context.createLinearGradient(0, 0, 0, _backgroundFFVITextureHeight);
 
         grd.addColorStop(0, ColorMap.colors.aqua);
         grd.addColorStop(1, ColorMap.colors.navy);
 
         canvas.context.fillStyle = grd;
-        canvas.context.fillRect(0, 0, _BackgroundFFVITextureWidth, _BackgroundFFVITextureHeight);
+        canvas.context.fillRect(0, 0, _backgroundFFVITextureWidth, _backgroundFFVITextureHeight);
 
         canvas.refresh();
     }
 
-    let background = scene.add.image(x, y, _BackgroundFFVITextureId );
-    background.setScale(width / _BackgroundFFVITextureWidth, height / _BackgroundFFVITextureHeight);
+    let background = scene.add.image(x, y, _backgroundFFVITextureId );
+    background.setScale(width / _backgroundFFVITextureWidth, height / _backgroundFFVITextureHeight);
     
     return background;
 }
@@ -36,7 +42,7 @@ const _BackgroundFFVIStyling = menu => {
 
 
 
-export default class FFVIMenuBackground extends MenuBackground {
+export default class FFVIMenuBackground extends StylizedMenuBackground {
     constructor(options) {
 
         let {
@@ -50,14 +56,9 @@ export default class FFVIMenuBackground extends MenuBackground {
             x, y, 
             scene, 
             noArrows, verticalArrows, horizontalArrows, 
-            styling: _BackgroundFFVIStyling
+            styling: backgroundFFVIStyling
         });
     }
 }
 
-
-
-const _BackgroundFFVITextureId     = 'FFVIBlueGradient';
-const _BackgroundFFVITextureWidth  = 256;
-const _BackgroundFFVITextureHeight = 256;
 
