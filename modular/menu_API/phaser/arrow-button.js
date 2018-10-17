@@ -1,13 +1,20 @@
-import ENGINE from '../../engine/index.js';
-let {game, ColorMap} = ENGINE;
+//import ENGINE from '../../engine/index.js';
+//let {game, ColorMap} = ENGINE;
+// import (es6)
+import ColorMap from '../../ColorMap.js';
 
+// settings
+const base = 40;
+
+//
 class UpArrowButton {
     constructor(options) {
 
-        let {scene, x, y, angle} = options;
-        angle = angle || 0;
-
-        let base = 40;
+        const {
+            scene, 
+            x, y, 
+            angle = 0
+        } = options;
 
         this.geom = Phaser.Geom.Triangle.BuildEquilateral(x, y, base);
 
