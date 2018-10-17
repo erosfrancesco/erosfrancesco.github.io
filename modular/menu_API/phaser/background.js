@@ -3,7 +3,7 @@ import ENGINE from '../../engine/index.js';
 let {game, ColorMap} = ENGINE;
 import ARROWBUTTONS from './arrow-button.js';
 let {UpArrowButton, DownArrowButton, LeftArrowButton, RightArrowButton} = ARROWBUTTONS;
-import MenuBackground from '../logic/menu-background.js';
+import MenuBackground from '../logic/background.js';
 
 // return a standard stylized background
 const defaultStyling = menu => {
