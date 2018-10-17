@@ -1,5 +1,5 @@
 import StylizableText from './phaser/text.js';
-import ColorMap from '../../colorMap.js';
+import ColorMap from '../colorMap.js';
 
 // import ENGINE from '../engine/index.js';
 // colorMap must be imported some other way...
