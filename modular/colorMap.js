@@ -22,7 +22,9 @@ export default class ColorMap {
             black:   '#111111',
             silver:  '#dddddd',
             whiteD2: '#d2d2d2',
-            shadow:  '#3d333d'
+            shadow:  '#3d333d',
+
+            indigo600: '#3949ab'
         };
     }
     
