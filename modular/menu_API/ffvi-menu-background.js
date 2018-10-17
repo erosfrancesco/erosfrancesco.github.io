@@ -1,6 +1,6 @@
 // import modules (es6)
 import StylizedMenuBackground from './phaser/background.js';
-import ColorMap from '../../colorMap.js';
+import ColorMap from '../colorMap.js';
 
 
 // Some settings
