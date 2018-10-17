@@ -2,12 +2,12 @@ export default class MenuBackground {
     constructor(options) {
 
     	// options decostruction
-		let {
-			width, height,
-			x, y,
-			scene,
-            styling
-		} = options;
+	const {
+		width, height,
+		x, y,
+		scene,
+            	styling
+	} = options;
 		
         // Properties
         this.x = x;
