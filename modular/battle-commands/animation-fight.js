@@ -81,7 +81,7 @@ export default class FightAction extends DefaultBattleAnimation {
     // for each target
     targetWaterfall(target, callback) {
 
-        this.target.__FightActionWaterfallTarget = new AwaitWaterfall([
+        target.__FightActionWaterfallTarget = new AwaitWaterfall([
                         
             // target first step
             (next) => {

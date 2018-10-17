@@ -52,23 +52,24 @@ const KINGGOBLINCONFIG = {
 ////////////////////////////////////////////////////////
 
 const assets = {
-    // mp3
-    baseUrl: '../../refactoring/assets/sprites/',
+    
+    baseUrl: '../../assets/',
     
     image: [{
         key: 'battleBackground', 
-        src: '../backgrounds/battle_background_01.png'
+        src: './backgrounds/battle_background_01.png'
     }, {
         key: 'goblin_king_boss',
-        src: 'Goblin_King_Figure.png'
+        src: './sprites/Goblin_King_Figure.png'
     }, {
         key: 'leprechaun',
-        src: 'Leprechaun.png'
+        src: './sprites/Leprechaun.png'
     }],
 
+    // mp3
     audio: [{
         key: 'ayayay',
-        src: '../audio/Jojo-Awaken.mp3'
+        src: './audio/Jojo-Awaken.mp3'
     }]
 };
 
