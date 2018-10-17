@@ -4,21 +4,22 @@ import ARROWBUTTONS from './arrow-button.js';
 let {UpArrowButton, DownArrowButton, LeftArrowButton, RightArrowButton} = ARROWBUTTONS;
 import MenuBackground from '../logic/background.js';
 
+/*
 // return a standard stylized background
 const defaultStyling = menu => {
 
-    let {
+    const {
         scene, 
         width, height, x, y, 
         noArrows, verticalArrows, horizontalArrows
     } = menu;
 
-    let background = scene.add.image(x, y, '' );
+    const background = scene.add.image(x, y, '' );
     background.setScale(width, height);
     
     return background;
 }
-
+/**/
 
 
 
@@ -30,7 +31,7 @@ export default class StylizedMenuBackground extends MenuBackground {
             width, height, x, y, 
             scene, 
             noArrows, verticalArrows, horizontalArrows,
-            styling = defaultStyling
+            styling// = defaultStyling
         } = options;
 
         super({
