@@ -1,13 +1,10 @@
-import Menu from './scrollable-menu.js';
+import Menu from './logic/menu.js';
 import FFVIMenuBackground from './ffvi-menu-background.js';
-import ARROWBUTTONS from './arrow-button.js';
-
-let {UpArrowButton, DownArrowButton, LeftArrowButton, RightArrowButton} = ARROWBUTTONS;
 
 export default class FFVIMenu extends Menu {
 	constructor(options) {
 
-		let {
+		const {
 			items,
 			cullX, cullY,
 			width, height,
@@ -15,9 +12,9 @@ export default class FFVIMenu extends Menu {
 			noArrows, verticalArrows, horizontalArrows, scene, battle
 		} = options;
 
-		super({ items, cullX, cullY });
+		super(options);
 
-		this.background = new FFVIMenuBackground({
+	this.background = new FFVIMenuBackground({
             scene, 
             x, y, 
             width, height,
