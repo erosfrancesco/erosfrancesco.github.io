@@ -1,6 +1,6 @@
 import BattleDamage from '../battle_utils/battle-damage.js';
 
-export default class ComputeDamage extends BattleDamage {
+export default class Damage extends BattleDamage {
     constructor(options, exec, target) {
 
         // intial settings
