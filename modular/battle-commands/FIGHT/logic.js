@@ -1,28 +1,26 @@
-import DefaultBattleCommand from './command-default.js';
 import FightAction from './animation-fight.js';
 
-export default class FightCommand extends DefaultBattleCommand {
-    constructor(options) {
 
-        super({ label: 'FIGHT' });
+export function ComputeDamage(exec, target) {
 
-        this.action = options => {
+    let value = 30;
+    let atkRoll = Phaser.Math.Between(1, exec.Stats.get('strength') ) * 2;
+    let defRoll = Phaser.Math.Between(1, target.Stats.get('defense') ) * 2;
+    
+    value -= defRoll;
+    value += atkRoll;
+    value = (value < 0) ? 0 : value;
+    
 
-            let {player, battle, scene} = options;
-            let {Players, Enemies, Animator} = battle;
+    let damage = new BattleDamage({value, blunt: true});
 
-            player.Action = new FightAction({executor: player, battle});
+    Object.keys(damage.types).forEach(type => {
+        if (target.events.onDamageType[type])
+        target.events.onDamageType[type](damage);
+    });
 
-            // build player action
-            Animator.addCharacterAction(player);
-            
-            // compute available targets and set the target menu
-            let targets = [];
-            Players.forEach(p => targets.push(p));
-            Enemies.forEach(p => targets.push(p));
+    console.log(damage);
 
-            battle.UI.UIMenus.add( new TargetMenu({ scene, targets, battle }) );
-        };
-    }
+    return damage;
 }
 
