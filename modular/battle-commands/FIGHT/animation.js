@@ -1,13 +1,13 @@
 // battle damage
-import BattleDamage from '../battle_utils/battle-damage.js';
-import DefaultBattleAnimation from './animation-default.js';
+import Damage from './logic.js';
+import Animation from './animation.js';
 
-import AwaitWaterfall from './awaitWaterfall.js';
-import Utils from './animation-utils.js';
+import AwaitWaterfall from '../awaitWaterfall.js';
+import Utils from '../animation-utils.js';
 const {ApplySpriteTint, RGBATween} = Utils;
 
 
-
+/*
 function ComputeFightDamageValue(exec, target) {
 
     let value = 30;
@@ -30,6 +30,7 @@ function ComputeFightDamageValue(exec, target) {
 
     return 100;
 }
+/**/
 
 
 
@@ -86,7 +87,7 @@ export default class FightAction extends DefaultBattleAnimation {
             // target first step
             (next) => {
                 ApplySpriteTint(target.Sprite, 0x00ff00);
-                const damage = ComputeFightDamageValue(this.executor, target);
+                const damage = new Damage({}, this.executor, target);
                 next(damage);
             },
 
