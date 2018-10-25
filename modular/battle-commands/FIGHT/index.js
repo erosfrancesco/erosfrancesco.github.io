@@ -1,5 +1,5 @@
 import DefaultBattleCommand from '../command-default.js';
-import FightAction from './animation.js';
+import FightAction from './action.js';
 
 export default class FightCommand extends DefaultBattleCommand {
     constructor(options) {
