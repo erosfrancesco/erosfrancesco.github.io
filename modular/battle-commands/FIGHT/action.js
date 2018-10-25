@@ -6,6 +6,8 @@ import Utils from '../animation-utils.js';
 const {ApplySpriteTint, RGBATween} = Utils;
 
 /*
+
+
 from: 100,
 to: 200,
 duration: 500,
@@ -15,16 +17,17 @@ repeat: 1
 
 
 function SpriteBlinkAnimation(options) {
-    const {scene, sprite} = options;
-    /*
-    from: 0xff00ff,
-to: 0xffffff,
-duration: 250,
-yoyo: true,
-repeat: 1
-    /**/
+    const {scene, target} = options;
+    const tweenConfig = {
+        target,
+        from: 0xff00ff,
+        to: 0xffffff,
+        duration: 250,
+        yoyo: true,
+        repeat: 1
+    };
     
-    ApplySpriteTint(sprite, 0xff00ff);
+    return RGBATween(scene, tweenConfig);
 }
 
 /*
