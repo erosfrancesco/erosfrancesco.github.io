@@ -1,6 +1,5 @@
 // battle damage
 import Damage from './logic.js';
-import Animation from './animation.js';
 
 import AwaitWaterfall from '../awaitWaterfall.js';
 import Utils from '../animation-utils.js';
