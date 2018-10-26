@@ -1,18 +1,18 @@
 import StatRegistry from '../battle_stats/stat.js';
 import STATUSES from '../battle_stats/statuses-index.js';
-let {BuildStatuses, StatStatuses, TurnStatuses} = STATUSES;
+const {BuildStatuses, StatStatuses, TurnStatuses} = STATUSES;
 
 export default class Character {
 	constructor(options) {
 
-		let {ally, name, sprite, stats, activeStatuses, Animations, onDamageType, onDamage, commands} = options;
+		const {ally, name, sprite, stats, activeStatuses, Animations, onDamageType, onDamage, commands} = options;
 
 		this.type = (ally) ? 'Ally' : 'Enemy';
 		this.name = name || '???';
 
 		// animations
-		this.Animations = Animations; // || { Death: CharacterDeathAnimation1 };
-			
+		this.Animations = Animations || {};
+
 		// Commands
 		this.Commands = commands;
 		
@@ -23,6 +23,7 @@ export default class Character {
 
 		// StatusRegistry
 		this.Statuses = BuildStatuses(activeStatuses);
+
 
 		// events
 		this.events = {

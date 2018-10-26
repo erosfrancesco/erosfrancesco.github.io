@@ -1,11 +1,5 @@
 export default class Menu {
-	constructor (options) {
-
-		// options decostruction
-		let {
-			items = [[]],
-			cullX = 1, cullY = 1
-		} = options;
+	constructor ({ items = [[]], cullX = 1, cullY = 1 }) {
 
 		// options sanitization
 		cullY = (cullY > items.length)    ? items.length    : cullY;

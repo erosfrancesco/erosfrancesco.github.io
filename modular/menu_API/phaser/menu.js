@@ -11,7 +11,7 @@ export default class StylizableMenu extends Menu {
 			width, height,
 			noArrows, verticalArrows, horizontalArrows,
       		background,
-      		scene, 
+      		scene,
       		battle
 		} = options;
 

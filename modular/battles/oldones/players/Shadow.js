@@ -1,15 +1,12 @@
 import slotMaps from '../slotMaps.js';
 
-const PLAYEREDGARCONFIG = {
-    Animations: {
-        
-    },
+const PLAYERSHDOWCONFIG = {
     commands: [ 'FIGHT' ],
-    name: 'Edgar',
+    name: 'ShdoW',
     sprite: {
         type: 'sprite',
         key: 'FFVICast', 
-        frame: 3,
+        frame: 4,
         slotMap: slotMaps.players,
         config: {
             scaleX: 1.1,
@@ -26,4 +23,4 @@ const PLAYEREDGARCONFIG = {
     }
 };
 
-export default PLAYEREDGARCONFIG;
+export default PLAYERSHDOWCONFIG;

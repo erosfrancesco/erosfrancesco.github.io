@@ -1,7 +1,6 @@
 import CharacterRegistry from '../battle_utils/character-registry.js';
 import PlayerUI from '../battle-ui/player-ui.js'
-//import AtbBattle from '../battle_utils/atb-battle.js';
-import BattleWrapper from '../battle_utils/battle-wrapper.js';
+import AtbBattle from '../battle_utils/atb-battle.js';
 import TURNPHASE from './turn-wrapper.js';
 let {onCharacterTurn, onCharacterDeath} = TURNPHASE;
 
@@ -57,19 +56,20 @@ export default class ATBBattleScene extends Phaser.Scene {
 
 
     	// and the battle
-        this.ATBBattle = new BattleWrapper({ 
+        this.ATBBattle = new AtbBattle({ 
             scene: this,
             Players: new CharacterRegistry({
                 characters: this.playerList,
                 onAdd: (player, callback) => {
 
-                    const UI = new PlayerUI({
+                    let UI = new PlayerUI({
                         scene: this, 
                         player, 
                         sceneHeight: 500, 
                         numberOfPlayers: this.playerList.length, 
                         playerIndex: player.playerListIndex
                     });
+                    UI.atb.percentage = 0;
 
                     player.UI = UI;
                     callback(player);
@@ -80,48 +80,85 @@ export default class ATBBattleScene extends Phaser.Scene {
             onCharacterUpdate: p => {
                 if (!p.isAlly()) return;
 
-                const percentage = 100 * p.TurnSystem.counter / p.TurnSystem.max;
+                let percentage = 100 * p.TurnSystem.counter / p.TurnSystem.max;
                 p.UI.atb.percentage = percentage;
             },
 
             onCharacterTurn: p => {
                 onCharacterTurn(p, this.ATBBattle, this);
+                //console.log("it's " + p.name + " turn!");
             },
 
             onCharacterDone: p => {
+                //console.log('character ' + p.name + ' is ready!');
+                //onCharacterTurn(p, this.ATBBattle, this);
             },
 
             onCharacterDeath: p => {
                 onCharacterDeath(p, this.ATBBattle, this);
             }
         });
-        
-        /*
-            this.inputMap.setKeyCommand(40, key => {
-                console.log('down'); 
-                // all checks necessary
-                //this.ATBBattle.Players.current.Menus.current.down()
-            });
+/*
+        let battle = this.ATBBattle;
+
+        let f1 = new FightAction({executor: {
+            pointer: 0,
+            registry: battle.Players
+        }, battle, onDone: () => {
+            console.log('done attacking 1');
+        }});
+
+        f1.targets = [{
+            pointer: 0,
+            registry: battle.Enemies
+        }];
 
 
-            this.inputMap.setKeyCommand( Phaser.Input.Keyboard.KeyCodes.A, key => {
-                console.log('a',  ); 
-                // all checks necessary
-                // this.ATBBattle.Players.current.Menus.current.currentItem.command()
-                
-            });
+        let f2 = new FightAction({executor: {
+            pointer: 0,
+            registry: battle.Enemies
+        }, battle, onDone: () => {
+            console.log('done attacking 2');
+        }});
+
+        f2.targets = [{
+            pointer: 0,
+            registry: battle.Enemies
+        }];
+
+
+        this.ATBBattle.Animator.add(f1);
+        this.ATBBattle.Animator.add(f2);
         /**/
 
-        // this must be updated
-        this.ATBBattle.stop();
-        this.ATBBattle.start(() => this.ATBBattle.resume() );
+
+
+
+        // BattleKeyInput
+        this.inputMap = new BattleKeyInput({scene: this, battle: this.ATBBattle, debounce: 4});
+/*
+        this.inputMap.setKeyCommand(40, key => {
+            console.log('down'); 
+            // all checks necessary
+            //this.ATBBattle.Players.current.Menus.current.down()
+        });
+
+
+        this.inputMap.setKeyCommand( Phaser.Input.Keyboard.KeyCodes.A, key => {
+            console.log('a',  ); 
+            // all checks necessary
+            // this.ATBBattle.Players.current.Menus.current.currentItem.command()
+            
+        });
+        /**/
+
+       
+
     }
 
-    //////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
     update() {
-        if (this.ATBBattle.Stopped) return;
-        //this.inputMap.update();
+        if (this.Stopped) return;
+        this.inputMap.update();
         this.ATBBattle.update(() => {});
     }
 
@@ -187,10 +224,9 @@ export default class ATBBattleScene extends Phaser.Scene {
         this.playerList.push(player);
     }
 
-    /*
+
     initBattle() {
         this.ATBBattle.addCharacters(this.playerList, this.enemyList);
         this.ATBBattle.init();
     }
-    /**/
 }

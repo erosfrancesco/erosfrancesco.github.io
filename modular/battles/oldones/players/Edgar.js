@@ -1,9 +1,6 @@
 import slotMaps from '../slotMaps.js';
 
 const PLAYEREDGARCONFIG = {
-    Animations: {
-        
-    },
     commands: [ 'FIGHT' ],
     name: 'Edgar',
     sprite: {

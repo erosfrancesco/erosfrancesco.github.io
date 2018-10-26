@@ -34,9 +34,6 @@ const backgroundFFVIStyling = ({ scene, width, height, x, y }) => {
 }
 
 
-
-
-
 export default class FFVIMenuBackground extends StylizedMenuBackground {
     constructor(options) {
         options.styling = backgroundFFVIStyling;

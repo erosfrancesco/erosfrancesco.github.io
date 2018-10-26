@@ -1,93 +1,22 @@
-import ATBPlayerBar from './atb-bar.js';
-import PlayerUI from './player-ui.js';
+import BattleBanner from './battle-banner-wrapper.js';
 
-//
-
-import Character from '../scene/character.js';
-import AtbBattle from '../battle_utils/atb-battle.js';
-import CharacterRegistry from '../battle_utils/character-registry.js';
 import ENGINE from '../engine/index.js';
+const { game, GameUtilities } = ENGINE;
 
-let { game, GameUtilities } = ENGINE;
+const scene = game.scene.scenes[0];
 
+const a = new BattleBanner({scene});
 
+a.show('Hello\nworld', () => {
+    a.showLetters( 'hello world', () => {
+        a.showChunks([{
 
-let a = new Character({
-    name: 'hìdhu',
-    ally: true, 
-    stats: {
-        'life': 100,
-        'dexterity': 3
-    }
-});
-let b = new Character({
-    name: 'lolly', 
-    ally: true, 
-    stats: {
-        'life': 100
-    }
-});
+        }, {
 
-
-let Players = new CharacterRegistry({characters: [a, b]});
-let Enemies = new CharacterRegistry();
-
-
-let scene = game.scene.scenes[0];
-
-let sceneHeight = game.config.height;
-let numberOfPlayers = 2;
-
-
-a.UI = new PlayerUI({
-    scene, 
-    player: a, 
-    sceneHeight, 
-    numberOfPlayers, 
-    playerIndex: 0
-});
-a.UI.atb.percentage = 0;
-
-
-b.UI = new PlayerUI({
-    scene, 
-    player: b, 
-    sceneHeight, 
-    numberOfPlayers, 
-    playerIndex: 1
-});
-b.UI.atb.percentage = 0;
-
-
-let t = new AtbBattle({
-    Players, 
-    Enemies, 
-    
-    onCharacterUpdate: p => {
-        if (!p.isAlly()) return;
-
-        let percentage = 100 * p.TurnSystem.counter / p.TurnSystem.max;
-        p.UI.atb.percentage = percentage;
-    },
-
-    onCharacterTurn: p => {
-        console.log('character ' + p.name + ' is ready!');
-    },
-    
-    onCharacterDone: p => {
-        console.log('turn on ', p.name);
-        ///*
-        t.Animator.add({
-            resolve: callback => {
-                console.log('2 second action');
-                setTimeout( callback, 2000);
-                
-            }
+        }], () => {
+            console.log('All done')
         });
-        /**/
-    }
+    });
 });
 
-setInterval(() => t.update(() => { }), 30);
 
-/**/

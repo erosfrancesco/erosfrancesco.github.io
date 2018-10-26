@@ -20,6 +20,10 @@ const PLAYERLOCKECONFIG = {
         "level": 2,
         "life": 90,
         "mana": 29
+    },
+
+    activeStatuses: {
+        'berserk': true
     }
 };
 

@@ -53,17 +53,22 @@ export default class FightAction extends DefaultBattleAnimation {
 
             // first step
             (next) => {
-                ApplySpriteTint(this.executor.Sprite, 0xff00ff);
+                console.log(this);
+                // error here !
+                //ApplySpriteTint(this.executor.Sprite, 0xff00ff);
+                FightTween(this.executor, next);
+                /*
                 this.executor.Sprite.__FightActionEvent1 = this.scene.time.addEvent({ 
                     delay: 1000,
                     callback: next
                 });
+                /**/
             }, 
 
             // second step
             (next) => {
                 delete this.executor.Sprite.__FightActionEvent1;
-                ApplySpriteTint(this.executor.Sprite, 0xffffff);
+                //ApplySpriteTint(this.executor.Sprite, 0xffffff);
                 next();
             },
 
@@ -124,3 +129,22 @@ export default class FightAction extends DefaultBattleAnimation {
 
 
 
+function FightTween({Sprite}, callback) {
+    Sprite.__fightPhaserTween = RGBATween(Sprite.scene, {
+        targets: Sprite,
+        props: {
+            g: 128, 
+            r: 128,
+            b: 128,
+            a: 255,
+            ease: 'Linear' 
+        },
+        duration: 75,
+        repeat: 2,
+        yoyo: true,
+        onComplete: () => {
+            callback();
+            delete Sprite.__deathPhaserTween;
+        }
+    });
+}

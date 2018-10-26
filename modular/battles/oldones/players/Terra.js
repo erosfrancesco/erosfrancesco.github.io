@@ -1,15 +1,12 @@
 import slotMaps from '../slotMaps.js';
 
-const PLAYEREDGARCONFIG = {
-    Animations: {
-        
-    },
+const PLAYERTERRACONFIG = {
     commands: [ 'FIGHT' ],
-    name: 'Edgar',
+    name: 'Terra',
     sprite: {
         type: 'sprite',
         key: 'FFVICast', 
-        frame: 3,
+        frame: 0,
         slotMap: slotMaps.players,
         config: {
             scaleX: 1.1,
@@ -20,10 +17,13 @@ const PLAYEREDGARCONFIG = {
         "strenght": 4,
         "defense": 1,
         "dexterity": 1,
-        "level": 2,
+        "level": 5,
         "life": 90,
         "mana": 29
+    },
+    Animations: {
+        //"Death": CharacterDeathAnimation1
     }
 };
 
-export default PLAYEREDGARCONFIG;
+export default PLAYERTERRACONFIG;

@@ -8,6 +8,28 @@ import AnimationUtils from '../battle-commands/animation-utils.js';
 let {RGBATween} = AnimationUtils;
 
 
+/*
+
+player turn => {
+	set flags (init)
+	set menu  (init)
+
+	player
+		wait for input {
+			set action
+			set action target
+		}
+	enemy
+		execute AI
+	
+	player
+		remove menu (cleanup)
+	add action to animator (cleanup)
+	set flags (cleanup)
+	
+}
+
+*/
 
 
 import FightAction from '../battle-commands/animation-fight.js';
@@ -115,7 +137,7 @@ function onCharacterTurn(character, battle, scene) {
 
 	// ally
 	if (character.isAlly()) {
-		StartPlayerTurn({player: character, battle, scene}, () => { EndPlayerTurn(character, battle, scene); });
+		StartPlayerTurn({character, battle, scene}, () => { EndPlayerTurn(character, battle, scene); });
 		return;
     }
     
@@ -181,7 +203,7 @@ function EndPlayerTurn(player, battle, scene) {
 
 
 
-/*
+
 function onCharacterDeath(character, battle, scene) { 
 
 	// remove
@@ -204,36 +226,7 @@ function onCharacterDeath(character, battle, scene) {
         }
     });
 }
-/**/
 
-function onCharacterDeath(character, battle, scene) { 
-
-	// remove
-	DeathTween(character, () => {
-		const registry = (character.isAlly()) ? battle.Players : battle.Enemies;
-		registry.remove(c => c.id === character.id);
-	});
-}
-
-function DeathTween({Sprite}, callback) {
-	Sprite.__deathPhaserTween = RGBATween(Sprite.scene, {
-        targets: Sprite,
-        props: {
-            g: 128, 
-            r: 128,
-            b: 128,
-            a: 0,
-            ease: 'Linear' 
-        },
-        duration: 250,
-        repeat: 1,
-        onComplete: () => {
-        	console.log(character.name, ' is dead.');
-        	callback();
-        	delete Sprite.__deathPhaserTween;
-        }
-    });
-}
 
 
 export default {onCharacterTurn, onCharacterDeath};

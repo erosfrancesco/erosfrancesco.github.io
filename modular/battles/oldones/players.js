@@ -53,30 +53,36 @@ const KINGGOBLINCONFIG = {
 
 const assets = {
     // mp3
-    baseUrl: '../../refactoring/assets/sprites/',
-    
-    image: [{
+    baseUrl: '../../../refactoring/assets/sprites/',
+    image: [
+    {
         key: 'battleBackground', 
         src: '../backgrounds/battle_background_01.png'
-    }, {
+    },
+    {
         key: 'goblin_king_boss',
         src: 'Goblin_King_Figure.png'
-    }, {
+    },
+    {
         key: 'leprechaun',
         src: 'Leprechaun.png'
-    }],
-
-    audio: [{
-        key: 'ayayay',
-        src: '../audio/Jojo-Awaken.mp3'
-    }]
+    } 
+    ],
+/*
+    spritesheet: [
+    {
+        key: 'FFVICast', 
+        params: { frameWidth: 680 / 4, frameHeight: 756 / 4 }, 
+        src: 'ffviCast.png'
+    }
+    /**/ 
+    //]
 };
 
 
 const enemies = [KINGGOBLINCONFIG, LEPRECHAUNCONFIG, LEPRECHAUNCONFIG];
-const music = {
-    key: 'ayayay'
-};
+//const players = [PLAYEREDGARCONFIG, PLAYERSHDOWCONFIG, PLAYERLOCKECONFIG, PLAYERTERRACONFIGS];
+const music = {};
 const background = {
     key: 'battleBackground',
     type: 'image', 

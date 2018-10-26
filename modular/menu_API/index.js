@@ -1,5 +1,7 @@
 // import modules (es6)
 
+import FFVIDialog from './ffvi-dialog.js';
+
 import FFVIMenuBackground from './ffvi-menu-background.js';
 import FFVIText from './ffvi-text.js';
 import FFVIMenu from './ffvi-menu.js';
@@ -8,7 +10,20 @@ import MenuRegistry from './logic/registry.js';
 import ENGINE from '../engine/index.js';
 const { game, KeyMapper, GameUtilities } = ENGINE;
 
-export default { game, KeyMapper, GameUtilities, FFVIMenu, MenuRegistry, FFVIText, FFVIMenuBackground };
+export default { game, KeyMapper, GameUtilities, FFVIMenu, MenuRegistry, FFVIText, FFVIMenuBackground, FFVIDialog };
+
+
+/*
+const scene = game.scene.scenes[0];
+const a = new FFVIDialog({scene});
+
+a.visible = true;
+
+
+//let text = "hello world";
+//"<word>za warudo</word>";
+//text += "<letter>helloooo</letter>";
+//a.parse(text);
 
 /*
 const button1 = new FFVIText({

@@ -8,7 +8,7 @@ let playerAssets = {
     spritesheet: [{
         key: 'FFVICast', 
         params: { frameWidth: 680 / 4, frameHeight: 756 / 4 }, 
-        src: 'ffviCast.png'
+        src: './sprites/ffviCast.png'
     }]
 };
 

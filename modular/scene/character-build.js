@@ -12,6 +12,7 @@ function MakeEnemy(scene, battle, options) {
     sprite.boss = boss || false;
 
     let enemy = new Enemy({
+        Animations,
         commands: BuildCharacterCommands(scene, battle, commands),
         isBoss: Boolean(boss),
         name,

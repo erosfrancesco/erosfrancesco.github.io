@@ -1,15 +1,12 @@
 import slotMaps from '../slotMaps.js';
 
-const PLAYEREDGARCONFIG = {
-    Animations: {
-        
-    },
+const PLAYERLOCKECONFIG = {
     commands: [ 'FIGHT' ],
-    name: 'Edgar',
+    name: 'Locke',
     sprite: {
         type: 'sprite',
         key: 'FFVICast', 
-        frame: 3,
+        frame: 2,
         slotMap: slotMaps.players,
         config: {
             scaleX: 1.1,
@@ -19,11 +16,11 @@ const PLAYEREDGARCONFIG = {
     stats: {
         "strenght": 4,
         "defense": 1,
-        "dexterity": 1,
+        "dexterity": 2,
         "level": 2,
         "life": 90,
         "mana": 29
     }
 };
 
-export default PLAYEREDGARCONFIG;
+export default PLAYERLOCKECONFIG;
