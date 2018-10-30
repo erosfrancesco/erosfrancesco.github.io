@@ -32,8 +32,9 @@ export default PhaserDamage() {
             targets: Sprite,
             y: Sprite.y - 50,
             ease: 'Power1',
-            duration: 2000,
-            yoyo: true
+            duration: 1000,
+            yoyo: true,
+            onCallback: () => setTimeout(this.TextSprite.destroy, 1000) 
         };
         this.TextSprite.__displayDamageAnimation = this.Sprite.scene.tween.add(animationConfig);
         
