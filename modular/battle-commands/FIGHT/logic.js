@@ -1,4 +1,4 @@
-import BattleDamage from '../battle_utils/battle-damage.js';
+import BattleDamage from '../../battle_utils/battle-damage.js';
 
 export default class Damage extends BattleDamage {
     constructor(options, exec, target) {

@@ -26,8 +26,6 @@ function ComputeFightDamageValue(exec, target) {
         target.events.onDamageType[type](damage);
     });
 
-    console.log(damage);
-
     return 100;
 }
 

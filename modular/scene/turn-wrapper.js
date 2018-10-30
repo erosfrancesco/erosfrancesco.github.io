@@ -4,19 +4,13 @@ import PlayerBattleMenu from '../battle-ui/menus/battle-menu.js';
 import AnimationUtils from '../battle-commands/animation-utils.js';
 const {RGBATween} = AnimationUtils;
 
-
-
-
-import FightAction from '../battle-commands/animation-fight.js';
+//import FightAction from '../battle-commands/Fight/index.js';
+import FightAction from '../battle-commands/Fight/animation-fight.js';
 function StartPlayerTurn({player, battle, scene}, callback) {
 	
 	// build player menu
     player.Menus.add( new PlayerBattleMenu({battle, player, scene}) );
     SetActionSelectionPhase(player, battle, scene);
-	
-	//console.log('character:', player.name);
-
-
     
     setTimeout(() => {
 
@@ -24,20 +18,25 @@ function StartPlayerTurn({player, battle, scene}, callback) {
     	const registry = battle.Players;
 
 
+    	console.log(player.name, " is about to blow.");
     	player.Actions = new FightAction({
-	    	executor: {
-		        pointer,
-		        registry
-		    }, battle, onDone: () => {
-		        //console.log('done attacking');
-		    }
-		});
+    		executor: player, 
+    		battle, 
+    		onDone: () => {
+    			console.log('ehll eoeld');
+    		}
+    	});
 
-	    player.Actions.targets = [{
-	        pointer: battle.Players.randomIndex(),
-	        registry: battle.Players
-	    }];
+	    player.Actions.targets = [ 
+	    battle.Players.random()
 
+	    //{
+	        //pointer: battle.Players.randomIndex(),
+	        //registry: battle.Players
+	    //} 
+	    ];
+
+	    console.log(player.Actions);
 
     	//EndPlayerTurn(player, battle, scene);
     	callback();
@@ -131,12 +130,17 @@ function EndPlayerTurn(player, battle, scene) {
 }
 
 
-function onCharacterDeath(character, battle, scene) { 
-
+function onCharacterDeath(character, battle, scene) {
 	// remove
+	// TODO: need to check if its active turn.
 	DeathTween(character, () => {
+		console.log(character.name, ' is dead.');
 		const registry = (character.isAlly()) ? battle.Players : battle.Enemies;
 		registry.remove(c => c.id === character.id);
+		if (registry.current.id === character.id) {
+			registry.current = false;
+		}
+		console.log(registry);
 	});
 }
 
@@ -144,16 +148,14 @@ function DeathTween({Sprite}, callback) {
 	Sprite.__deathPhaserTween = RGBATween(Sprite.scene, {
         targets: Sprite,
         props: {
-            g: 128, 
+            g: 18, 
             r: 128,
             b: 128,
             a: 0,
             ease: 'Linear' 
         },
         duration: 250,
-        repeat: 1,
         onComplete: () => {
-        	console.log(character.name, ' is dead.');
         	callback();
         	delete Sprite.__deathPhaserTween;
         }

@@ -1,7 +1,7 @@
 export default class DefaultBattleAnimation {
     constructor(options) {
 
-        let {executor, battle, onDone} = options;
+        const {executor, battle, onDone} = options;
 
         this.executor = executor;
         this.battle = battle;

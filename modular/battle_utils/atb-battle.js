@@ -2,31 +2,7 @@ import ATBCharacterBridge from './atb-system.js';
 import ActionRegistry from './battle-animator.js';
 
 import AnimationUtils from '../battle-commands/animation-utils.js';
-let {RGBATween} = AnimationUtils;
-/*
-import AnimationUtils from '../battle-commands/animation-utils.js';
-let {RGBATween} = AnimationUtils;
-
-let CharacterDeathTween = (player, callback) => {
-
-    let {Sprite} = player;
-    let {scene} = Sprite;
-
-    let tween = RGBATween(scene, {
-        targets: Sprite,
-        props: {
-            g: 0, 
-            r: 128,
-            b: 128,
-            a: 0,
-            ease: 'Linear' 
-        },
-        duration: 500,
-        onComplete: callback
-    });
-
-}
-*/
+//let {RGBATween} = AnimationUtils;
 
 function AttachTurnSystemToCharacter(character, battle) {
     character.TurnSystem = new ATBCharacterBridge({ 

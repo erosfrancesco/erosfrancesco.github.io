@@ -1,12 +1,7 @@
-//import UTILS from '../engine/utils.js';
-//let {deepClone} = UTILS;
-
 class PhaserAnimator {
 	constructor(options) {
-        options = options || {};
-        let {busy} = options;
-        busy = busy || false;
-		this.busy = busy;
+        const {busy} = options;
+		this.busy = busy || false;
 	}
 	
 	get busy() {
@@ -28,11 +23,10 @@ class PhaserAnimator {
 export default class ActionRegistry extends PhaserAnimator {
     constructor(options) {
         options = options || {};
-        let {actions, busy} = options;
-        actions = actions || [];
+        const {actions, busy} = options;
         super({busy});
         
-        this.actions = actions;
+        this.actions = actions || [];
     }
     
     
@@ -47,6 +41,7 @@ export default class ActionRegistry extends PhaserAnimator {
 
     add(Action) {
         // Action must be computed
+        console.log(Action);
         this.actions.push(Action);
     }
 
@@ -69,25 +64,30 @@ export default class ActionRegistry extends PhaserAnimator {
     /////////
 
     computeActionTarget(action) {
-        const {targets} = action;
+        const {targets, battle} = action;
         const computedTargets = [];
 
         targets.forEach(target => {
-            const {pointer, registry} = target;
+            //const {pointer, registry} = target;
             // err management
-            const character = registry._playerList[pointer];
-            computedTargets.push(character);
+            //const character = registry._playerList[pointer];
+            computedTargets.push(target);
         });
         return computedTargets;
     }
 
     computeActionExecutor(action) {
-        const {executor} = action;
-        const {pointer, registry} = executor;
+        const {executor, battle} = action;
+        const registry = (executor.isAlly()) ? battle.Players : battle.Enemies;
+
+
+
+        
+        //const {pointer, registry} = executor;
         // err management
-        const character = registry._playerList[pointer];
+        //const character = registry._playerList[pointer];
       
-        return character;
+        return executor;
     }
 
     ///////// character interface

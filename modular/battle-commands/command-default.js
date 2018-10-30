@@ -1,7 +1,7 @@
 export default class DefaultBattleCommand {
 
     constructor(options) {
-        let {label, action, battle} = options;
+        const {label, action, battle} = options;
 
         this.battle = battle;
         this.label = label;

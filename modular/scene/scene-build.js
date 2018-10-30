@@ -1,23 +1,18 @@
 import CharacterRegistry from '../battle_utils/character-registry.js';
 import PlayerUI from '../battle-ui/player-ui.js'
-//import AtbBattle from '../battle_utils/atb-battle.js';
 import BattleWrapper from '../battle_utils/battle-wrapper.js';
 import TURNPHASE from './turn-wrapper.js';
-let {onCharacterTurn, onCharacterDeath} = TURNPHASE;
+const {onCharacterTurn, onCharacterDeath} = TURNPHASE;
 
 import LoadAssets from './asset-loader.js';
 
 import BUILDER from './character-build.js';
-let {MakeEnemy, MakePlayer} = BUILDER;
+const {MakeEnemy, MakePlayer} = BUILDER;
 
 import BuildBattleBackground from './battle-background.js';
 
 import UTILS from '../engine/utils.js';
-let {deepClone} = UTILS;
-
-import FightAction from '../battle-commands/animation-fight.js';
-import BattleKeyInput from './key-input.js';
-
+const {deepClone} = UTILS;
 
 
 
@@ -46,7 +41,6 @@ export default class ATBBattleScene extends Phaser.Scene {
             let backgroundMusic1 = this.sound.add(this.music.key);
             backgroundMusic1.play();
         }
-
 
         // then the characters
         this.playerList = [];
@@ -172,25 +166,19 @@ export default class ATBBattleScene extends Phaser.Scene {
 
 
     makeEnemy(options) {
-        let params = deepClone(options);
-        let enemy = MakeEnemy(this, this.ATBBattle, params);
+        const params = deepClone(options);
+        const enemy = MakeEnemy(this, this.ATBBattle, params);
         enemy.id = 'e - ' + this.enemyList.length;
         enemy.playerListIndex = this.enemyList.length;
         this.enemyList.push(enemy);
     }
 
     makePlayer(options) {
-        let params = deepClone(options);
-        let player = MakePlayer(this, this.ATBBattle, params);
+        const params = deepClone(options);
+        const player = MakePlayer(this, this.ATBBattle, params);
         player.id = 'p - ' + this.playerList.length;
         player.playerListIndex = this.playerList.length;
         this.playerList.push(player);
     }
 
-    /*
-    initBattle() {
-        this.ATBBattle.addCharacters(this.playerList, this.enemyList);
-        this.ATBBattle.init();
-    }
-    /**/
 }

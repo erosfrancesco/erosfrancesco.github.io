@@ -1,11 +1,7 @@
-
-// Character has been moved
 import AtbBattle from '../battle_utils/atb-battle.js';
 import PlayerBattleMenu from '../battle-ui/menus/battle-menu.js';
-//import GAMEUTILS from '../engine/utils.js';
-
 import AnimationUtils from '../battle-commands/animation-utils.js';
-let {RGBATween} = AnimationUtils;
+const {RGBATween} = AnimationUtils;
 
 
 import FightAction from '../battle-commands/animation-fight.js';
@@ -24,6 +20,7 @@ function StartPlayerTurn({player, battle, scene}, callback) {
     	const pointer = battle.Players.findIndex(p => p.id === player.id );
     	const registry = battle.Players;
 
+    	//console.log(player.name);
 
     	player.Actions = new FightAction({
 	    	executor: {
@@ -52,7 +49,7 @@ function onCharacterTurn(character, battle, scene) {
 	let registry = (character.isAlly()) ? battle.Players : battle.Enemies;
 	registry.current = character;
 
-	//console.log('turn ', character.name, character);
+	console.log('turn ', character.name, character);
 
 	// if berserk
 	if (character.Statuses.berserk) { 

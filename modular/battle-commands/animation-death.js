@@ -1,6 +1,6 @@
 import DefaultBattleAnimation from './animation-default.js';
 import AnimationUtils from './animation-utils.js';
-let {RGBATween, ApplySpriteTint} = AnimationUtils;
+const {RGBATween, ApplySpriteTint} = AnimationUtils;
 
 let CharacterDeathTween = (player, callback) => {
 

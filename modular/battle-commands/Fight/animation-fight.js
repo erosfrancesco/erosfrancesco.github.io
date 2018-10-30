@@ -26,8 +26,6 @@ function ComputeFightDamageValue(exec, target) {
         target.events.onDamageType[type](damage);
     });
 
-    console.log(damage);
-
     return 100;
 }
 
@@ -53,26 +51,18 @@ export default class FightAction extends DefaultBattleAnimation {
 
             // first step
             next => {
-                // error here !
-                //ApplySpriteTint(this.executor.Sprite, 0xff00ff);
                 BlinkTween(this.executor, next);
-                /*
-                this.executor.Sprite.__FightActionEvent1 = this.scene.time.addEvent({ 
-                    delay: 1000,
-                    callback: next
-                });
-                /**/
             }, 
 
             // second step
             next => {
                 delete this.executor.Sprite.__FightActionEvent1;
-                //ApplySpriteTint(this.executor.Sprite, 0xffffff);
                 next();
             },
 
             // final step
             next => {
+                console.log("ded ", this.targets);
                 this.targets.forEach(target => this.targetWaterfall(target, next) );
             }
         ], (err) => {
@@ -89,31 +79,27 @@ export default class FightAction extends DefaultBattleAnimation {
                         
             // target first step
             next => {
-                //ApplySpriteTint(target.Sprite, 0x00ff00);
                 const damage = ComputeFightDamageValue(this.executor, target);
                 next(damage);
             },
 
             // target second step
             (next, damage) => {
+                console.log('Trembling animtion: ', target);
                 TrembleTween(target, (damage) => { next(damage); });
-                //target.Sprite.__FightActionEvent1 = this.scene.time.addEvent({
-                //    delay: 1000,
-                //    callback: () => next(damage)
-                //});
             },
 
             // target final step
             (next, damage) => {
                 delete target.Sprite.__FightActionEvent1;
-                ApplySpriteTint(target.Sprite, 0xffffff);
+                //ApplySpriteTint(target.Sprite, 0xffffff);
                         
                 // optional step to display damage
                 //battle.displayPlayerDamage(target, damage, () => next({target, damage}) );
                 //(next, {damage, target}) => {
                 
                 this.resolveCallback(() => {
-                    console.log('hello there');
+                    //console.log('hello there');
                     this.battle.applyDamage(target, damage);
                     callback();
                 });
@@ -150,17 +136,15 @@ function BlinkTween({Sprite}, callback) {
 }
 
 
-function TrembleTween({Sprite, damage}, callback) {
-    // display damage
+function TrembleTween({Sprite}, callback) {
 
     // trembling
-    console.log('Trembling')
     Sprite.__trmblePhaserTween = Sprite.scene.tweens.add({
         targets: Sprite,
-        x: Sprite.x + 50,
+        x: Sprite.x + 3,
         ease: 'Linear',
-        duration: 75,
-        repeat: 2,
+        duration: 100,
+        repeat: 1,
         yoyo: true,
         onComplete: () => {
             callback();

@@ -1,6 +1,6 @@
 import ATBBattleScene from './scene-build.js';
 import ENGINE from '../engine/index.js';
-let {game} = ENGINE;
+const {game} = ENGINE;
 import buildCharacterSprite from './sprite-utils.js';
 
 import PLAYERS from '../battles/players/index.js';
@@ -10,7 +10,7 @@ const players = [PLAYEREDGARCONFIG, PLAYERLOCKECONFIG, PLAYERSHDOWCONFIG];
 
 
 
-import FightAction from '../battle-commands/animation-fight.js';
+import FightAction from '../battle-commands/Fight/index.js';
 
 const AITest = function(options, callback) { callback(); };
 

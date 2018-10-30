@@ -8,10 +8,15 @@ export default class FightCommand extends DefaultBattleCommand {
 
         this.action = options => {
 
-            let {player, battle, scene} = options;
-            let {Players, Enemies, Animator} = battle;
-
-            player.Action = new FightAction({executor: player, battle});
+            const {player, battle} = options;
+            const {Players, Enemies, Animator} = battle;
+            
+            player.Action = new FightAction({
+                executor: {
+                    pointer: registry.findIndex(p => p.id === player.id), registry
+                }, 
+                battle
+            });
 
             // build player action
             Animator.addCharacterAction(player);
@@ -21,7 +26,7 @@ export default class FightCommand extends DefaultBattleCommand {
             Players.forEach(p => targets.push(p));
             Enemies.forEach(p => targets.push(p));
 
-            battle.UI.UIMenus.add( new TargetMenu({ scene, targets, battle }) );
+            battle.UI.UIMenus.add( new TargetMenu({ scene: battle.scene, targets, battle }) );
         };
     }
 }
