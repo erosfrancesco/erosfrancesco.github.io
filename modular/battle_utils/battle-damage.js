@@ -1,19 +1,18 @@
 // more than one type is possible.
 export default class BattleDamage {
 	constructor(options) {
-		let {value} = options;
-		let types = BattleDamage.typesList();
+		const {value} = options;
 
 		this.value = value;
 		this.types = {};
 
-		types.forEach(type => {
+		BattleDamage.getTypesList().forEach(type => {
 			if (options[type]) { this.types[type] = true; }
 		});
 	}
 
 	// add here
-	static typesList() {
+	static getTypesList() {
 		return ['piercing', 'blunt', 'slashing', 'physical', 'magical'];
 	}
 
@@ -34,7 +33,7 @@ export default class BattleDamage {
 	is() {
 		let res = true;
 		Object.keys(arguments).forEach(index => { 
-			let type = arguments[index];
+			const type = arguments[index];
 			res = res && (this.types[type] || false); 
 		});
 		return res;
