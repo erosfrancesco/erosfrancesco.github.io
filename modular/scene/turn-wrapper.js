@@ -1,11 +1,8 @@
-
-// Character has been moved
 import AtbBattle from '../battle_utils/atb-battle.js';
 import PlayerBattleMenu from '../battle-ui/menus/battle-menu.js';
-//import GAMEUTILS from '../engine/utils.js';
 
 import AnimationUtils from '../battle-commands/animation-utils.js';
-let {RGBATween} = AnimationUtils;
+const {RGBATween} = AnimationUtils;
 
 
 
@@ -47,51 +44,6 @@ function StartPlayerTurn({player, battle, scene}, callback) {
    	}, 2000);  
 }
 
-/*
-	function onCharacterTurn(character, battle, scene) {
-
-		// set registry current character
-		const registry = character.isAlly() ? battle.Players : battle.Enemies;
-		registry.setCurrent(character);
-
-
-		// if berserk
-		if (character.Statuses.berserk) { 
-			berserkAI({character, battle}, () => { EndCharacterTurn(character, battle, scene); });
-			return;
-		}
-
-		// if confused
-		if (character.Statuses.confused) { 
-			confuseAI({character, battle}, () => { EndCharacterTurn(character, battle, scene); });
-			return;
-		}
-
-
-		// ally
-		if (character.isAlly()) {
-			StartPlayerTurn(character, battle, scene);
-			return;
-	    }
-	    
-	    // enemy
-	    character.AI({character, battle}, () => { EndCharacterTurn(character, battle, scene); });
-
-	}
-
-
-	function berserkAI({character, battle}, callback) {
-		console.log('Im berserk', character.name);
-		callback();
-	}
-
-	function confuseAI({character, battle}, callback) {
-		console.log('Im confused', character.name);
-		callback();
-	}
-
-*/
-
 function onCharacterTurn(character, battle, scene) {
 
 
@@ -121,7 +73,6 @@ function onCharacterTurn(character, battle, scene) {
     
     // enemy
     character.AI({character, battle}, () => { EndCharacterTurn(character, battle, scene); });
-    /**/
 }
 
 function berserkAI({character, battle}, callback) {
@@ -180,32 +131,6 @@ function EndPlayerTurn(player, battle, scene) {
 }
 
 
-
-/*
-function onCharacterDeath(character, battle, scene) { 
-
-	// remove
-	const registry = (character.isAlly()) ? battle.Players : battle.Enemies;
-	registry.remove(c => c.id === character.id);
-	
-	let {Sprite} = character;
-	let tween = RGBATween(scene, {
-        targets: Sprite,
-        props: {
-            g: 0, 
-            r: 128,
-            b: 128,
-            a: 0,
-            ease: 'Linear' 
-        },
-        duration: 500,
-        onComplete: () => {
-        	console.log(character.name, ' is dead.'); 
-        }
-    });
-}
-/**/
-
 function onCharacterDeath(character, battle, scene) { 
 
 	// remove
@@ -237,4 +162,3 @@ function DeathTween({Sprite}, callback) {
 
 
 export default {onCharacterTurn, onCharacterDeath};
-/**/

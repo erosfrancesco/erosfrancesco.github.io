@@ -8,30 +8,6 @@ import AnimationUtils from '../battle-commands/animation-utils.js';
 let {RGBATween} = AnimationUtils;
 
 
-/*
-
-player turn => {
-	set flags (init)
-	set menu  (init)
-
-	player
-		wait for input {
-			set action
-			set action target
-		}
-	enemy
-		execute AI
-	
-	player
-		remove menu (cleanup)
-	add action to animator (cleanup)
-	set flags (cleanup)
-	
-}
-
-*/
-
-
 import FightAction from '../battle-commands/animation-fight.js';
 function StartPlayerTurn({player, battle, scene}, callback) {
 	
@@ -68,51 +44,6 @@ function StartPlayerTurn({player, battle, scene}, callback) {
     	callback();
    	}, 2000);  
 }
-
-/*
-	function onCharacterTurn(character, battle, scene) {
-
-		// set registry current character
-		const registry = character.isAlly() ? battle.Players : battle.Enemies;
-		registry.setCurrent(character);
-
-
-		// if berserk
-		if (character.Statuses.berserk) { 
-			berserkAI({character, battle}, () => { EndCharacterTurn(character, battle, scene); });
-			return;
-		}
-
-		// if confused
-		if (character.Statuses.confused) { 
-			confuseAI({character, battle}, () => { EndCharacterTurn(character, battle, scene); });
-			return;
-		}
-
-
-		// ally
-		if (character.isAlly()) {
-			StartPlayerTurn(character, battle, scene);
-			return;
-	    }
-	    
-	    // enemy
-	    character.AI({character, battle}, () => { EndCharacterTurn(character, battle, scene); });
-
-	}
-
-
-	function berserkAI({character, battle}, callback) {
-		console.log('Im berserk', character.name);
-		callback();
-	}
-
-	function confuseAI({character, battle}, callback) {
-		console.log('Im confused', character.name);
-		callback();
-	}
-
-*/
 
 function onCharacterTurn(character, battle, scene) {
 
