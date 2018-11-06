@@ -37,6 +37,8 @@ class BattleControllerScene extends Phaser.Scene {
 	}
 	
 	buildMenu(id, config) {
+		config = config || {};
+		config.scene = this;
 		const Menu = this.MenuPool[id];
 		this.MenuRegistry.add( Menu.build(config) );
 	}
