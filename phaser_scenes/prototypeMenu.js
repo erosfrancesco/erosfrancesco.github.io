@@ -4,9 +4,16 @@ export default class FightMenu {
 	
 	build(configs) {
 		// create background
-		const {scene, x, y} = config;
+		const {scene, x, y, items} = config;
 		this.Background = makeFFVIMenuBackground({scene, width: 200, height: 100, x, y});
+		
 		// create buttons
+		items.forEach((row, rowIndex) => {
+			row.forEach((item, colIndex) => {
+				const button = makeFFVIButton({scene, x, y, text: item.label});
+				// compute position etc...
+			});
+		});
 	}
 }
 
@@ -41,3 +48,12 @@ const makeFFVIMenuBackground = ({ scene, width, height, x, y }) => {
     
     return background;
 }
+
+
+
+// makeFFVIButton
+const makeFFVIButton = ({scene, x, y, text}) => {
+	const txt = scene.add.text(16, 16, text, { fontSize: '32px', fill: '#000' });
+	return txt;
+};
+
