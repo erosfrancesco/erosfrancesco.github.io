@@ -3,6 +3,7 @@ class PauseScene extends Phaser.Scene {
 		const config = { key: 'PauseScene' }; 
 		super(config); 
 	}
+	
 	create() { 
 		// on input
 		this.input.keyboard.on('keyup_SPACEBAR', event => {
