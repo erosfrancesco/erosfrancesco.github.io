@@ -41,6 +41,10 @@ class BattleControllerScene extends Phaser.Scene {
 		this.MenuRegistry.add( Menu.build(config) );
 	}
 	
+	getTopMenu() {
+		return this.MenuRegistry.get(this.MenuRegistry.size - 1);
+	}
+	
 	loadMenu(id, Menu) {
 		this.MenuPool[id] = Menu;
 	}
