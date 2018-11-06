@@ -5,7 +5,9 @@ class PauseScene extends Phaser.Scene {
 	}
 	create() { 
 		// on input
-		this.events.emit('__global_pause');
+		this.input.keyboard.on('keyup_SPACEBAR', event => {
+       			this.events.emit('__global_pause');
+		}, this);
 	}
 }
 
