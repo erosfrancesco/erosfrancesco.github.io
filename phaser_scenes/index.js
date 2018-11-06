@@ -1,11 +1,12 @@
 class PauseScene extends Phaser.Scene {
 	constructor() { 
-    const config = { key: 'PauseScene' }; 
-    super(config); 
-  }
-    create() { 
-      // on input
-    }
+		const config = { key: 'PauseScene' }; 
+		super(config); 
+	}
+	create() { 
+		// on input
+		this.events.emit('__global_pause');
+	}
 }
 
 const config = {
@@ -13,7 +14,7 @@ const config = {
 	width: 900,
 	height: 500,
 	backgroundColor: '#444',
-  // should create game-container
+	// should create game-container
 	parent: "game-container",
 	scene: [PauseScene],
   
