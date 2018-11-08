@@ -8,3 +8,6 @@ TODO:
     - Menu Scene with reference setter
 
 - Menu command (test)
+- BattleObject class
+- Battle Scene
+    - Loader (Assets, Characters, BattleObjects)
