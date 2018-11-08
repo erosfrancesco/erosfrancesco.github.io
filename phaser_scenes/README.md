@@ -2,8 +2,8 @@
 :+1:
 
 ##### DONE:
-- [ ] Multiple Scene (Battle, Menu, Pause)
-- [ ] Input on Pause that communicate with other scene.
+- [X] Multiple Scene (Battle, Menu, Pause)
+- [X] Input on Pause that communicate with other scene.
 
 
 ##### TODO:
