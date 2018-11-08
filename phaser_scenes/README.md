@@ -7,6 +7,7 @@
 
 
 ##### TODO:
+- [ ] TurnSystem-BattleScene bridge. (Logic of TurnSystem must be implemented on other classes or after the battle scene has been created)
 - [ ] Multiple battle??
     - [ ] Menu Scene with reference setter
 
