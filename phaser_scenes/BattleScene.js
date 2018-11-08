@@ -8,6 +8,8 @@ export default class BattleScene extends Phaser.Scene {
 
         this.Enemies = new CharacterRegistry();
         this.Players = new CharacterRegistry();
+        
+        this.TurnSystem = new TurnSystem();
         this.inputScene = inputSceneKey;
     }
 
@@ -27,19 +29,17 @@ export default class BattleScene extends Phaser.Scene {
     }
 
     // set current player and enemy
-    update(callback) {
+    update() {
         
         // resolve actions
         if (this.Animator.busy) { return; }
         if (this.Animator.hasAction) { this.Animator.resolve(); return; }
 
-        // update character atb
-        this.forAllCharacters(c => c.TurnSystem.update(() => this.onCharacterUpdate(c) ) );
+        // update character turns
+        this.forAllCharacters(c => TurnSystem.update(c) );
         
-        // manage turns
-        ManageRegistryTurn(this, this.Players);
-        ManageRegistryTurn(this, this.Enemies);
+        // if there is a character that must resolve its turn...
+        
 
-        callback();
     }
 }
