@@ -1,22 +1,20 @@
 import buildCharacterSprite from './sprite-utils.js';
-import BuildCharacterCommands from './command-build.js'
+import BuildCharacterCommands from './command-build.js';
 import CHARACTERS from '../characters/player-enemy.js';
-let {Player, Enemy} = CHARACTERS;
+const {Player, Enemy} = CHARACTERS;
 
 
-function MakeEnemy(scene, battle, options) {
+function MakeEnemy(battle, options) {
 
-    let {AI, commands, stats, sprite, name, boss, Animations, onDamageType} = options;
-    sprite.scene = scene;
+    const {AI, stats, name, boss, commands, sprite, Animations, onDamageType} = options;
+    const {Commands, Sprite} = MakeCharacter({commands, sprite, battle});
 
-    sprite.boss = boss || false;
-
-    let enemy = new Enemy({
+    const enemy = new Enemy({
         Animations,
-        commands: BuildCharacterCommands(scene, battle, commands),
+        Commands,
+        Sprite,
         isBoss: Boolean(boss),
         name,
-        sprite: buildCharacterSprite(sprite),
         stats,
         onDamageType
     });
@@ -26,17 +24,18 @@ function MakeEnemy(scene, battle, options) {
     return enemy;
 }
 
-function MakePlayer(scene, battle, options) {
 
-    let {commands, stats, sprite, name, Animations, onDamageType} = options;
-    sprite.scene = scene;
+function MakePlayer(battle, options) {
 
-    let player = new Player({
-        commands: BuildCharacterCommands(scene, battle, commands),
+    const {stats, name, commands, sprite, Animations, onDamageType} = options;
+    const {Sprite, Commands} = MakeCharacter({commands, sprite, battle});
+
+    const player = new Player({
+        Animations, 
+        Commands, 
+        Sprite,
         name,
-        sprite: buildCharacterSprite(sprite),
         stats, 
-        Animations,
         onDamageType,
         onDamage: () => {
             player.UI.item2.text = player.life + ' / ' + player.mana;
@@ -46,5 +45,13 @@ function MakePlayer(scene, battle, options) {
     return player;
 }
 
+function MakeCharacter({commands, sprite, battle}) {
+
+    const Commands = BuildCharacterCommands(battle, commands);
+    sprite.scene = battle.scene;
+    const Sprite = buildCharacterSprite(sprite);
+
+    return {Commands, Sprite};
+}
 
 export default { MakeEnemy, MakePlayer };

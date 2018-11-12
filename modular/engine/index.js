@@ -1,7 +1,6 @@
-// import modules (es6)
-import ColorMap from './color-map.js';
 import KeyMapper from './key-mapper.js';
 import GameUtilities from './game-utilities.js';
+import AwaitWaterfall from './awaitWaterfall.js';
 
 
 class PauseLoop extends Phaser.Scene {
@@ -27,7 +26,7 @@ const config = {
 
 const game = new Phaser.Game(config);
 
-export default { game, ColorMap, KeyMapper, GameUtilities };
+export default { game, KeyMapper, GameUtilities, AwaitWaterfall };
 
 
 

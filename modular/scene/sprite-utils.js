@@ -18,7 +18,7 @@ function computePositionFromSlotMap(slotMap, index) {
 /////////////////////////////////////////////////////////////////////
 
 
-export default function buildCharacterSprite (options) {
+export default function buildCharacterSprite(options) {
 
     let {slot, slotMap, scene, config, type, key, frame } = options;
     let SlotMap = slotMap || [{x: 0, y: 0}];

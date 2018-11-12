@@ -3,19 +3,19 @@ export default class CharacterRegistry extends Phaser.Events.EventEmitter {
 	constructor(options) {
 		options = options || {};
 
-		let { characters, onAdd, onRemove } = options;
-
-		characters = characters || [];
-		onAdd      = onAdd      || function(p, callback) { callback(); };
-		onRemove   = onRemove   || function(p, callback) { callback(); };
+		const { characters, onAdd, onRemove } = options;
 
 		super();
 
-		this.addCallback = onAdd;
-		this.removeCallback = onRemove;
+		this.addCallback = onAdd || function(p, callback) { callback(); };;
+		this.removeCallback = onRemove || function(p, callback) { callback(); };;
 		this.playerList = [];
 		this.queue = [];
-		characters.forEach(p => this.add(p) );
+
+		if (characters && characters.length) {
+			characters.forEach(p => this.add(p) );
+		}
+		
 	}
 
 

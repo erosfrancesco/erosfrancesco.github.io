@@ -5,19 +5,27 @@ const {BuildStatuses, StatStatuses, TurnStatuses} = STATUSES;
 export default class Character {
 	constructor(options) {
 
-		const {ally, name, sprite, stats, activeStatuses, Animations, onDamageType, onDamage, commands} = options;
+		const {
+			ally, 
+			name, 
+			Sprite, 
+			Commands,
+			stats, 
+			activeStatuses, 
+			Animations, 
+			onDamageType, 
+			onDamage 
+		} = options;
 
 		this.type = (ally) ? 'Ally' : 'Enemy';
 		this.name = name || '???';
 
 		// animations
 		this.Animations = Animations || {};
-
 		// Commands
-		this.Commands = commands;
-		
+		this.Commands = Commands;
 		// Sprite			
-		this.Sprite = sprite;                 
+		this.Sprite = Sprite;                 
 		// StatRegistry
 		this.Stats = new StatRegistry(stats); 
 

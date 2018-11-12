@@ -40,8 +40,6 @@ export default class ActionRegistry extends PhaserAnimator {
     
 
     add(Action) {
-        // Action must be computed
-        console.log(Action);
         this.actions.push(Action);
     }
 
@@ -62,7 +60,7 @@ export default class ActionRegistry extends PhaserAnimator {
     }
 
     /////////
-
+/*
     computeActionTarget(action) {
         const {targets, battle} = action;
         const computedTargets = [];
@@ -78,7 +76,7 @@ export default class ActionRegistry extends PhaserAnimator {
 
     computeActionExecutor(action) {
         const {executor, battle} = action;
-        const registry = (executor.isAlly()) ? battle.Players : battle.Enemies;
+        const registry = (executor.isAlly) ? battle.Players : battle.Enemies;
 
 
 
@@ -89,6 +87,7 @@ export default class ActionRegistry extends PhaserAnimator {
       
         return executor;
     }
+    /*
 
     ///////// character interface
 
@@ -99,13 +98,14 @@ export default class ActionRegistry extends PhaserAnimator {
 
     loadCharacterAction(character) {
         
-        let action = this.computeCharacterAction(character);
+        const action = this.computeCharacterAction(character);
 
         if (!action) { return; }
-        action.executor = this.computeActionExecutor(action);
-        action.targets = this.computeActionTarget(action);
+        //action.executor = this.computeActionExecutor(action);
+        //action.targets = this.computeActionTarget(action);
 
         this.add(action);
     }
+    /**/
 
 }

@@ -1,4 +1,4 @@
-import ColorsMap from '../engine/color-map.js';
+import ColorsMap from '../colorMap.js';
 import ROUNDED from './rounded-rect.js';
 let {RoundedRectFill, RoundedRectStroke} = ROUNDED;
 
