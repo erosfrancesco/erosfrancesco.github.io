@@ -59,6 +59,8 @@ class BattleControllerScene extends Phaser.Scene {
 				]
 			}
 		});
+		
+		
 	}
 
 	buildMenu(id, config = {}) {
