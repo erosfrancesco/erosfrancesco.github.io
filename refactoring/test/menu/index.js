@@ -52,6 +52,9 @@ class BattleControllerScene extends Phaser.Scene {
 					{
 						label: "FIGHT",
 						onSelected: () => {}
+					}, {
+						label: "ITEMS",
+						onSelected: () => {}
 					}
 				]
 			}
@@ -81,28 +84,4 @@ class BattleControllerScene extends Phaser.Scene {
 	}
 }
 
-
-/* 
-	// need a scene
-	class TestScene extends Phaser.Scene {
-		constructor() {
-			super('TestScene');
-		}
-
-		create() {
-
-			// menu logic
-
-			// menu graphic
-			const menu = new FFVIMenuGraphic({
-				scene: this,
-				width: 400, height: 200,
-				x: 300, y: 200,
-				onComplete: () => {
-					setTimeout(() => menu.destroy(() => console.log("Hllo worl") ), 1000);
-				}
-			});
-		}
-	};
-/** */
 game.scene.add("battle", BattleControllerScene, true);
