@@ -34,7 +34,8 @@ setTimeout(() => {
 		targets: [target],
 		resolve: (t, e, callback) => {
 			// it works
-			// character.damage = new Damage();
+			// character.damage = new BattleDamage({value, physical: true, piercing: true});
+			// 'piercing', 'blunt', 'slashing', 'physical', 'magical'
 			t.forEach(target => console.log( "target: " + target.life ) );
 			e.Stats.set("damage", 10);
 			console.log("executor: ", e.Stats.get("life"));
