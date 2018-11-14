@@ -4,8 +4,8 @@ const {BuildStatuses, StatStatuses, TurnStatuses, StatRegistry} = BATTLESTATS;
 
 export default class Character {
 	constructor({
-			ally, 
-			name, 
+			ally = false, 
+			name = "???", 
 			Sprite, 
 			Commands,
 			stats, 
@@ -16,7 +16,7 @@ export default class Character {
 		}) {
 
 		this.type = (ally) ? 'Ally' : 'Enemy';
-		this.name = name || '???';
+		this.name = name;
 
 		// animations
 		this.Animations = Animations;
@@ -72,8 +72,12 @@ export default class Character {
 	}
 
 	set damage(v) {
-		let d = this.Stats.get('damage');
-		this.Stats.set('damage', d + v);
+		v.value = v.value || 0;
+		v.type = v.type || 0;
+		
+		const onDamageTypeEvent = this.events.onDamageType[v.type] || function(x) {return x;};
+		const d = this.Stats.get('damage');
+		this.Stats.set('damage', d + onDamageTypeEvent(v));
 		this.events.onDamage();
 	}
 
