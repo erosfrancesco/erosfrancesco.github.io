@@ -2,7 +2,7 @@ import CHARACTER from '../character_system/index.js';
 const {CharacterRegistry, Character} = CHARACTER;
 
 import ACTIONS from '../action_system/index.js';
-const {ActionRegistry, PlayerTurnActionRegistry} = ACTIONS;
+const {ActionRegistry, TurnActionRegistry} = ACTIONS;
 
 const stats = {
 	'life': 40,
@@ -23,7 +23,7 @@ setInterval(() => animator.resolve(), 30);
 
 
 // bridge
-executor.AnimatorBridge = new PlayerTurnActionRegistry(executor, animator);
+executor.AnimatorBridge = new TurnActionRegistry(executor, animator);
 
 setTimeout(() => {
 	executor.AnimatorBridge.add({
