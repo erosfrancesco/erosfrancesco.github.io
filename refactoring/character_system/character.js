@@ -74,12 +74,13 @@ export default class Character {
 	set damage(v) {
 		// v = BattleDamage
 		
-		// is()
+		Object.keys(v.types).forEach(type => {
+			const onDamageTypeEvent = this.events.onDamageType[type] || function(x) { return x; };
+			v.value = onDamageTypeEvent(v.value);
+		});
 		
-		
-		const onDamageTypeEvent = this.events.onDamageType[v.type] || function(x) {return x;};
 		const d = this.Stats.get('damage');
-		this.Stats.set('damage', d + onDamageTypeEvent(v));
+		this.Stats.set('damage', d + v.value);
 		this.events.onDamage();
 	}
 
