@@ -4,6 +4,9 @@ const {CharacterRegistry, Character} = CHARACTER;
 import ACTIONS from '../action_system/index.js';
 const {ActionRegistry, TurnActionRegistry} = ACTIONS;
 
+import DAMAGE from '../damage_system/index.js';
+const {BattleDamage} = DAMAGE;
+
 const stats = {
 	'life': 40,
 	'mana': 10, 
