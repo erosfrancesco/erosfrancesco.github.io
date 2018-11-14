@@ -72,8 +72,10 @@ export default class Character {
 	}
 
 	set damage(v) {
-		v.value = v.value || 0;
-		v.type = v.type || 0;
+		// v = BattleDamage
+		
+		// is()
+		
 		
 		const onDamageTypeEvent = this.events.onDamageType[v.type] || function(x) {return x;};
 		const d = this.Stats.get('damage');
