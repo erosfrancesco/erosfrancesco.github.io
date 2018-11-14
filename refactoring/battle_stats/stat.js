@@ -1,7 +1,6 @@
 export default class StatRegistry {
 
-    constructor(options) {
-        options = options || {};
+    constructor({}) {
         this.stats = {};
 
         Object.keys(StatRegistry.defaults).forEach(stat => {
