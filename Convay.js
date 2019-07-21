@@ -18,7 +18,7 @@ const countPropertyOnNeightbors = (name, value, neighbours) => {
 
 const ConvayLayer = new layer(20, 20, (x, y) => {
 	const isAlive = ( Math.random() * 100 < initialAliveProb) ? true : false
-	return [{ isAlive }];
+	return [{ name: 'isAlive', value: isAlive }];
 });
 
 
