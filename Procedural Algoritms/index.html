@@ -1,0 +1,45 @@
+<script type="module">
+
+    const createCell = (x, y) => {
+        const width =  5;
+        const height = 5;
+        const div = document.createElement("div");
+        div.id = "cell_" + x + "*" + y;
+        div.style.position = "absolute";
+        div.style.width = width + "%";
+        div.style.height = height + "%";
+        div.style.top = (width * x) + "%";
+        div.style.left = (height * y) + "%";
+
+
+        document.body.appendChild(div);
+        return div;
+    }
+    const getCellDiv = (x, y) => {
+        const id = "cell_" + x + "*" + y;
+        return document.getElementById(id) || createCell(x, y);
+    }
+
+
+
+    import Convay from './convay.js';
+    const convay = new Convay(20, 20, Convay.random(50));
+    
+    
+
+    
+
+    setInterval(() => { 
+        convay.cellIterator(cell => {
+            const {x, y, state} = cell;
+            const div = getCellDiv(x, y);
+            div.style.backgroundColor = state.isAlive ? "black" : "white";
+        });
+
+        convay.update();
+        //console.log(document.getElementById("cell_11*11").style.backgroundColor, convay.getCell(11, 11).state) 
+    }, 1000)
+
+    // console.log(document.getElementById("cell_11*11").style.backgroundColor, convay.getCell(11, 11).state) 
+
+</script>
