@@ -116,17 +116,12 @@ function GoLLayer (width = 100, height = 100, cellPropertiesDistribution = funct
         buffer.forEach((cell, indx) => {
             const cellNeightbours = this.getCellNeighbours(cell);
             const updatedCell = this.computeCellState(cell, cellNeightbours);
-            //console.log(cell, cellNeightbours, updatedCell)
             buffer[indx] = updatedCell
         });
-
-        //console.log(buffer)
 
         buffer.forEach(updatedCell => {
             this.getCell(updatedCell.x, updatedCell.y).state = updatedCell.state;
         });
-
-        // console.log(buffer)
     };
 
 
