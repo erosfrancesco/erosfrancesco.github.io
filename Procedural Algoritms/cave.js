@@ -11,11 +11,11 @@ function CaveLayer(width, height, initialInit) {
 		const matchCells = cave.countNeighbourProperty(propertyName, true, neighbours);
 
 		if (cell.state[propertyName]) {
-			if (matchCells < 4 || matchCells === 8) {
+			if (matchCells < 4) {
 				cell.state[propertyName] = false;
 			}
 		} else {
-			if (matchCells > 4) {
+			if (matchCells > 5) {
 				cell.state[propertyName] = true;
 			}
 		}

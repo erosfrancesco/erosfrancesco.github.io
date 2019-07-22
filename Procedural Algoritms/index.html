@@ -1,66 +1,71 @@
+<style>
+    body { background-color: #222 }
+</style>
+<script src="phaser3/3.18.1.js"></script>
+<script type="module" src="phaser3/index.js"></script>
 <script type="module">
 
-    const mapWidth = 40;
-    const mapHeight = 40;
+    const mapWidth = 80;
+    const mapHeight = 80;
+    const tileSize = 16;
 
-    const createCell = (x, y) => {
-        const width =  100 / mapWidth;
-        const height = 100 / mapHeight;
-        const div = document.createElement("div");
-        div.id = "cell_" + x + "*" + y;
-        div.style.position = "absolute";
-        div.style.width = width + "%";
-        div.style.height = height + "%";
-        div.style.top = (width * x) + "%";
-        div.style.left = (height * y) + "%";
-
-
-        document.body.appendChild(div);
-        return div;
-    }
-    const getCellDiv = (x, y) => {
-        const id = "cell_" + x + "*" + y;
-        return document.getElementById(id) || createCell(x, y);
-    }
 
     //
-    const threewayColorMap = state => {
-        const stateColorMap = {
-            1: "black",
-            2: "blue",
-            3: "white"
-        };
-
-        return stateColorMap[state.isWall];
-    };
-
-    const conwayColorMap = state => state.isAlive ? "black" : "white";
-    const caveColorMap = state => state.isWall ? "black" : "white";
-
-    //
-    const draw = (map, colorMap) => {
-        map.cellIterator(cell => {
-            const {x, y, state} = cell;
-            const div = getCellDiv(x, y);
-            div.style.backgroundColor = colorMap(state)
-        });
-    };
-
-
-
-    // import Threeway from './threeway.js';
-    
     import Cave from './cave.js';
-    const map = new Cave(mapWidth, mapHeight, Cave.random(55));
+    const GoLmap = new Cave(mapWidth, mapHeight, Cave.random(55));
+    GoLmap.convertToTilemap = conversion => {
+        const level = [[]];
 
-    // import Convay from './convay.js';
-    // const map2 = new Convay(mapWidth, mapHeight, Convay.random(45));
-    
-    
-    draw(map, caveColorMap)    
-    setInterval(() => {
-        map.update();
-        draw(map, caveColorMap);
-    }, 1000);
+        GoLmap.cellIterator(cell => {
+            const {x, y} = cell;
+            level[y] = level[y] || [];
+            level[y][x] = conversion(cell);
+        });
 
+        return level;
+    };
+
+    const propertyName = "isWall";
+    // GoLmap.addRule('Custom_Cave_Ruleset', (cell, neighbours) => {
+        
+	// 	const matchCells = GoLmap.countNeighbourProperty(propertyName, true, neighbours);
+
+	// 	if (cell.state[propertyName]) {
+	// 		if (matchCells === 8) {
+	// 			cell.state[propertyName] = false;
+	// 		}
+	// 	}
+
+	// 	return cell;
+	// });
+
+    GoLmap.update();
+    //GoLmap.update();
+    //GoLmap.update();
+
+
+    //
+    class CustomScene extends Phaser.Scene {
+        constructor(...args) {
+            super(...args)
+        }
+
+        static key = "GoL-View"
+
+        preload() {
+            const image = "https://miro.medium.com/max/1400/1*to2RUPNgu4VM8PPSLeOHHA.png"
+            this.load.image("tiles", image);
+        }
+
+        create() {
+
+            const level = GoLmap.convertToTilemap(cell => cell.state.isWall ? 15 : 20);
+
+            const map = this.make.tilemap({ data: level, tileWidth: tileSize, tileHeight: tileSize });
+            const tiles = map.addTilesetImage("test", "tiles");
+            const layer = map.createDynamicLayer(0, tiles, 0, 0);
+        }
+    }
+
+    Game.addScene(CustomScene, true);
 </script>
