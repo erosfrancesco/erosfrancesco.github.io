@@ -1,15 +1,14 @@
 import Game from "./app.js";
-import InputController from "./inputControllerScene.js";
+import InputController from "./inputController.js";
 
+Game.controller = InputController;
 
 Game.addScene = (SceneInitializer, startScene = false, sceneData = {}) => {
 	Game.scene.add(SceneInitializer.key, SceneInitializer, startScene, sceneData);
 }
 Game.startScene = (sceneKey, options = {}) => {
-	options.resources = resources;
 	Game.scene.start(sceneKey, options);
 }
-Game.addScene(InputController, true);
 
 window.Game = Game;
 

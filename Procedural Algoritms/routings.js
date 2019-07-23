@@ -7,6 +7,7 @@ router.use(cors());
 //
 router.use('/', express.static('./'));
 router.use('/phaser', express.static('./phaser3'));
+router.use('/controllers', express.static('./controllers'));
 
 
 module.exports = router;

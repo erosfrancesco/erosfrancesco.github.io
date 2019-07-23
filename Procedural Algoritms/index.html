@@ -7,41 +7,30 @@
 
     const mapWidth = 80;
     const mapHeight = 80;
-    const tileSize = 16;
+    const p1 = 3;
+    const p2 = 4;
+    const tileSetSize = 48;
+    const mapZoom = 0.5;
+    
 
 
-    //
-    import Cave from './cave.js';
-    const GoLmap = new Cave(mapWidth, mapHeight, Cave.random(55));
-    GoLmap.convertToTilemap = conversion => {
-        const level = [[]];
+    import generateMap from './controllers/golController.js'
 
-        GoLmap.cellIterator(cell => {
-            const {x, y} = cell;
-            level[y] = level[y] || [];
-            level[y][x] = conversion(cell);
-        });
-
-        return level;
-    };
-
-    const propertyName = "isWall";
-    // GoLmap.addRule('Custom_Cave_Ruleset', (cell, neighbours) => {
-        
-	// 	const matchCells = GoLmap.countNeighbourProperty(propertyName, true, neighbours);
-
-	// 	if (cell.state[propertyName]) {
-	// 		if (matchCells === 8) {
-	// 			cell.state[propertyName] = false;
-	// 		}
-	// 	}
-
-	// 	return cell;
-	// });
+    const GoLmap = generateMap(mapWidth, mapHeight, undefined, p1, p2);
 
     GoLmap.update();
-    //GoLmap.update();
-    //GoLmap.update();
+    GoLmap.update();
+    GoLmap.update();
+
+
+    import mapTemplate from './controllers/mapController.js';
+
+    const map = mapTemplate('id', 
+                            // "https://miro.medium.com/max/1400/1*to2RUPNgu4VM8PPSLeOHHA.png"
+                            './borders-tileset-extruded.png', 
+                            tileSetSize, tileSetSize, 
+                            mapZoom, 
+                            GoLmap.convertToTilemap(cell => cell.state.isWall ? 6 : 5));
 
 
     //
@@ -53,19 +42,42 @@
         static key = "GoL-View"
 
         preload() {
-            const image = "https://miro.medium.com/max/1400/1*to2RUPNgu4VM8PPSLeOHHA.png"
-            this.load.image("tiles", image);
+            map.preload(this);
         }
 
         create() {
 
-            const level = GoLmap.convertToTilemap(cell => cell.state.isWall ? 15 : 20);
+            this.map = map.create(this, undefined, undefined, {
+                "6": { "collide": true }
+            });
+            
 
-            const map = this.make.tilemap({ data: level, tileWidth: tileSize, tileHeight: tileSize });
-            const tiles = map.addTilesetImage("test", "tiles");
-            const layer = map.createDynamicLayer(0, tiles, 0, 0);
+
+            this.keyboardControls = Game.controller(this);
+            const controlConfig = {
+                camera: this.cameras.main,
+                left: this.keyboardControls.left,
+                right: this.keyboardControls.right,
+                up: this.keyboardControls.up,
+                down: this.keyboardControls.down,
+                speed: 0.5,
+                zoomIn: this.keyboardControls.primary,
+                zoomOut: this.keyboardControls.secondary,
+            };
+            this.controls = new Phaser.Cameras.Controls.FixedKeyControl(controlConfig);
+
+
+            // const tile = this.map.getTileAt(2, 2, false);
+            // const {index, tilemapLayer} = tile;
+            // console.log(index, tilemapLayer.properties);
+        }
+
+        update(time, delta) {
+            this.controls.update(delta);
         }
     }
 
     Game.addScene(CustomScene, true);
+
+
 </script>
