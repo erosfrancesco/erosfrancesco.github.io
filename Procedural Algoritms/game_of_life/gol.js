@@ -83,6 +83,25 @@ function GoLLayer (width = 100, height = 100, cellPropertiesDistribution = funct
         });
         return result;
     };
+    this.filterNeighboursOf = (cell, filter) => {
+        const neighbours = this.getCellNeighbours(cell)
+        const results = {};
+        let count = 0;
+        Object.keys(neighbours).forEach(cellPositionSymbol => {
+            const cell = neighbours[cellPositionSymbol];
+            
+            // if (cell.state && filter( cell.state )) { // === value) {
+            //    results[cellPositionSymbol] = true;
+            // }
+            results[cellPositionSymbol] = (cell.state && filter( cell.state ))
+            if (results[cellPositionSymbol]) {
+                count++;
+            }
+        });
+        results.count = count;
+        
+        return results;
+    };
 
     //
     this.addRule = (id, rule = function(cell, neightbours) { return cell; }) => this.rules.push({id, rule});
@@ -135,6 +154,6 @@ function GoLLayer (width = 100, height = 100, cellPropertiesDistribution = funct
 
 
 export default {
-    layer: GoLLayer,
-    cell: GoLCell
+    Layer: GoLLayer,
+    Cell: GoLCell
 }

@@ -5,32 +5,54 @@
 <script type="module" src="phaser3/index.js"></script>
 <script type="module">
 
-    const mapWidth = 80;
+    const mapWidth = 180;
     const mapHeight = 80;
     const p1 = 3;
     const p2 = 4;
     const tileSetSize = 48;
     const mapZoom = 0.5;
     
+    import sampleData from './game_of_life/plugins/dataSample.js';
+    import Utils from './game_of_life/plugins/utils.js';
+    const {convertArrayToLayer, convertLayerToTilemap} = Utils;
 
 
-    import generateMap from './controllers/golController.js'
+    // import generateMap from './controllers/golController.js'
+    // const GoLmap = generateMap(mapWidth, mapHeight, undefined, p1, p2);
 
-    const GoLmap = generateMap(mapWidth, mapHeight, undefined, p1, p2);
+    
+    const GoLmap = convertArrayToLayer(mapWidth, mapHeight, sampleData);
+    // GoLmap.update();
+    // GoLmap.update();
+    // GoLmap.update();
 
-    GoLmap.update();
-    GoLmap.update();
-    GoLmap.update();
+    // fill algorithm => clusters
+    // corners recognition => filter clusters and set corners
 
+    // import Utils from './game_of_life/utils.js';
+    // console.log(Utils.fillIterator(GoLmap, 0, 0))
 
+    import VectorCell from './game_of_life/plugins/vectorCell.js';
+    const vectorCell = new VectorCell( 
+        GoLmap, GoLmap.getCell(4, 6), 
+        (currentCell, cell) => cell.state.valueConverted === currentCell.state.valueConverted);
+
+    let index = 0
+    while(vectorCell.updateTrail() && index < mapWidth * mapHeight * 4) {
+        index++;
+    }
+
+    console.log(vectorCell.trail);
+ 
     import mapTemplate from './controllers/mapController.js';
 
-    const map = mapTemplate('id', 
+
+    const map = mapTemplate('mapId', 
                             // "https://miro.medium.com/max/1400/1*to2RUPNgu4VM8PPSLeOHHA.png"
                             './borders-tileset-extruded.png', 
                             tileSetSize, tileSetSize, 
                             mapZoom, 
-                            GoLmap.convertToTilemap(cell => cell.state.isWall ? 6 : 5));
+                            convertLayerToTilemap(GoLmap, cell => cell.state.valueConverted));
 
 
     //
