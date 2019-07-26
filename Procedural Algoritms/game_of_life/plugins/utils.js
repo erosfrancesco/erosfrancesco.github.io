@@ -1,12 +1,12 @@
-import VectorCellsTrail from './vectorCell.js';
+import Cluster from './clusters.js';
 import GoL from '../gol.js';
 const {Layer} = GoL
 
 // Conversion
 function convertArrayToLayer(w, h, data, conversion = function(value) { return [{name:"valueConverted", value}]; }) {
-	if (data.length !== w * h) {
-		console.log("nope!", data.length + " is not multiple of " + w + " and " + h)
-	}
+	// if (data.length !== w * h) {
+	// 	console.log("nope!", data.length + " is not multiple of " + w + " and " + h)
+	// }
 
 	return new Layer(w, h, (x, y) => conversion(data[y + h * x]) );
 }
@@ -28,16 +28,13 @@ class FilterBucket {
 		this.layer = layer
 		this.filter = filter
 		
-		this.usedFilters = []
 		this.saved = []
-		
 	}
 
 	getStaticClusterOf(x, y) {
-
 		const clusterIndex = this.saved.findIndex(cluster => {
 			let ret = false
-			cluster.cells.forEach(cell => {
+			cluster.forEachCell(cell => {
 				if (cell.x === x && cell.y === y) {
 					ret = true
 					return ret
@@ -50,23 +47,13 @@ class FilterBucket {
 			return this.saved[clusterIndex]
 		}
 		
-		const cluster = this.getClusterOf(x, y, this.filter)
-		const cells = []
-		cluster.trail.forEach(vectorCell => cells.push(vectorCell.currentCell) )
-		this.saved.push({cluster, cells})
+		this.saved.push( this.getClusterOf(x, y) )
 
 		return this.saved[this.saved.length - 1]
 	}
 
 	getClusterOf(x, y) {
-
-		const trail = new VectorCellsTrail(this.layer, this.layer.getCell(x, y), this.filter);
-
-		while (trail.updateTrail()) {
-			// console.log("updating")			
-		}
-
-		return trail
+		return new Cluster(this.layer, x, y, this.filter)
 	}
 }
 

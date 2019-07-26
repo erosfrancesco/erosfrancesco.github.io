@@ -1,14 +1,13 @@
 // https://fonts.googleapis.com/css?family=Lato: 100,300,400,700|Luckiest+Guy|Oxygen:300,400
+const __Max = 180 * 80 * 4;
 
 class VectorCell {
     constructor(cell, layer, direction = 0) {
         this.currentCell = cell
         this.layer = layer
-        //this.filter = filter
 
         this.direction = direction
         this.fullSpins = 0
-        this.surfaceNormalVector = 0 // compute it!
     }
 
     getDirectionalNeighbours() {
@@ -20,109 +19,53 @@ class VectorCell {
 
         return [tm, mr, bm, ml]
     }
-    
-    // getMatchingNeighbours() {
-    //     return this.layer.filterNeighboursOf(this.currentCell)
-    // }
-    
-    // 
-    // getNextCell() {
-    //     return this.getPossibleNextCells()[this.direction]
-    // }
-
-    // getPossibleNextCells() {
-    //     const neighbours = this.layer.getCellNeighbours(this.currentCell)
-    //     const {
-    //             tm,
-    //         ml,     mr,
-    //             bm
-    //     } = neighbours
-
-    //     return [tm, mr, bm, ml]
-    // }
-
-    // getSurfaceNormalVector() {
-    //     const filteredNeighbours = this.filterNeighboursOf(
-    //         this.currentCell, 
-    //         cellState => cellState.isWall === this.currentCell.state.isWall
-    //     );
-
-    //     const {
-    //         tl, tm, tr,
-    //         ml,     mr,
-    //         bl, bm, br, count
-    //     } = filteredNeighbours;
-        
-    //     const vectors = [];
-
-    //     // check if there are more than 4 filtered Neighbours
-    //     if (count > 4) {
-    //         // this cell's directional vector points externally, 
-    //         // so none of its normal can be internal to the surface
-    //         return vectors;
-    //     } 
-
-    //     switch (true) {
-    //         case tm && (tl || tr):
-    //             vectors.push(0)
-    //         case mr && (tr || br):
-    //             vectors.push(1)
-    //         case bm && (bl || br):
-    //             vectors.push(2)
-    //         case ml && (tl || bl):
-    //             vectors.push(3)
-            
-    //         case tr && !(tm || tl || ml || mr || bl || bm || br):
-    //             vectors.push(4)
-    //         case br && !(tm || tl || ml || mr || bl || bm || tr):
-    //             vectors.push(5)
-    //         case bl && !(tm || tl || ml || mr || tr || bm || br):
-    //             vectors.push(6)
-    //         case tl && !(tm || tr || ml || mr || bl || bm || br):
-    //             vectors.push(7)
-    //     }
-
-    //     return vectors;
-    // }
 
     // 
     rotateRight() {
+        const a = this.direction + 1
         this.direction++
 
         if (this.direction > 3) {
             this.direction = 0
             this.fullSpins++
         }
+
+        // console.log("rotating", this.currentCell.x, this.currentCell.y, this.direction)
+        return a;
     }
 }
 
-
-class VectorCellsTrail {
+export default class VectorCellsTrail {
     constructor(layer, initialCell, filter) {
         this.layer = layer
         this.filter = filter
 
         this.trail = []
         this.headVector = false
-        this.direction = 0
+        // this.direction = 0
 
         this.addCell(initialCell);
     }
-    
 
     addCell(cell) {
-        const vectorCell = new VectorCell(cell, this.layer, this.direction)
+        // console.log("adding", cell.x, cell.y)
+        const vectorCell = new VectorCell(cell, this.layer, 0)//this.direction)
         this.trail.push(vectorCell)
         this.headVector = vectorCell
     }
 
-    getNextCell() {
+    getNextCell(index = 0) {
+        if (index > __Max) {
+            console.log("getNextCell value exceeds", this.headVector)
+            return false
+        }
         if (!this.headVector) {
-            return;
+            return false;
         }
 
         // if next cell is in the direction...
-        const nextNeighbour = this.getAvailableNeighbours() [this.direction]
+        // console.log("direction computed", this.headVector.direction)
+        const nextNeighbour = this.getAvailableNeighbours() [this.headVector.direction]
         if (nextNeighbour) {
             return nextNeighbour
         }
@@ -134,50 +77,94 @@ class VectorCellsTrail {
 
         // spin and repeat...
         this.rotatePosition()
-        return this.getNextCell()
+        index++;
+        return this.getNextCell(index)
     }
 
     getAvailableNeighbours() {
-        return this.headVector.getDirectionalNeighbours().filter(cell => {
+
+        const availableN = []
+        this.headVector.getDirectionalNeighbours().forEach(cell => {
+        //filter(cell => {
             if (cell && this.trail.findIndex(vectorCell => vectorCell.currentCell === cell) < 0) {
                 if ( this.filter(this.headVector.currentCell, cell) ) {
+                    availableN.push(cell)
                     return cell
                 }
-
+                availableN.push(false)
                 return false
             }
-
+            availableN.push(false)
             return false
         });
+        // console.log("computed neightbuours", availableN)
+
+        return availableN
     }
 
     rotatePosition() {
-        this.headVector.rotateRight()
-        this.direction = this.headVector.direction
+        // this.headVector.rotateRight()
+        // console.log("rotating", this.headVector.currentCell.x, this.headVector.currentCell.y)
+        //this.direction = 
+        this.headVector.rotateRight()//this.headVector.direction
     }
 
-    updateTrail() {
+    updateHeadVector(indx = 0) {
+
+        if(indx > this.trail.length + 2) {
+            return false
+        }
+
+        indx++
+
+        // console.log("updating head vector", this.headVector.currentCell.x, this.headVector.currentCell.y)
+        // trail back to the previous headVector and repeat getNextCell
+        const a = this.trail.reverse();
+        const headIndex = //a.length -
+         a.findIndex(vectorCell => {
+            // console.log("searching for an header...", vectorCell)
+            return (vectorCell.currentCell !== this.headVector.currentCell) && (vectorCell.fullSpins < 1)
+        }
+            // (vectorCell.currentCell === this.headVector.currentCell) && (vectorCell.fullSpins < 1)
+        );
+
+        // console.log("computed trail index", a.length - headIndex, a.length)
+
+
+        if (headIndex < 0 || headIndex == a.length) {
+            // console.log("nope or finished")
+            return false;
+        }
+
+        // update vectorHead
+        this.headVector = this.trail[ headIndex ]
+        // console.log("udpating", this.headVector)
+
+        // this.direction = this.headVector.direction
+
+        return true
+    }
+
+    updateTrail(index = 0) {
+        if (index > __Max) {
+            console.log("updateTrail value exceeds", this.headVector)
+            return false
+        }
+
         const nextCell = this.getNextCell();
         if (nextCell) {
             this.addCell(nextCell);
             return true
         }
 
-        // trail back to the previous headVector and repeat getNextCell
-        const headIndex = this.trail.findIndex(vectorCell => vectorCell.currentCell === this.headVector.currentCell);
-
-        if (headIndex < 1) {
-            console.log("nope or finished")
-            return false;
+        if (!this.updateHeadVector()) {
+            return false
         }
 
-        // update vectorHead
-        this.headVector = this.trail[headIndex - 1]
+        // trail back to the previous headVector and repeat getNextCell
         this.rotatePosition()
-        return this.updateTrail()
+        index++;
+        return this.updateTrail(index)
         
     }
 }
-
-
-export default VectorCellsTrail

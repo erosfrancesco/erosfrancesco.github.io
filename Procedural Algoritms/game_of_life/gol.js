@@ -19,6 +19,10 @@ function GoLCell (x = 0, y = 0, cellProperties = []) {
         return cell;
     }
 
+    this.isEqualTo = cell => {
+        return (cell.x === this.x && cell.y === this.y)
+    }
+
     //
     cellProperties.forEach(cellProperty => {
         const {name, value} = cellProperty;
@@ -51,7 +55,7 @@ function GoLLayer (width = 100, height = 100, cellPropertiesDistribution = funct
     //
     this.getCellNeighbours = cell => {
         if (!cell) {
-            return;
+            return false;
         }
 
         const {x, y} = cell;
@@ -85,14 +89,14 @@ function GoLLayer (width = 100, height = 100, cellPropertiesDistribution = funct
     };
     this.filterNeighboursOf = (cell, filter) => {
         const neighbours = this.getCellNeighbours(cell)
+        if (!neighbours) {
+            return 0;
+        }
+
         const results = {};
         let count = 0;
         Object.keys(neighbours).forEach(cellPositionSymbol => {
             const cell = neighbours[cellPositionSymbol];
-            
-            // if (cell.state && filter( cell.state )) { // === value) {
-            //    results[cellPositionSymbol] = true;
-            // }
             results[cellPositionSymbol] = (cell.state && filter( cell.state ))
             if (results[cellPositionSymbol]) {
                 count++;
@@ -130,10 +134,12 @@ function GoLLayer (width = 100, height = 100, cellPropertiesDistribution = funct
         const buffer = [];
         this.cellIterator(cell => buffer.push(cell.copy()) );
 
-       
-
         buffer.forEach((cell, indx) => {
             const cellNeightbours = this.getCellNeighbours(cell);
+            if (!cellNeightbours) {
+                console.log("wut?", cell)
+                return;
+            }
             const updatedCell = this.computeCellState(cell, cellNeightbours);
             buffer[indx] = updatedCell
         });
