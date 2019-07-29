@@ -7,10 +7,10 @@
 
     const mapWidth = 180;
     const mapHeight = 80;
-    const p1 = 3;
-    const p2 = 4;
+    // const p1 = 3;
+    // const p2 = 4;
     const tileSetSize = 48;
-    const mapZoom = 0.5;
+    const mapZoom = 1 // 0.5;
     
     import sampleData from './game_of_life/plugins/dataSample.js';
     import Utils from './game_of_life/plugins/utils.js';
@@ -22,22 +22,8 @@
 
     
     const GoLmap = convertArrayToLayer(mapWidth, mapHeight, sampleData);
-        // GoLmap.update();
-        // GoLmap.update();
-        // GoLmap.update();
 
-        // fill algorithm => clusters - done
-        // corners recognition - done
-        // => filter clusters and set corners
-
-
-
-
-    
-        // 15 0
     const sameCellBucket = new FilterBucket(GoLmap, (a, b) => a.state.valueConverted === b.state.valueConverted);
-    
-    // console.log( sameCellBucket.getStaticClusterOf(15, 0) )
 
     const clusters = [];
     GoLmap.cellIterator(cell => {
@@ -45,16 +31,44 @@
             return
         }
 
+        cell.state.valueConverted = 113
+
         clusters.push( sameCellBucket.getStaticClusterOf(cell.x, cell.y) )
     });
 
-    console.log(clusters)
 
-    const i = clusters[0].frontierCells.findIndex(({cell}) => {
-        return cell.y === 0
-    })
-    
-    console.log( clusters[0].getNormalVectorOfFrontierCell(i), i )
+    const tilemapCornerMap = {
+        "ExceptRight": 99,
+        "ExceptTop": 98,
+        "TopLeft": 115,
+        "OnlyLeft": 81,
+        "Vertical": 118,
+        "OnlyRight": 78,
+        "BottomRight": 96,
+        "ExceptBottom": 117,
+        "BottomLeft": 97,
+        "OnlyBottom": 82,
+        "OnlyUp": 136,
+        "ExceptLeft": 116
+    };
+
+    function drawCluster(cluster, cornerMap) {
+        const normalVectorsOfFirstCluster = []
+        cluster.frontierCells.forEach((cell, i) => {
+            normalVectorsOfFirstCluster.push(cluster.getNormalVectorOfFrontierCell(i))
+        });
+
+        normalVectorsOfFirstCluster.forEach((normalVector, index) => {
+            const {cell} = cluster.frontierCells[index]
+            const {x, y} = cell
+            const value = cornerMap[normalVector] || 113
+            GoLmap.setCell(x, y, [{name: "valueConverted", value}])
+        });
+    }
+
+    clusters.forEach(cluster => drawCluster(cluster, tilemapCornerMap));
+
+
  
     import mapTemplate from './controllers/mapController.js';
 

@@ -4,6 +4,7 @@ import InputController from "./inputController.js";
 Game.controller = InputController;
 
 Game.addScene = (SceneInitializer, startScene = false, sceneData = {}) => {
+	SceneInitializer.sceneData = sceneData;
 	Game.scene.add(SceneInitializer.key, SceneInitializer, startScene, sceneData);
 }
 Game.startScene = (sceneKey, options = {}) => {
