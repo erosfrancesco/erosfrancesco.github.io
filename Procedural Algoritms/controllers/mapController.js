@@ -1,38 +1,82 @@
-export default function(id, src, tilesetWidth = 32, tilesetHeight = 32, tileZoom = 1, initialData = [[]]) {
-    const mapObj = {
-        //
-        preload: scene => {
-            scene.load.image(id + "_tiles", src);
-        },
-        create: (scene, data = initialData, mapProps = {}, layerProps, tilemapProps) => {
-            const tileWidth  = tilesetWidth * tileZoom;
-            const tileHeight = tilesetHeight  * tileZoom;
+import Utils from '../game_of_life/plugins/utils.js';
+const { convertLayerToTilemap, FilterBucket } = Utils;
 
-            mapObj.map = scene.make.tilemap({ data, tileWidth, tileHeight });
-            mapObj.map.properties = mapProps;
-            mapObj.mainTilemap = mapObj.addTileset(id + "_tiles", tilemapProps);
-            mapObj.mainLayer = mapObj.addLayer(mapObj.mainTilemap, layerProps);
+const innerCellPropertyName = "innerCell"
+const cornerCellPropertyName = "cornerCell"
 
-            return mapObj.map
-        },
 
-        //
-        addTileset: (tilemapId, layerProps = {}) => {
-            const layerId = "layer_" + mapObj.map.tilesets.length;
-            const layer = mapObj.map.addTilesetImage(layerId, tilemapId, tilesetWidth, tilesetHeight, 2, 2);
-            layer.properties = layerProps;
-            return layer;
-        },
-        addLayer: (tilemap = mapObj.mainTilemap, tilemapProps = {}) => {
-            const layer = mapObj.map.createStaticLayer(mapObj.map.layers.length - 1, tilemap, 0, 0);
-            if (!layer) {
-                return layer
-            }
+//
+export default function computeCornerByProperty(
+    layer, 
+    {name, value}, 
+    tilemapCornerMap = {}, 
+    innerCellValue = 0
+) {
+    value = value || true;
 
-            layer.properties = tilemapProps;
-            return layer;
+    const sameCellBucket = new FilterBucket(layer, (a, b) => {
+        return (a.state[name] === value) && (b.state[name] === value)
+    })
+
+    const clusters = [];
+    layer.cellIterator(cell => {
+        if (cell && cell.state[name] !== value) {
+            return
         }
-    };
+    
+        const {x, y} = cell
+        // console.log("checking cell", x, y)
+        clusters.push( sameCellBucket.getStaticClusterOf(x, y) )
+    });
+    
+    clusters.forEach(c => drawCluster(layer, c, tilemapCornerMap, innerCellValue) );
 
-    return mapObj;
+    return {
+        layer, 
+        clusters, 
+        convertToTilemap: converter => {
+            return convertLayerToTilemap(layer, cell => convertCornerToTilemap(cell, converter) );
+        }
+    }
+}
+
+
+//
+function convertCornerToTilemap(cell, callback = function(cell, b) { 
+    if (!b && b !== 0) {
+        return cell.state.valueConverted 
+    }
+
+    return b
+}) {
+    if (cell.state[cornerCellPropertyName]) {
+        return callback(cell, cell.state[cornerCellPropertyName])
+    }
+
+    if (cell.state[innerCellPropertyName]) {
+        return callback(cell, cell.state[innerCellPropertyName])
+    }
+
+    return callback(cell, false)
+}
+
+
+// 
+function drawCluster(layer, cluster, cornerMap, innerCellValue) {
+    const clusterNormals = []
+    cluster.frontierCells.forEach((cell, i) => clusterNormals.push(cluster.getNormalVectorOfFrontierCell(i)) );
+
+    clusterNormals.forEach((normalVector, index) => {
+        const {cell} = cluster.frontierCells[index]
+        const {x, y} = cell
+        layer.setCell(x, y, computeCornerValue(cornerMap, normalVector) )
+    });
+
+    const properties = [{name: innerCellPropertyName, value: innerCellValue}]
+    cluster.innerCells.forEach(({x, y}) => layer.setCell(x, y, properties))
+}
+
+function computeCornerValue(cornerMap, normalVector) {
+    const value = cornerMap[normalVector] || cornerMap["Default"]
+    return [{name: cornerCellPropertyName, value}, {name: "NormalVector", value: normalVector}]
 }

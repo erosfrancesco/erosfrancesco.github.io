@@ -138,7 +138,7 @@ export default class Cluster extends VectorCellsTrail {
 
             //
             case !tm && mr && !bm && ml: 
-            vector = "Orizzontal";
+            vector = "Horizontal";
                 break;
             case tm && !mr && bm && !ml: 
             vector = "Vertical";

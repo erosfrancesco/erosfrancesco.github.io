@@ -1,9 +1,9 @@
-import GoL from './GameOfLife.js';
-const { layer } = GoL;
+import GoL from './gol.js';
+const { Layer } = GoL;
 
 
 function ConvayLayer(width, height, initialInit) {
-	const convay = new layer(width, height, initialInit);
+	const convay = new Layer(width, height, initialInit);
 
 	const propertyName = 'isAlive';
 

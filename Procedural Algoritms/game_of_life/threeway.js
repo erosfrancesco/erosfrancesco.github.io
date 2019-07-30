@@ -1,10 +1,10 @@
 import GoL from './GameOfLife.js';
-const { layer } = GoL;
+const { Layer } = GoL;
 const propertyName = 'isWall';
 
 
 function CaveLayer(width, height, initialInit) {
-	const cave = new layer(width, height, initialInit);	
+	const cave = new Layer(width, height, initialInit);	
 
 	//
 	cave.addRule('Cave_GoL_Ruleset', (cell, neighbours) => {

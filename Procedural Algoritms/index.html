@@ -4,81 +4,47 @@
 <script src="phaser3/3.18.1.js"></script>
 <script type="module" src="phaser3/index.js"></script>
 <script type="module">
-
-    const mapWidth = 180;
-    const mapHeight = 80;
-    // const p1 = 3;
-    // const p2 = 4;
-    const tileSetSize = 48;
-    const mapZoom = 1 // 0.5;
-    
-    import sampleData from './game_of_life/plugins/dataSample.js';
-    import Utils from './game_of_life/plugins/utils.js';
-    const {convertArrayToLayer, convertLayerToTilemap, FilterBucket} = Utils;
+    // "https://miro.medium.com/max/1400/1*to2RUPNgu4VM8PPSLeOHHA.png"
 
 
-    // import generateMap from './controllers/golController.js'
-    // const GoLmap = generateMap(mapWidth, mapHeight, undefined, p1, p2);
+    //
+    import AssetsList from './config.js'
+    const { cornerMap, property, solid, source } = AssetsList.mountain_terrain_zelda_like
 
-    
-    const GoLmap = convertArrayToLayer(mapWidth, mapHeight, sampleData);
+    const mapWidth =  80
+    const mapHeight = 80
+    const tileSetSize = 32
+    const tileSetOffset = 0
+    const p1 = 2
+    const p2 = 4
 
-    const sameCellBucket = new FilterBucket(GoLmap, (a, b) => a.state.valueConverted === b.state.valueConverted);
+    //
+    import caveGoLGenerator from './controllers/golController.js'
+    const GoLmap = caveGoLGenerator(mapWidth, mapHeight, undefined, p1, p2)
+    GoLmap.update()
 
-    const clusters = [];
-    GoLmap.cellIterator(cell => {
-        if (cell.state.valueConverted === 6) {
-            return
+    //
+    import mapGenerator from './controllers/mapController.js'
+    const o = mapGenerator(GoLmap, property, cornerMap, solid);
+
+    // console.log(GoLmap)
+ 
+    //
+    import mapTemplate from './wrappers/phaserTilemapWrapper.js';
+    const layerData = o.convertToTilemap((cell, wallStateValue) => {
+        if (!wallStateValue && wallStateValue !== 0) {
+            return 10 // solid
         }
 
-        cell.state.valueConverted = 113
-
-        clusters.push( sameCellBucket.getStaticClusterOf(cell.x, cell.y) )
+        return wallStateValue
     });
 
+    // import mapTemplate from './controllers/GoLCaveGen.js';
+    // import Utils from './game_of_life/plugins/utils.js'
+    // const { convertLayerToTilemap } = Utils;
+    // const layerData = convertLayerToTilemap(GoLmap, cell => { return cell.state.isWall ? 9 : 5 }) 
 
-    const tilemapCornerMap = {
-        "ExceptRight": 99,
-        "ExceptTop": 98,
-        "TopLeft": 115,
-        "OnlyLeft": 81,
-        "Vertical": 118,
-        "OnlyRight": 78,
-        "BottomRight": 96,
-        "ExceptBottom": 117,
-        "BottomLeft": 97,
-        "OnlyBottom": 82,
-        "OnlyUp": 136,
-        "ExceptLeft": 116
-    };
-
-    function drawCluster(cluster, cornerMap) {
-        const normalVectorsOfFirstCluster = []
-        cluster.frontierCells.forEach((cell, i) => {
-            normalVectorsOfFirstCluster.push(cluster.getNormalVectorOfFrontierCell(i))
-        });
-
-        normalVectorsOfFirstCluster.forEach((normalVector, index) => {
-            const {cell} = cluster.frontierCells[index]
-            const {x, y} = cell
-            const value = cornerMap[normalVector] || 113
-            GoLmap.setCell(x, y, [{name: "valueConverted", value}])
-        });
-    }
-
-    clusters.forEach(cluster => drawCluster(cluster, tilemapCornerMap));
-
-
- 
-    import mapTemplate from './controllers/mapController.js';
-
-
-    const map = mapTemplate('mapId', 
-                            // "https://miro.medium.com/max/1400/1*to2RUPNgu4VM8PPSLeOHHA.png"
-                            './borders-tileset-extruded.png', 
-                            tileSetSize, tileSetSize, 
-                            mapZoom, 
-                            convertLayerToTilemap(GoLmap, cell => cell.state.valueConverted));
+    const map = mapTemplate( source, tileSetSize, tileSetSize, tileSetOffset, tileSetOffset, layerData );
 
 
     //
@@ -94,13 +60,8 @@
         }
 
         create() {
-
-            this.map = map.create(this, undefined, undefined, {
-                "6": { "collide": true }
-            });
+            this.map = map.create();
             
-
-
             this.keyboardControls = Game.controller(this);
             const controlConfig = {
                 camera: this.cameras.main,
@@ -113,11 +74,6 @@
                 zoomOut: this.keyboardControls.secondary,
             };
             this.controls = new Phaser.Cameras.Controls.FixedKeyControl(controlConfig);
-
-
-            // const tile = this.map.getTileAt(2, 2, false);
-            // const {index, tilemapLayer} = tile;
-            // console.log(index, tilemapLayer.properties);
         }
 
         update(time, delta) {
@@ -126,6 +82,4 @@
     }
 
     Game.addScene(CustomScene, true);
-
-
 </script>
