@@ -1,4 +1,5 @@
 import Cluster from './clusters.js';
+import WangPencil from './wangPencil.js'
 import GoL from '../gol.js';
 const {Layer} = GoL
 
@@ -61,5 +62,6 @@ class FilterBucket {
 export default {
 	convertArrayToLayer,
 	convertLayerToTilemap,
-	FilterBucket
+	FilterBucket,
+	WangPencil
 }
