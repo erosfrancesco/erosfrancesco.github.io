@@ -1,1 +1,0 @@
-heòllo tred
